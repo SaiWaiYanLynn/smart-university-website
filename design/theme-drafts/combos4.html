@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Thales University other hues: color combinations</title>
+<style>
+*{box-sizing:border-box;margin:0}
+body{font-family:Inter,-apple-system,"Helvetica Neue",Arial,sans-serif;background:#F4F4F5;color:#18181B;padding:32px;width:1700px}
+h1{font-size:24px;margin-bottom:4px}.sub{font-size:14px;color:#52525B;margin-bottom:24px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{background:#fff;border:1px solid #E4E4E7;border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:16px}
+.tag{font-size:12px;font-weight:600;color:#52525B;text-transform:uppercase;letter-spacing:.06em}
+.name{font-size:20px;font-weight:700}.why{min-height:36px;font-size:13px;color:#52525B;line-height:1.4}
+.roles{display:flex;gap:8px}
+.sw{flex:1;border-radius:8px;height:64px;padding:8px;font-size:11px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff}
+.sw b{font-size:12px}
+.sw.l{color:#1C1917}
+.mark{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:8px;background:var(--pd);color:#fff}
+.logo{width:32px;height:32px;border-radius:8px;background:var(--a);display:grid;place-items:center;font-weight:800;color:var(--at)}
+.mark b{font-size:16px}.mark span{font-size:12px;opacity:.8;display:block}
+.hero{border-radius:8px;background:var(--p);color:#fff;padding:16px;border-bottom:4px solid var(--a)}
+.hero b{font-size:16px;display:block;margin-bottom:4px}.hero span{font-size:13px;opacity:.9}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn{font:600 14px Inter,sans-serif;padding:8px 16px;border-radius:8px}
+.b1{background:var(--p);color:#fff}.b2{background:var(--s);color:#fff}.b3{background:var(--a);color:var(--at)}
+.pill{font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px}
+.ok{background:#DCFCE7;color:#166534}.wa{background:#FEF3C7;color:#92400E}.er{background:#FEE2E2;color:#991B1B}
+.in{background:color-mix(in srgb,var(--s) 14%,white);color:var(--sd)}
+.why2{min-height:110px;font-size:13px;line-height:1.45;color:#3F3F46;display:flex;flex-direction:column;gap:6px;border-top:1px solid #E4E4E7;padding-top:12px}.why2 b{color:#18181B}
+.chat{background:color-mix(in srgb,var(--p) 6%,white);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.u{align-self:flex-end;background:var(--p);color:#fff;padding:8px 12px;border-radius:12px 12px 4px 12px;font-size:14px}
+.a{align-self:flex-start;background:#fff;border:1px solid #E4E4E7;padding:8px 12px;border-radius:12px 12px 12px 4px;font-size:14px}
+.cite{border-left:3px solid var(--a);background:#fff;border-radius:4px 8px 8px 4px;padding:8px 12px;font-size:12px;color:#3F3F46;align-self:flex-start}
+.cite b{color:var(--sd);display:block;margin-bottom:2px}
+.chip{font-size:13px;font-weight:600;padding:6px 12px;border-radius:8px;border:1px solid var(--s);color:var(--sd);background:#fff}
+.chip.on{background:var(--s);color:#fff}
+</style></head><body>
+<h1>Thales University: other hues: color combinations</h1>
+<p class="sub">Each option gives the color theory used, why it suits a university, and what to watch out for. Each has a Primary (main actions, nav), a Secondary (supporting areas, links, tags) and an Accent (highlights, citations, small touches). Use the accent sparingly.</p>
+<div class="grid" id="g"></div>
+<script>
+// [id,name,why,p,pd,s,sd,a,at]  at = text color on accent
+const T=[
+["19","Navy + Crimson + Gold","Traditional triad: deep blue, red and yellow, the oldest university crest colors.","#1E3A8A","#172554","#9F1239","#881337","#EAB308","#422006",
+ "Navy feels serious and established, crimson shows heritage, gold marks honor. Instantly reads as a university.","Very classic, so it is not unique. Keep crimson to small areas so it does not clash with errors."],
+["20","Burgundy + Slate + Sage","Muted harmony: lowered saturation so no color shouts.","#881337","#4C0519","#475569","#334155","#B7D3B0","#1A2E1A",
+ "Calm and mature. Sage and slate are gentle on the eyes for long reading, and burgundy gives character.","Burgundy and the red error color are close. Use a clear icon for errors."],
+["21","Burnt Orange + Navy + Sky","Complementary: orange and blue sit opposite and make each other stronger.","#C2410C","#7C2D12","#1E3A8A","#172554","#7DD3FC","#0C4A6E",
+ "Energetic and welcoming, the strongest contrast of any set here. Navy keeps it serious.","Orange as the main color is rare for a university. Use navy for nav bars so the screen stays calm."],
+["22","Violet + Slate + Yellow","Complementary: violet and yellow, with slate as a quiet neutral between them.","#5B21B6","#4C1D95","#334155","#1E293B","#FDE047","#422006",
+ "Distinctive and creative. Violet suggests wisdom and imagination, and yellow gets attention right away.","Yellow can glare. Use it only as a small fill, never as a large area."],
+["23","Ocean Blue + Midnight + Coral","Monochromatic blues with one warm accent, following the 60-30-10 rule.","#0369A1","#082F49","#172554","#1E3A8A","#F87171","#450A0A",
+ "Clean, airy and trusted. Light blue surfaces keep the pages open, and coral points out the key action.","Two blues are close in tone. Use midnight for text and nav, and ocean for buttons."],
+["24","Umber + Olive + Wheat","Earth analogous: warm brown, olive and wheat sit next to each other on the wheel.","#92400E","#451A03","#3F6212","#365314","#FDE68A","#422006",
+ "Warm and old-library in feel. It suits a university that wants to look human, not corporate.","Warm browns can feel dated. Use plenty of white and modern type to keep it fresh."]
+];
+function light(h){const n=parseInt(h.slice(1),16),r=n>>16,g=n>>8&255,b=n&255;return (r*299+g*587+b*114)/1000>150}
+document.getElementById("g").innerHTML=T.map(([k,n,w,p,pd,s,sd,a,at,fit,warn])=>{
+ const v=`--p:${p};--pd:${pd};--s:${s};--sd:${sd};--a:${a};--at:${at}`;
+ const sw=(role,h)=>`<div class="sw ${light(h)?'l':''}" style="background:${h}"><b>${role}</b>${h}</div>`;
+ return `<div class="card" style="${v}">
+ <div><div class="tag">Option ${k}</div><div class="name">${n}</div><div class="why">${w}</div></div>
+ <div class="why2"><div><b>Why it fits:</b> ${fit}</div><div><b>Watch out:</b> ${warn}</div></div>
+ <div class="roles">${sw('Primary',p)}${sw('Secondary',s)}${sw('Accent',a)}</div>
+ <div class="mark"><div class="logo">T</div><div><b>Thales University</b><span>Student services</span></div></div>
+ <div class="hero"><b>Ask anything about your studies</b><span>Answers come from the University's own rules.</span></div>
+ <div class="row"><span class="btn b1">Book a room</span><span class="btn b2">View requests</span><span class="btn b3">Talk to staff</span></div>
+ <div class="row"><span class="pill ok">Ready</span><span class="pill wa">In review</span><span class="pill er">Rejected</span><span class="pill in">Submitted</span></div>
+ <div class="chat"><div class="u">What is the late fee rule?</div><div class="a">A late fee of 500 baht applies after the due date.</div>
+ <div class="cite"><b>Student Handbook, section 4.2</b>Tuition payment deadlines</div>
+ <div class="row"><span class="chip">Tue 10:00</span><span class="chip on">Tue 11:00</span><span class="chip">Tue 14:00</span></div></div></div>`}).join("");
+</script></body></html>

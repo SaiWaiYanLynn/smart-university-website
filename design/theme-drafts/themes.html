@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Thales University theme drafts</title>
+<style>
+*{box-sizing:border-box;margin:0}
+body{font-family:Inter,-apple-system,"Helvetica Neue",Arial,sans-serif;background:#F4F4F5;color:#18181B;padding:32px;width:1700px}
+h1{font-size:24px;margin-bottom:4px}
+.sub{font-size:14px;color:#52525B;margin-bottom:24px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{background:#fff;border:1px solid #E4E4E7;border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:16px}
+.tag{font-size:12px;font-weight:600;color:#52525B;text-transform:uppercase;letter-spacing:.06em}
+.name{font-size:20px;font-weight:700}
+.mark{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:8px;background:var(--p6);color:#fff}
+.logo{width:32px;height:32px;border-radius:8px;background:var(--p3);display:grid;place-items:center;font-weight:800;color:var(--p6)}
+.mark b{font-size:16px}.mark span{font-size:12px;opacity:.8;display:block}
+.ramp{display:flex;border-radius:8px;overflow:hidden;height:48px}
+.ramp div{flex:1;font-size:11px;display:flex;align-items:flex-end;padding:4px 6px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn{font:600 14px Inter,sans-serif;padding:8px 16px;border-radius:8px;border:1px solid transparent}
+.b1{background:var(--p4);color:#fff}.b2{background:var(--p1);color:var(--p5)}.b3{background:#fff;border-color:#D4D4D8;color:#18181B}
+.pill{font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px}
+.ok{background:#DCFCE7;color:#166534}.wa{background:#FEF3C7;color:#92400E}.er{background:#FEE2E2;color:#991B1B}.in{background:var(--p1);color:var(--p5)}
+.chat{background:var(--p0);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.u{align-self:flex-end;background:var(--p4);color:#fff;padding:8px 12px;border-radius:12px 12px 4px 12px;font-size:14px;max-width:80%}
+.a{align-self:flex-start;background:#fff;border:1px solid #E4E4E7;padding:8px 12px;border-radius:12px 12px 12px 4px;font-size:14px;max-width:85%}
+.cite{border-left:3px solid var(--p4);background:#fff;border-radius:4px 8px 8px 4px;padding:8px 12px;font-size:12px;color:#3F3F46;align-self:flex-start;max-width:85%}
+.cite b{color:var(--p5);display:block;margin-bottom:2px}
+.chip{font-size:13px;font-weight:600;padding:6px 12px;border-radius:8px;border:1px solid var(--p3);color:var(--p5);background:#fff}
+.chip.on{background:var(--p4);color:#fff;border-color:var(--p4)}
+.hex{font-size:12px;color:#52525B}
+</style></head><body>
+<h1>Thales University: theme drafts</h1>
+<p class="sub">Six brand hues. Same neutral greys, same success, warning and error colors. Primary button text passes WCAG AA on every theme.</p>
+<div class="grid" id="g"></div>
+<script>
+const T=[
+["A","Academic Blue","Trusted and familiar. Safe choice for a university.",["#F5F8FF","#E3EBFF","#B6C8FB","#6E92F2","#1D4ED8","#1E3A8A","#14285E"]],
+["B","Teal","Calm and modern. Stands out from the usual blue.",["#F2FBF9","#D5F2EE","#9BDDD4","#3FB3A5","#0F766E","#134E4A","#0B3532"]],
+["C","Indigo","Techy and clear. Fits an AI assistant.",["#F6F6FF","#E6E8FF","#C0C5FA","#8089F0","#4F46E5","#312E81","#1F1D58"]],
+["D","Burgundy","Classic academic. Warm and formal.",["#FFF7F8","#FFE4E8","#F9B4C0","#E0587A","#9F1239","#6B0F27","#4C0519"]],
+["E","Forest Green","Growth and steadiness. Calm for long reading.",["#F3FBF5","#D9F2E0","#A3DDB3","#4DAE69","#15803D","#14532D","#0D3A1F"]],
+["F","Slate and Amber","Neutral base with a warm accent. Serious but friendly.",["#FFFBEB","#FEF0C3","#FCD679","#E8A317","#B45309","#334155","#1E293B"]]
+];
+const names=["p0","p1","p2","p3","p4","p5","p6"];
+document.getElementById("g").innerHTML=T.map(([k,n,d,c])=>{
+ const v=names.map((x,i)=>`--${x}:${c[i]}`).join(";");
+ const ramp=c.map((h,i)=>`<div style="background:${h};color:${i<3?'#27272A':'#fff'}">${h}</div>`).join("");
+ return `<div class="card" style="${v}">
+ <div><div class="tag">Option ${k}</div><div class="name">${n}</div><div class="hex">${d}</div></div>
+ <div class="mark"><div class="logo">T</div><div><b>Thales University</b><span>Student services</span></div></div>
+ <div class="ramp">${ramp}</div>
+ <div class="row"><span class="btn b1">Book a room</span><span class="btn b2">Secondary</span><span class="btn b3">Ghost</span></div>
+ <div class="row"><span class="pill ok">Ready</span><span class="pill wa">In review</span><span class="pill er">Rejected</span><span class="pill in">Submitted</span></div>
+ <div class="chat">
+  <div class="u">What is the late fee rule?</div>
+  <div class="a">A late fee of 500 baht applies after the due date.</div>
+  <div class="cite"><b>Student Handbook, section 4.2</b>Tuition payment deadlines</div>
+  <div class="row"><span class="chip">Tue 10:00</span><span class="chip on">Tue 11:00</span><span class="chip">Tue 14:00</span></div>
+ </div></div>`}).join("");
+</script></body></html>

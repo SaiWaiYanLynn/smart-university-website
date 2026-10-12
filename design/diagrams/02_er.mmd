@@ -1,0 +1,103 @@
+erDiagram
+  USER ||--o| STUDENT_RECORD : has
+  USER ||--o{ CONVERSATION : owns
+  USER ||--o{ RESERVATION : makes
+  USER ||--o{ REQUEST : submits
+  USER ||--o{ AUDIT_LOG : generates
+  CONVERSATION ||--o{ MESSAGE : contains
+  RESOURCE ||--o{ SLOT : offers
+  SLOT ||--o| RESERVATION : filled_by
+  REQUEST ||--o{ REQUEST_EVENT : has_history
+  USER ||--o{ REQUEST_EVENT : changes
+  DOCUMENT ||--o{ DOCUMENT_CHUNK : split_into
+
+  USER {
+    uuid id PK
+    string keycloak_sub UK
+    string full_name
+    string role
+    string email
+  }
+  STUDENT_RECORD {
+    uuid id PK
+    uuid user_id FK
+    string student_number UK
+    string programme
+    int year_of_study
+    string registration_status
+    decimal outstanding_balance
+  }
+  RESOURCE {
+    uuid id PK
+    string name
+    string resource_type
+    int capacity
+    string location
+    int cancel_cutoff_minutes
+  }
+  SLOT {
+    uuid id PK
+    uuid resource_id FK
+    timestamp starts_at
+    timestamp ends_at
+    boolean is_open
+  }
+  RESERVATION {
+    uuid id PK
+    uuid slot_id FK
+    uuid user_id FK
+    string state
+    timestamp created_at
+  }
+  REQUEST {
+    uuid id PK
+    uuid user_id FK
+    string reference UK
+    string request_type
+    string state
+    jsonb payload
+    timestamp created_at
+  }
+  REQUEST_EVENT {
+    uuid id PK
+    uuid request_id FK
+    string from_state
+    string to_state
+    uuid changed_by FK
+    timestamp changed_at
+  }
+  CONVERSATION {
+    uuid id PK
+    uuid user_id FK
+    string channel
+    string external_id
+    boolean human_owned
+  }
+  MESSAGE {
+    uuid id PK
+    uuid conversation_id FK
+    string author
+    text body
+    string routed_to_agent
+    timestamp created_at
+  }
+  DOCUMENT {
+    uuid id PK
+    string title
+    string section
+    string source_url
+    string language
+  }
+  DOCUMENT_CHUNK {
+    uuid id PK
+    uuid document_id FK
+    text content
+    vector embedding
+  }
+  AUDIT_LOG {
+    uuid id PK
+    uuid actor_id FK
+    string action
+    string target
+    timestamp occurred_at
+  }

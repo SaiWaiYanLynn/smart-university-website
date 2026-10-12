@@ -1,0 +1,43 @@
+flowchart TD
+  A["Message arrives on web, LINE or Telegram"] --> B["Detect the language"]
+  B --> C["Resolve the subject from the session token"]
+  C --> D{"Is the sender linked to a student account?"}
+  D -- No --> E["Answer public questions only"]
+  E --> Z["Send on the originating channel"]
+  D -- Yes --> F["Supervisor classifies the intent"]
+  F --> G{"Which specialist agent?"}
+
+  G -- "Low confidence" --> H["Hand the conversation to staff"]
+  G -- "Policy question" --> K1["Knowledge agent retrieves passages"]
+  G -- "Own record" --> R1["Records agent"]
+  G -- "Booking" --> B1["Booking agent"]
+  G -- "Service request" --> Q1["Request agent"]
+
+  K1 --> K2{"Any passage above the similarity threshold?"}
+  K2 -- No --> H
+  K2 -- Yes --> Y1["Attach the source document and section"]
+  Y1 --> Y["Compose the reply"]
+
+  R1 --> S{"Does the message name a different student?"}
+  S -- Yes --> S2["Refuse, and record the attempt"]
+  S2 --> Z
+  S -- No --> T["Agent selects a tool and builds arguments"]
+
+  B1 --> T
+  Q1 --> T
+
+  T --> V{"Are the arguments valid?"}
+  V -- "No, first failure" --> T2["Return a corrective message"]
+  T2 --> T
+  V -- "No, second failure" --> H
+  V -- Yes --> W{"Does the tool write data?"}
+
+  W -- No --> RD["Read, scoped to the subject in the token"]
+  RD --> Y
+  W -- Yes --> CF["Ask the student to confirm"]
+  CF --> EX["Execute inside one transaction"]
+  EX --> AUD["Write an audit record"]
+  AUD --> Y
+
+  Y --> Z
+  H --> Z
