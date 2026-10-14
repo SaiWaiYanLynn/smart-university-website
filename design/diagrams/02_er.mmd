@@ -10,6 +10,17 @@ erDiagram
   REQUEST ||--o{ REQUEST_EVENT : has_history
   USER ||--o{ REQUEST_EVENT : changes
   DOCUMENT ||--o{ DOCUMENT_CHUNK : split_into
+  BOOK ||--o{ LOAN : lent_as
+  USER ||--o{ LOAN : borrows
+  USER ||--o{ CHARGE : owes
+  CHARGE ||--o{ PAYMENT_CHECK : paid_by
+  USER ||--o{ PAYMENT_CHECK : submits
+  USER ||--o{ PAYMENT_CHECK : decides
+  PAYMENT_CHECK ||--|| SLIP_FILE : shows
+  USER ||--o{ MEMORY_FACT : remembered_for
+  CONVERSATION ||--o{ MEMORY_FACT : source_of
+  RESERVATION ||--o| ADVISOR_BRIEF : prepared_for
+  UNANSWERED_QUESTION }o--o| DOCUMENT : closed_by
 
   USER {
     uuid id PK
@@ -87,6 +98,7 @@ erDiagram
     string section
     string source_url
     string language
+    string state
   }
   DOCUMENT_CHUNK {
     uuid id PK
@@ -100,4 +112,69 @@ erDiagram
     string action
     string target
     timestamp occurred_at
+  }
+  BOOK {
+    uuid id PK
+    string title
+    string author
+    string isbn UK
+    string call_number
+    string shelf_location
+    int copies_total
+    int copies_available
+  }
+  LOAN {
+    uuid id PK
+    uuid book_id FK
+    uuid user_id FK
+    date due_on
+    int renewals
+  }
+  CHARGE {
+    uuid id PK
+    uuid user_id FK
+    string description
+    decimal amount
+    date due_on
+    string state
+  }
+  PAYMENT_CHECK {
+    uuid id PK
+    uuid charge_id FK
+    uuid submitted_by FK
+    uuid decided_by FK
+    string state
+    decimal amount_on_slip
+    string reason
+    timestamp submitted_at
+    timestamp decided_at
+  }
+  SLIP_FILE {
+    uuid id PK
+    uuid payment_check_id FK
+    string storage_path
+    string mime_type
+    timestamp keep_until
+  }
+  MEMORY_FACT {
+    uuid id PK
+    uuid user_id FK
+    uuid conversation_id FK
+    string topic
+    text content
+    timestamp saved_at
+  }
+  ADVISOR_BRIEF {
+    uuid id PK
+    uuid reservation_id FK
+    text content
+    timestamp updated_at
+  }
+  UNANSWERED_QUESTION {
+    uuid id PK
+    uuid document_id FK
+    text question
+    int times_asked
+    string state
+    timestamp last_asked_at
   }

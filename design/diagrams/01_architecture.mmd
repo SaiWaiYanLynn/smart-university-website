@@ -1,33 +1,37 @@
 flowchart TB
   subgraph Users["People"]
     STU["Student"]
-    STF["Staff and advisors"]
+    STF["Staff, instructors<br/>and administrators"]
   end
 
   subgraph Frontend["React application, Vite"]
     PUB["Public site"]
     POR["Student portal"]
-    CON["Staff console"]
+    CON["Staff console<br/>queue, payments,<br/>documents, accounts"]
   end
 
-  CWT["Chatwoot<br/>web widget, LINE, Telegram,<br/>human handoff"]
+  CWT["Chatwoot<br/>web widget, LINE, Telegram,<br/>human handoff, image attachments"]
 
   subgraph API["FastAPI application"]
     REST["REST API layer<br/>verifies the access token"]
     SUP["Student supervisor<br/>LangGraph router"]
+    MEM["Memory<br/>checkpointer and store,<br/>keyed by student ID"]
+    SCH["Scheduler<br/>reminders and timers"]
     subgraph AG["Specialist agents"]
       K["Knowledge"]
-      R["Records"]
+      R["Records<br/>catalogue search and loan list"]
       B["Booking"]
-      Q["Request"]
+      Q["Request<br/>payment checks and loan renewals"]
     end
     VAL["Tool argument validator"]
     TOOL["Tool layer<br/>subject comes from the token"]
     AUD["Audit writer"]
+    ING["Ingestion worker<br/>reads uploaded documents"]
     LLM["Model adapter<br/>key pool, falls back<br/>on rate limit"]
   end
 
   PG[("PostgreSQL<br/>with pgvector")]
+  FS[("File storage<br/>payment slip images,<br/>private volume")]
   KC["Keycloak<br/>OIDC identity"]
   OR["OpenRouter<br/>hosted model API<br/>free tier, one key per member"]
 
@@ -43,6 +47,11 @@ flowchart TB
 
   REST --> SUP
   REST -. verify token .-> KC
+  REST --> ING
+
+  SUP --> MEM
+  MEM --> PG
+  SCH --> B
 
   SUP --> K
   SUP --> R
@@ -56,8 +65,10 @@ flowchart TB
 
   VAL --> TOOL
   TOOL --> PG
+  TOOL --> FS
   TOOL --> AUD
   AUD --> PG
+  ING --> PG
 
   SUP --> LLM
   K --> LLM

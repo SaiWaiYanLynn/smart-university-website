@@ -17,33 +17,37 @@ Diagram 2 has no Mermaid code, because Mermaid does not support use case diagram
 flowchart TB
   subgraph Users["People"]
     STU["Student"]
-    STF["Staff and advisors"]
+    STF["Staff, instructors<br/>and administrators"]
   end
 
   subgraph Frontend["React application, Vite"]
     PUB["Public site"]
     POR["Student portal"]
-    CON["Staff console"]
+    CON["Staff console<br/>queue, payments,<br/>documents, accounts"]
   end
 
-  CWT["Chatwoot<br/>web widget, LINE, Telegram,<br/>human handoff"]
+  CWT["Chatwoot<br/>web widget, LINE, Telegram,<br/>human handoff, image attachments"]
 
   subgraph API["FastAPI application"]
     REST["REST API layer<br/>verifies the access token"]
     SUP["Student supervisor<br/>LangGraph router"]
+    MEM["Memory<br/>checkpointer and store,<br/>keyed by student ID"]
+    SCH["Scheduler<br/>reminders and timers"]
     subgraph AG["Specialist agents"]
       K["Knowledge"]
-      R["Records"]
+      R["Records<br/>catalogue search and loan list"]
       B["Booking"]
-      Q["Request"]
+      Q["Request<br/>payment checks and loan renewals"]
     end
     VAL["Tool argument validator"]
     TOOL["Tool layer<br/>subject comes from the token"]
     AUD["Audit writer"]
+    ING["Ingestion worker<br/>reads uploaded documents"]
     LLM["Model adapter<br/>key pool, falls back<br/>on rate limit"]
   end
 
   PG[("PostgreSQL<br/>with pgvector")]
+  FS[("File storage<br/>payment slip images,<br/>private volume")]
   KC["Keycloak<br/>OIDC identity"]
   OR["OpenRouter<br/>hosted model API<br/>free tier, one key per member"]
 
@@ -59,6 +63,11 @@ flowchart TB
 
   REST --> SUP
   REST -. verify token .-> KC
+  REST --> ING
+
+  SUP --> MEM
+  MEM --> PG
+  SCH --> B
 
   SUP --> K
   SUP --> R
@@ -72,8 +81,10 @@ flowchart TB
 
   VAL --> TOOL
   TOOL --> PG
+  TOOL --> FS
   TOOL --> AUD
   AUD --> PG
+  ING --> PG
 
   SUP --> LLM
   K --> LLM
@@ -95,28 +106,37 @@ Mermaid has no use case diagram, so build this one by hand. Draw one system boun
 **Actor: Student.**
 - Ask a policy question.
 - View own academic record.
+- Search the library catalogue.
+- Renew a library loan.
 - Book a bookable resource.
 - Cancel or reschedule own booking.
 - Submit a service request.
 - Track a service request.
+- Send a payment slip.
+- Continue a conversation on another day or channel.
+- Receive a reminder from the assistant.
 - Ask for a human.
 
 **Actor: Staff.**
 - View the work queue.
 - Take over a conversation.
 - Change a request state.
+- Check a payment slip, then confirm or reject it.
 - Release a conversation back to the assistant.
 
 **Actor: Advisor.**
 - Publish availability.
 - View own appointments.
+- Read the advising brief before a meeting.
 
 **Actor: Administrator.**
 - Manage accounts and roles.
-- Update the document corpus.
+- Upload documents and read the ingestion result.
+- Read the questions without an answer.
+- Read the system status.
 - Read the audit log.
 
-Two relationships are worth drawing. "Ask a policy question" includes "Cite the source document". "Book a bookable resource" includes "Confirm before writing".
+Three relationships are worth drawing. "Ask a policy question" includes "Cite the source document". "Book a bookable resource" includes "Confirm before writing". "Send a payment slip" includes "Check a payment slip", and the check is always a person.
 
 ---
 
@@ -135,6 +155,17 @@ erDiagram
   REQUEST ||--o{ REQUEST_EVENT : has_history
   USER ||--o{ REQUEST_EVENT : changes
   DOCUMENT ||--o{ DOCUMENT_CHUNK : split_into
+  BOOK ||--o{ LOAN : lent_as
+  USER ||--o{ LOAN : borrows
+  USER ||--o{ CHARGE : owes
+  CHARGE ||--o{ PAYMENT_CHECK : paid_by
+  USER ||--o{ PAYMENT_CHECK : submits
+  USER ||--o{ PAYMENT_CHECK : decides
+  PAYMENT_CHECK ||--|| SLIP_FILE : shows
+  USER ||--o{ MEMORY_FACT : remembered_for
+  CONVERSATION ||--o{ MEMORY_FACT : source_of
+  RESERVATION ||--o| ADVISOR_BRIEF : prepared_for
+  UNANSWERED_QUESTION }o--o| DOCUMENT : closed_by
 
   USER {
     uuid id PK
@@ -212,6 +243,7 @@ erDiagram
     string section
     string source_url
     string language
+    string state
   }
   DOCUMENT_CHUNK {
     uuid id PK
@@ -225,6 +257,71 @@ erDiagram
     string action
     string target
     timestamp occurred_at
+  }
+  BOOK {
+    uuid id PK
+    string title
+    string author
+    string isbn UK
+    string call_number
+    string shelf_location
+    int copies_total
+    int copies_available
+  }
+  LOAN {
+    uuid id PK
+    uuid book_id FK
+    uuid user_id FK
+    date due_on
+    int renewals
+  }
+  CHARGE {
+    uuid id PK
+    uuid user_id FK
+    string description
+    decimal amount
+    date due_on
+    string state
+  }
+  PAYMENT_CHECK {
+    uuid id PK
+    uuid charge_id FK
+    uuid submitted_by FK
+    uuid decided_by FK
+    string state
+    decimal amount_on_slip
+    string reason
+    timestamp submitted_at
+    timestamp decided_at
+  }
+  SLIP_FILE {
+    uuid id PK
+    uuid payment_check_id FK
+    string storage_path
+    string mime_type
+    timestamp keep_until
+  }
+  MEMORY_FACT {
+    uuid id PK
+    uuid user_id FK
+    uuid conversation_id FK
+    string topic
+    text content
+    timestamp saved_at
+  }
+  ADVISOR_BRIEF {
+    uuid id PK
+    uuid reservation_id FK
+    text content
+    timestamp updated_at
+  }
+  UNANSWERED_QUESTION {
+    uuid id PK
+    uuid document_id FK
+    text question
+    int times_asked
+    string state
+    timestamp last_asked_at
   }
 ```
 
@@ -241,17 +338,29 @@ flowchart TD
   C --> D{"Is the sender linked to a student account?"}
   D -- No --> E["Answer public questions only"]
   E --> Z["Send on the originating channel"]
-  D -- Yes --> F["Supervisor classifies the intent"]
+  D -- Yes --> M["Load memory and recent messages by student ID"]
+  TM["Timer: an appointment starts in 24 hours"] --> B1
+  M --> IM{"Does the message carry an image?"}
+  IM -- Yes --> SF["Store the image privately"]
+  SF --> PC["Request agent creates a payment check, state waiting"]
+  PC --> NS["Notify staff in the Payments tab and in the chat"]
+  NS --> RS["Reply: sent to Student Services for a check"]
+  RS --> Z
+  NS -.-> SD["Staff confirm or reject the slip"]
+  SD -.-> NT["Notify the student"]
+  NT -.-> Z
+  IM -- No --> F["Supervisor classifies the intent"]
   F --> G{"Which specialist agent?"}
 
   G -- "Low confidence" --> H["Hand the conversation to staff"]
   G -- "Policy question" --> K1["Knowledge agent retrieves passages"]
-  G -- "Own record" --> R1["Records agent"]
+  G -- "Own record, loans or catalogue search" --> R1["Records agent"]
   G -- "Booking" --> B1["Booking agent"]
-  G -- "Service request" --> Q1["Request agent"]
+  G -- "Service request or loan renewal" --> Q1["Request agent"]
 
   K1 --> K2{"Any passage above the similarity threshold?"}
-  K2 -- No --> H
+  K2 -- No --> UQ["Record the question as unanswered"]
+  UQ --> H
   K2 -- Yes --> Y1["Attach the source document and section"]
   Y1 --> Y["Compose the reply"]
 
@@ -263,7 +372,10 @@ flowchart TD
   B1 --> T
   Q1 --> T
 
-  T --> V{"Are the arguments valid?"}
+  T --> MD{"Is a needed detail missing?"}
+  MD -- Yes --> CQ["Ask one question and change nothing"]
+  CQ --> Z
+  MD -- No --> V{"Are the arguments valid?"}
   V -- "No, first failure" --> T2["Return a corrective message"]
   T2 --> T
   V -- "No, second failure" --> H
@@ -276,7 +388,8 @@ flowchart TD
   EX --> AUD["Write an audit record"]
   AUD --> Y
 
-  Y --> Z
+  Y --> SV["Save new facts to memory"]
+  SV --> Z
   H --> Z
 ```
 
