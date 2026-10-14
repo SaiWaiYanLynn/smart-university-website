@@ -1,5 +1,7 @@
 # Setup steps: git, Figma file, tokens, grey components
 
+Status on 13 October 2026: only part 1 is still open. Claude finished parts 2 to 4 in a different structure. Read `notes/session-handoff.md` for the current state.
+
 Do the parts in order. Part 3 and part 4 do not need the color choice.
 
 ## Part 1. Start git (5 minutes)
