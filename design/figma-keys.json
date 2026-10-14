@@ -1,0 +1,586 @@
+{
+  "note": "Publish keys of the Thales University Library (file QjUKaKdSEGh9bUz9PGCOPf). Import in the prototype file with figma.importComponentSetByKeyAsync or figma.importComponentByKeyAsync. Regenerate after a republish only if a component is deleted and rebuilt.",
+  "textStyles": {
+    "body/12": "b8df3429cf064fcf8d5d10c7b89ccdb6f4ad0ba3",
+    "body/14": "394b9ea5ad3ed75e26b6ed0aeee271e6c47d6a7f",
+    "body/16": "624d4f0a5e64075aec055bb6cffa4324f1778873",
+    "heading/20": "3ae386fc686e68638dd24cc43c626013711d6409",
+    "heading/24": "1c6e47460a26f70f3c61fecec162ff818b61814e",
+    "heading/32": "f4af11ed79ea232802a3efcc10737adde67eadcb",
+    "heading/40": "e0eae9d2fbbdb27535ed92101cbed83173017edd",
+    "label/12": "e86d35ef4bed62f0a38359754804c5c4ab204aad",
+    "label/14": "236b829fd5c7afe4068a079d013dd37b9e1b62b4",
+    "label/16": "d473ed30968283a172eeee813a671cc343972a1e",
+    "overline/12": "cbda73f48ea90018bbb96d8a1e9f78a8b81db0dc"
+  },
+  "effectStyles": {
+    "shadow-sm": "f9421b277391f97dc4c1f1b0b3235dad265258d2",
+    "shadow-md": "9bfdf750ca1cd3ff2010ee4dccee60e8f6e5ab7c"
+  },
+  "prototypeNodes": {
+    "note": "Node ids in the prototype file nDM8Bg8Or66Nk5j0d2CB4m. Pages: Cover 0:1, Design System 2:2, Prototype (find by name). Ids stay the same after a move.",
+    "coverFrame": "34:46",
+    "designSystemFrame": "35:9",
+    "sections": {
+      "Public and Auth": "30:3",
+      "Student Portal": "30:4",
+      "J1": "30:5",
+      "J2": "30:6",
+      "J3": "30:7",
+      "J4": "30:8",
+      "J5": "30:9",
+      "J6": "30:10",
+      "Channels": "30:11",
+      "Staff Console": "30:12",
+      "Dark mode previews": "33:3527"
+    },
+    "frames": {
+      "home": "8:14",
+      "programs": "10:111",
+      "announcements": "10:226",
+      "login": "12:211",
+      "landing": "12:327",
+      "dashboard": "14:9",
+      "myRequests": "14:614",
+      "requestDetail": "14:745",
+      "myBookings": "15:298",
+      "profile": "15:448",
+      "J1.1": "16:6",
+      "J1.2": "16:478",
+      "J1.3": "16:567",
+      "J1.4": "16:671",
+      "J2.1": "18:5",
+      "J2.2": "18:454",
+      "J2.3": "18:536",
+      "J2.4": "18:614",
+      "J3.1": "19:5",
+      "J3.2": "19:454",
+      "J3.3": "19:532",
+      "J3.4": "19:608",
+      "J4.1": "20:7",
+      "J4.2": "20:456",
+      "J4.3": "20:541",
+      "J4.4": "20:736",
+      "J4.5": "20:921",
+      "J4.6": "20:1045",
+      "J5.1": "21:5",
+      "J5.2": "21:454",
+      "J5.3": "21:550",
+      "J5.4": "21:664",
+      "J5.5": "21:786",
+      "J6.1": "24:11",
+      "J6.2": "24:325",
+      "J6.3": "24:471",
+      "LINE1": "25:7",
+      "LINE2": "25:143",
+      "LINE3": "25:267",
+      "Telegram1": "25:382",
+      "Telegram2": "25:408",
+      "Telegram3": "25:468",
+      "SC1": "26:5",
+      "SC2": "28:267",
+      "SC3": "28:464",
+      "SC4": "26:441",
+      "dark": {
+        "home": "33:3344",
+        "dashboard": "33:3378",
+        "J1.3": "33:3406",
+        "J4.3": "33:3426",
+        "J5.4": "33:3445",
+        "SC1": "33:3463",
+        "SC2": "33:3481"
+      }
+    }
+  },
+  "libraryNodes": {
+    "note": "Node ids in the library file QjUKaKdSEGh9bUz9PGCOPf.",
+    "iconsBoard": "7:47",
+    "coverFrame": "30:2",
+    "changelogFrame": "30:48",
+    "pages": {
+      "Cover": "0:1",
+      "Foundations": "6:2",
+      "Icons": "7:41",
+      "Chat Bubble": "7:42",
+      "Citation Card": "7:43",
+      "Slot Chip": "7:44",
+      "Status Timeline": "7:45",
+      "Logo": "11:3",
+      "Button": "11:4",
+      "Input": "11:5",
+      "Select": "11:6",
+      "Status Pill": "11:7",
+      "Avatar": "11:8",
+      "Card": "11:9",
+      "Filter Chip": "11:10",
+      "Banner": "11:11",
+      "Toast": "11:12",
+      "Modal": "11:13",
+      "Nav Link": "11:15",
+      "Top Nav": "11:16",
+      "Side Nav": "11:17",
+      "Table Row": "11:18",
+      "Staff Message": "11:20",
+      "Typing Indicator": "11:21",
+      "Chat Composer": "11:22",
+      "Day Divider": "11:23",
+      "Slot Card": "11:24",
+      "Summary Card": "11:25",
+      "Source Panel": "11:26",
+      "Phone Frame": "11:27",
+      "Patterns": "6:4",
+      "Changelog": "6:5"
+    },
+    "componentSetNodes": {
+      "chatBubble": "7:80",
+      "citationCard": "8:47",
+      "slotChip": "8:144",
+      "timelineStep": "9:47",
+      "statusTimeline": "9:177",
+      "logo": "11:41",
+      "button": "12:145",
+      "buttonSmall": "12:266",
+      "input": "13:62",
+      "select": "14:54",
+      "statusPill": "15:44",
+      "avatar": "15:204",
+      "card": "16:13",
+      "serviceCard": "16:43",
+      "statCard": "16:58",
+      "filterChip": "17:38",
+      "banner": "18:85",
+      "toast": "18:274",
+      "modal": "18:411",
+      "navLink": "19:37",
+      "topNav": "19:1392",
+      "sideNav": "19:1513",
+      "queueRow": "20:57",
+      "auditRow": "20:78",
+      "requestRow": "20:114",
+      "bookingRow": "20:156",
+      "typing": "21:18",
+      "dayDivider": "21:1705",
+      "staffMessage": "21:1729",
+      "composer": "21:1797",
+      "slotCard": "22:100",
+      "summaryCard": "23:88",
+      "sourcePanel": "24:2",
+      "phone": "25:74"
+    }
+  },
+  "libraryFileKey": "QjUKaKdSEGh9bUz9PGCOPf",
+  "prototypeFileKey": "nDM8Bg8Or66Nk5j0d2CB4m",
+  "componentSets": {
+    "chatBubble": "5d927e8029cd9fdeadeccf97e3c9b2c1b1b2a8e4",
+    "citationCard": "4449e241f5c1fb8dbc12651611f39caf359f86b6",
+    "slotChip": "8c8da2db71ef48837ef6ede75814c6e5ae1487ec",
+    "timelineStep": "3398d70cb7a95af6a210b81d9442c3199443bebb",
+    "statusTimeline": "b3705bd7fab87aa0abacb8e488090d149cd3d0fb",
+    "logo": "88409cbd7e500d72adf6d404be830b04bb2489e2",
+    "button": "3d53ff5885e2b983391d4433a3c22aca450f02d2",
+    "buttonSmall": "932ac9a8bde129877a80f79ccf6805cf49b6fcc7",
+    "input": "8929de4d9bd355e1b0cb1b05796236e34fc1dfc9",
+    "select": "74bb44eb536ae6789c1b377f537ec6ca67bf1c03",
+    "statusPill": "d5d3454cc1c3091b9f69655e069a74fff44c3ef3",
+    "avatar": "3b18c47e0e6e0fdcf233fe31566937ffd116b59a",
+    "card": "f86c21e3e910876e8e5c7b3d1f67b82bb553f3bc",
+    "serviceCard": "2764aa17a8d215c6946f2dd53ecd2da4edde7a89",
+    "statCard": "1bcea34a04c13289cc5574c4b2c986b664796a1d",
+    "filterChip": "0d0dfc406ec5442ba910671da2ab0875f58c2382",
+    "banner": "6cc01d207a18057e0891f6885bd1be94bd03369e",
+    "toast": "5985b80b4c1d07bb809f7f493629a5209a50505a",
+    "modal": "46cda7028d6bb555e02e9b5e572b91149fe65d29",
+    "navLink": "bf3ec245dad93104904be07644abfba9a77c9028",
+    "topNav": "c966ad62f25d6155a210cf5679958b7f72dcae23",
+    "queueRow": "81d14819ad20c7b0f48e7c13686e877494b7f244",
+    "auditRow": "d9ad8cbc2a1dd93461762aea053a77c2d084a604",
+    "requestRow": "f385515ae4623359330fd4ff55c02e7a50cfc0f2",
+    "bookingRow": "973aa3057a4e2bc9e437c2052810df507235f620",
+    "typing": "f74b007c471ed80603de9125a5db721c56f6b059",
+    "composer": "6066bb223b1f2df188d571b6bc3694c575f01760",
+    "slotCard": "307677114de1dccaf6a9c1a8dec593f0dce77ea5",
+    "summaryCard": "fc07b07480ce481d5950f90fcd9f2e4e856151be",
+    "phone": "a441acc9bd16a7455c7dc88c0f73ce2f7438a85c"
+  },
+  "components": {
+    "sideNav": "99d3b4857a0821a37b2b2f1df00e945b4d3a2486",
+    "dayDivider": "ef6e6099ef04dd01fe15cf300135e7c079a438ae",
+    "staffMessage": "b31ccc3396aa2e0a1d2cf54bb411acf191488f9d",
+    "sourcePanel": "7391038025c70b257ded953b3c0f04d1befaaa7b"
+  },
+  "icons": {
+    "check": "06310c0ed631d26de31833822190636052026af5",
+    "file-text": "0bf65f87bdde0555aa52e456400428e73b8bb246",
+    "chevron-down": "4fa5468cb49005abf7163b5d242b8a2f2090cc22",
+    "external-link": "5d841a5a449261026bb8accfe2bb113cc08a7294",
+    "chevron-up": "a72d0dcd49032513f59bdf26f0a3285cf7316f0e",
+    "send": "47e32ff8798366c4ed84b75af54c5576311bd228",
+    "search": "5edd1dd8b3e72b940bd5a8015a09aa236aa82ddb",
+    "bell": "2a49a6221dbb31c63da02e3dceb6abcf7289eccd",
+    "user": "7681f643b2d957c05883761c0787e1cfc649626a",
+    "users": "20244d4c022f83caedc6123325895a3f6a4d062b",
+    "calendar": "185da0580ffdea14c28dc130142f9dd08e70d187",
+    "calendar-check": "05422f8ef2ac2af20a1f75e0df887d7973a6739a",
+    "clock": "fa9feccb9463fe168defb74ec27ec90b25a9634f",
+    "x": "62d92e37498dd9ed7787f42fb4a3a18f270d736f",
+    "chevron-right": "1c142ed2c7296c7cfe86c61037b774b6382b48b3",
+    "chevron-left": "ebc4c94a7708e0b4f84c3aa3286b135947bcae8a",
+    "menu": "3258f4664275fee58ca51554f957059b5a9188a0",
+    "house": "3f3025f7eb28fdcb14e52fa2a02eb3875d1a179c",
+    "message-circle": "502f6548e806941c5f0bd4673626eb3b439f787f",
+    "book-open": "09f9b917448bc83d2494823cb700ec42884a2477",
+    "graduation-cap": "9a64d94f0a7b3171e45f00454956f2122e99bc54",
+    "credit-card": "f8f8f298070b0b3927133ed870e8c59d0c4338d6",
+    "door-open": "1f9facc81c0672b5e15951b68fd3c5715ccbcad4",
+    "building-2": "5fcfd13b3eba510eb61068ed89a62590af0e3116",
+    "library": "74f90daef376a3babeca5ba1a765456323ca076b",
+    "map-pin": "c21ffcc96df1555ceb9989ac21ea138476e8fe7a",
+    "log-out": "9b291eca72ce2713c1260049d9335aaa4b0a254f",
+    "settings": "5d9fde03f32ef85f732b2403c25783325a04646d",
+    "shield-check": "d4cc2da7f5ae65b7b38da8e61f60bbd60b6b33d4",
+    "triangle-alert": "68482d92bdd426232ac385850045f3e701af91ae",
+    "info": "500972d3be1756ee78704e94326ea1b1ad7f2850",
+    "circle-alert": "667bf5fd02e7719bf69c086d801208cb840d3861",
+    "bot": "de1a549d0c5121d9131499ede4ac9fa9d865cade",
+    "headset": "2209cc72c1e7b6abfbbae878e41fa3f60fdb7715",
+    "paperclip": "195c001a3372e00ac46dc92221551397f577f195",
+    "funnel": "ed905fb0430ef0e52aa8dcf576c17d363a4204cd",
+    "plus": "e2b05d23eed2b4dd5826640ff8eb88534000ac22",
+    "ellipsis": "bf41b91c615c5dea49d4a3f670effcd7999fb3e5",
+    "link": "337dfce4c49c1684cb443d2a81438823cc7e5258",
+    "lock": "024fc0b093e92fb091760ccd0450a6793690af6f",
+    "refresh-cw": "b099bd06c9e596def9feb0c8867c8941dea8aaea",
+    "download": "4eef10aea1de6c88bea5b6a427afc77d73bd212b",
+    "phone": "5583d024d44d9bb48b758a77bcbf3ac9684f8b98",
+    "mail": "2a2db3296532072c9ae96cf3699a62d96d48f349",
+    "award": "48c320418ba721b6c955986925840c1bcb1251c9",
+    "clipboard-list": "6f4c9c04e4415b2651b3ba2887f9ef61870ae0dd",
+    "inbox": "c2bc1620905388a9023d2092b7687f0aacc5f664",
+    "arrow-left": "07317dd5b5fb540fbcc1eebb6a46f409b36a93ae",
+    "arrow-right": "29ae694e39054bb0eecf3218559e35ff2d5ac23a",
+    "eye": "e67de3cfd1b545650c798f62996544adc0e84133",
+    "copy": "f8d6077f46bc4f4de7a8c24b92816cf5073458f2",
+    "qr-code": "9321bcac0a97c666eda02a2074d5d479950debf9",
+    "badge-check": "82e82b3dd9b599f81dd2fb77e6573fda7687ac46",
+    "hourglass": "85b8aa47e334cf97c10f246f11e5320b4a800471",
+    "circle-check": "700fd9e6e3378468c1db17371867a8804f82497d",
+    "layout-dashboard": "e550979289e414a63db1f195ab2bb8711ad88a14",
+    "messages-square": "b28900a966e2830efc84ec51e47cd721700a5fff",
+    "scroll-text": "c65896e90e9e946fdf05117beb4179241b9b3cb8",
+    "history": "42e93792b74aa501840f159e6a0175922b74e1d8"
+  },
+  "v110Components": {
+    "footer": [
+      "component",
+      "4d4f6bc77d365dfdf13429ccbe76b92140b34027"
+    ],
+    "pageHeader": [
+      "component",
+      "2eac6ff0945f9fb04c145f7a5eabc9f8c4baa583"
+    ],
+    "newsCard": [
+      "set",
+      "f357b2a97741c9f1204661a6747b7d8c8626ebe1"
+    ],
+    "eventItem": [
+      "component",
+      "642aafc87d0023672331a452333f36b462f48caa"
+    ],
+    "programCard": [
+      "set",
+      "c594c7008956d36d7fe974ae3391319c4ee1269d"
+    ],
+    "facultyCard": [
+      "set",
+      "24075197a3c89006b246c19fdc3dadf925f0d56c"
+    ],
+    "tab": [
+      "set",
+      "eb3efdd301c718b2ecdbad1585f0e311c20ab2cd"
+    ],
+    "pagination": [
+      "set",
+      "dd3c485f9e7327b2966cc8a91e60c30f12399a55"
+    ],
+    "searchField": [
+      "set",
+      "9ebef86631700df4510dee5ab62450c04e036107"
+    ],
+    "ctaBand": [
+      "set",
+      "6aafbcd6c1e1a5843dcb9e98acd720a46a0bce00"
+    ],
+    "accordionItem": [
+      "set",
+      "d9f02ae8efbedcd25a52ea74c0590985bfd63faf"
+    ],
+    "feeRow": [
+      "set",
+      "cf848c3a4adc6e3c25d33986246de080f6c65ebb"
+    ],
+    "gradeRow": [
+      "set",
+      "5292b9eec20fb4c30953c3eca38c9377c0c22be6"
+    ],
+    "courseRow": [
+      "set",
+      "c08670e5d05835c8af97bd21e0993b687b0c9572"
+    ],
+    "bookCard": [
+      "set",
+      "638084e39c2d103b0098a82f707c0cbb9febeca8"
+    ],
+    "classBlock": [
+      "set",
+      "89a66b14a340a6d52130618a89e41397b9c9a6a9"
+    ],
+    "slipImage": [
+      "set",
+      "d978141c84ba87312da212b52eaed738b932eed1"
+    ],
+    "notificationItem": [
+      "set",
+      "32b1f9abcc97bc0e337d4396d517a2e992062e8d"
+    ]
+  },
+  "libraryIconNodeIds": {
+    "check": "7:51",
+    "file-text": "7:60",
+    "chevron-down": "7:65",
+    "chevron-up": "8:7",
+    "search": "10:11",
+    "bell": "10:17",
+    "calendar": "10:39",
+    "calendar-check": "10:48",
+    "clock": "10:54",
+    "x": "10:60",
+    "chevron-right": "10:65",
+    "book-open": "10:94",
+    "graduation-cap": "10:101",
+    "credit-card": "10:108",
+    "library": "10:134",
+    "info": "10:173",
+    "arrow-left": "10:285",
+    "arrow-right": "10:291",
+    "qr-code": "10:319"
+  },
+  "prototypeNodesV11": {
+    "publicSite": {
+      "faculties": "52:4777",
+      "calendar": "52:5000",
+      "about": "53:4911",
+      "admissions": "53:5074",
+      "apply": "55:5136",
+      "programDetail": "55:5317",
+      "research": "55:5508",
+      "campus": "56:5483",
+      "library": "56:5695",
+      "contact": "56:5966",
+      "mega": "57:5933"
+    },
+    "portal": {
+      "timetable": "58:6148",
+      "grades": "58:6331",
+      "courses": "58:6526",
+      "fees": "59:6474",
+      "library": "59:6672",
+      "notifications": "59:6837"
+    },
+    "j7": [
+      "61:6807",
+      "61:6883",
+      "61:6964",
+      "61:7108"
+    ],
+    "j8": [
+      "61:7223",
+      "61:7406",
+      "61:7527",
+      "61:7609"
+    ],
+    "staff": {
+      "SC1b": "65:7810",
+      "SC5": "65:8046",
+      "SC6": "65:8323",
+      "SC7": "65:8577",
+      "SC8": "66:8135",
+      "SC9": "66:8382",
+      "SC10": "66:8577",
+      "SC11": "66:8768",
+      "SC12": "66:9081"
+    },
+    "darkExtra": [
+      "67:9055",
+      "67:9081",
+      "67:9114",
+      "67:9154",
+      "67:9182",
+      "67:9202",
+      "67:9251"
+    ],
+    "sections": {
+      "publicSite": "52:4503",
+      "portalMore": "58:6147",
+      "j7": "61:6805",
+      "j8": "61:6806",
+      "staffMore": "see section name Staff console: payments and lists"
+    }
+  },
+  "v120Components": {
+    "stat": [
+      "component",
+      "2d07b6b78700d2bed18034cbbf7b24527945587c"
+    ],
+    "iconTile": [
+      "set",
+      "1cd2fdeaabac59309f192f93514761ac128afbef"
+    ],
+    "listItem": [
+      "set",
+      "7471905936f4331b580a9f988a1663a70f5e8026"
+    ],
+    "keyValueRow": [
+      "set",
+      "69b68f1f24a779fe9494a7073804918941bfe46f"
+    ]
+  },
+  "prototypeNodesV12": {
+    "publicSiteExtra": {
+      "apply2": "88:10149",
+      "apply3": "88:10391",
+      "apply4": "88:10635",
+      "applicationSubmitted": "88:10840",
+      "contactSent": "89:10575",
+      "cookieHome": "90:11357"
+    },
+    "portalExtra": {
+      "libraryRenewed": "89:10742",
+      "notificationsAllRead": "89:10893",
+      "timetableNext": "89:11067",
+      "timetablePrevious": "89:11212",
+      "profileUnlink": "89:11337"
+    },
+    "j1": {
+      "feedbackHelpful": "89:11488",
+      "feedbackNotHelpful": "89:11495",
+      "j15": "89:11500"
+    },
+    "statesAndErrors": {
+      "loginError": "87:9711",
+      "searchResults": "87:9814",
+      "notFound404": "87:10015",
+      "libraryNoResults": "87:10088",
+      "assistantBusyJ91": "87:10249",
+      "notificationsEmpty": "87:10353"
+    },
+    "note": "Staff frames SC1b, SC5 to SC12 are in prototypeNodesV11.staff. The SC10 modal is detached and its buttons need new links."
+  },
+  "v130Library": {
+    "illustrationSet": "61:166",
+    "scenes": {
+      "Campus": "61:3",
+      "Library": "61:22",
+      "Assistant": "61:70",
+      "Research": "61:83",
+      "Business": "61:99",
+      "Technology": "61:113",
+      "Booking": "61:128",
+      "NotFound": "61:153"
+    },
+    "topNavCompact": {
+      "Public Compact": "61:407",
+      "Portal Compact": "61:437"
+    },
+    "footerCompact": "66:361",
+    "ctaBandCompact": "66:410",
+    "requestCard": "66:3741",
+    "pageHeaderCompact": "68:48",
+    "agentTrace": {
+      "node": "71:72",
+      "key": "2cc4d5d6803c5fa43d377490918d8172a2d7e2e3"
+    }
+  },
+  "prototypeNodesV13": {
+    "My bookings: upcoming": "96:12806",
+    "My bookings: past": "96:12926",
+    "My requests: open": "96:12572",
+    "My requests: closed": "96:12686",
+    "Admissions q2": "96:13052",
+    "Admissions q3": "96:13258",
+    "Admissions q4": "96:13464",
+    "Programs undergraduate": "96:13682",
+    "Programs postgraduate": "96:13897"
+  },
+  "prototypeResponsive": {
+    "mobile": {
+      "Home": "116:15191",
+      "Programs": "116:16055",
+      "Apply": "116:16949",
+      "Dashboard": "116:17429",
+      "My requests": "116:17811",
+      "Assistant answer": "117:15407",
+      "Menu public": "118:15407",
+      "Menu portal": "118:15458"
+    },
+    "tablet": {
+      "Home": "116:15642",
+      "Programs": "116:16507",
+      "Apply": "116:17189",
+      "Dashboard": "116:17652",
+      "My requests": "116:17987",
+      "Assistant answer": "117:15521",
+      "Menu public": "118:15506",
+      "Menu portal": "118:15557"
+    },
+    "sections": {
+      "mobile": "105:14088",
+      "tablet": "108:13892"
+    }
+  },
+  "prototypeJ10": {
+    "section": "123:15551",
+    "frames": {
+      "J10.1": "123:15552",
+      "J10.2": "123:15585",
+      "J10.3": "123:15645",
+      "J10.4": "123:15685",
+      "J10.5": "123:15746",
+      "J10.6": "124:15683"
+    }
+  },
+  "prototypeRoles": {
+    "section": "127:15747",
+    "R1": [
+      "127:15748",
+      "127:15993",
+      "127:16238"
+    ],
+    "R2": [
+      "129:16102",
+      "129:16382",
+      "129:16617"
+    ],
+    "A1": [
+      "132:16342",
+      "132:16633",
+      "132:17212",
+      "132:16935"
+    ],
+    "A2": [
+      "132:17483",
+      "132:17752"
+    ]
+  },
+  "prototypeJ11J12": {
+    "J11": [
+      "143:17220",
+      "143:17352",
+      "143:17552"
+    ],
+    "J12": [
+      "143:17794",
+      "143:17889",
+      "143:17988"
+    ]
+  }
+}
