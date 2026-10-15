@@ -1,0 +1,19 @@
+stateDiagram-v2
+  state "Under review" as UnderReview
+  [*] --> Submitted: The student confirms the request in chat or in the portal
+  Submitted --> UnderReview: A staff member opens the request
+  UnderReview --> Ready: The request is approved
+  Ready --> Collected: The student collects it
+  Collected --> [*]
+
+  note right of Submitted
+    Every change writes a request event
+    and an audit record.
+    The student gets a message on the
+    channel where the request began.
+  end note
+  note right of UnderReview
+    The agent checks ran before this
+    state, for example the deadline
+    and the account hold.
+  end note

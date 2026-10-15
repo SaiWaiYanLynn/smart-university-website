@@ -34,6 +34,22 @@ erDiagram
   REQUEST ||--o{ WATCH : watched_by
   USER ||--o{ PENDING_QUESTION : waits_for
   DOCUMENT ||--o{ SOURCE_CONFLICT : disagrees_in
+  USER ||--o{ CHANNEL_LINK : links
+  REQUEST ||--o{ REQUEST_FILE : has
+  REQUEST ||--o{ AGENT_CHECK : checked_by
+  PAYMENT_CHECK ||--o{ AGENT_CHECK : checked_by
+  REQUEST }o--o| CONVERSATION : started_in
+  USER ||--o{ STUDY_PLAN : follows
+  USER ||--o{ STUDY_PLAN : approves
+  USER ||--o{ ADVISEE_SIGNAL : flagged
+  USER ||--o{ ADVISEE_SIGNAL : reviews
+  MESSAGE ||--o{ TRACE_STEP : traced_by
+  FACULTY ||--o{ PROGRAM : runs
+  PROGRAM ||--o{ PROGRAM_COURSE : lists
+  COURSE ||--o{ PROGRAM_COURSE : appears_in
+  USER ||--o| STAFF_PROFILE : described_by
+  FACULTY ||--o{ STAFF_PROFILE : employs
+  APPLICATION }o--|| PROGRAM : applies_to
 
   USER {
     uuid id PK
@@ -41,6 +57,7 @@ erDiagram
     string full_name
     string role
     string email
+    string account_state
   }
   STUDENT_RECORD {
     uuid id PK
@@ -50,6 +67,7 @@ erDiagram
     int year_of_study
     string registration_status
     decimal outstanding_balance
+    string account_hold
   }
   RESOURCE {
     uuid id PK
@@ -81,6 +99,9 @@ erDiagram
     string state
     jsonb payload
     timestamp created_at
+    int priority
+    string priority_reason
+    uuid source_conversation_id FK
   }
   REQUEST_EVENT {
     uuid id PK
@@ -96,6 +117,10 @@ erDiagram
     string channel
     string external_id
     boolean human_owned
+    uuid owner_staff_id FK
+    timestamp escalated_at
+    text escalation_summary
+    text draft_reply
   }
   MESSAGE {
     uuid id PK
@@ -112,6 +137,10 @@ erDiagram
     string source_url
     string language
     string state
+    int pages_read
+    int sections_indexed
+    int pages_failed
+    boolean is_public
   }
   DOCUMENT_CHUNK {
     uuid id PK
@@ -126,6 +155,8 @@ erDiagram
     string target
     string outcome
     timestamp occurred_at
+    string actor_role
+    string channel
   }
   BOOK {
     uuid id PK
@@ -191,6 +222,7 @@ erDiagram
     int times_asked
     string state
     timestamp last_asked_at
+    vector question_embedding
   }
 
   COURSE {
@@ -201,6 +233,8 @@ erDiagram
     uuid instructor_id FK
     string room
     string schedule
+    text description
+    string prerequisite_text
   }
   ENROLLMENT {
     uuid id PK
@@ -235,6 +269,7 @@ erDiagram
     text body
     boolean is_read
     timestamp created_at
+    string kind
   }
   FEEDBACK {
     uuid id PK
@@ -270,7 +305,7 @@ erDiagram
     string reference UK
     string applicant_name
     string email
-    string programme
+    uuid program_id FK
     string intake
     string state
   }
@@ -288,4 +323,99 @@ erDiagram
     string title
     text body
     date published_on
+  }
+
+  CHANNEL_LINK {
+    uuid id PK
+    uuid user_id FK
+    string channel
+    string external_id UK
+    timestamp linked_at
+  }
+  REQUEST_FILE {
+    uuid id PK
+    uuid request_id FK
+    string storage_path
+    string mime_type
+    timestamp keep_until
+  }
+  AGENT_CHECK {
+    uuid id PK
+    uuid request_id FK
+    uuid payment_check_id FK
+    string name
+    string result
+    text detail
+  }
+  STUDY_PLAN {
+    uuid id PK
+    uuid student_id FK
+    uuid advisor_id FK
+    jsonb terms
+    string state
+    timestamp updated_at
+    timestamp approved_at
+  }
+  ADVISEE_SIGNAL {
+    uuid id PK
+    uuid advisee_id FK
+    uuid advisor_id FK
+    string rule
+    text evidence
+    string state
+  }
+  TRACE_STEP {
+    uuid id PK
+    uuid message_id FK
+    string agent
+    string tool
+    string status
+    int duration_ms
+  }
+  MODEL_USAGE {
+    uuid id PK
+    string key_label
+    timestamp hour
+    int requests
+    int rate_limit_hits
+  }
+  EVAL_RUN {
+    uuid id PK
+    date ran_on
+    int questions
+    decimal score
+  }
+
+  FACULTY {
+    uuid id PK
+    string name
+    text summary
+  }
+  PROGRAM {
+    uuid id PK
+    uuid faculty_id FK
+    string name
+    string level
+    int years
+    int credits_total
+    decimal tuition_per_semester
+    decimal application_fee
+    date application_deadline
+    string intake_month
+  }
+  PROGRAM_COURSE {
+    uuid id PK
+    uuid program_id FK
+    uuid course_id FK
+    int year
+    int semester
+    string kind
+  }
+  STAFF_PROFILE {
+    uuid id PK
+    uuid user_id FK
+    uuid faculty_id FK
+    string title
+    string research_area
+    string office
   }

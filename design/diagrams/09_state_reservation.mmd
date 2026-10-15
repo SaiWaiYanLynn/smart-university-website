@@ -1,0 +1,16 @@
+stateDiagram-v2
+  [*] --> Open: A slot exists and is open
+  Open --> Confirmed: The student says yes and the transaction commits
+  Confirmed --> Cancelled: The student cancels before the cutoff
+  Cancelled --> Open: The slot opens again
+  Confirmed --> Completed: The booked time has passed
+  Completed --> [*]
+
+  note right of Open
+    One slot has at most one reservation.
+    This rule stops a double booking.
+  end note
+  note right of Confirmed
+    The assistant sends a reminder
+    24 hours before an appointment.
+  end note

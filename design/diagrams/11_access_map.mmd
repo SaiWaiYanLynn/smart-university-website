@@ -1,0 +1,31 @@
+---
+config:
+  layout: elk
+---
+flowchart LR
+  G["Guest<br/>no account"]
+  S["Student"]
+  I["Instructor"]
+  F["Staff"]
+  A["Administrator"]
+
+  PUB["Public site, no login<br/>programs, curriculum, courses, fees and scholarships,<br/>faculties, people, admissions, calendar, visit,<br/>rules and policies, news, research, campus life,<br/>catalogue search, apply, application status, contact"]
+  POR["Student portal<br/>dashboard, requests, bookings, timetable,<br/>grades, courses, fees, library account,<br/>notifications, profile"]
+  CHAT["Assistant in chat<br/>web, LINE, Telegram<br/>linked accounts only"]
+  CI["Instructor console<br/>advising brief, advisee signals, study plans"]
+  CS["Staff console<br/>queue, requests, bookings, payments, audit log"]
+  CA["Administrator console<br/>documents, accounts, system status,<br/>source conflicts, blocked calls"]
+
+  G --> PUB
+  S --> PUB
+  I --> PUB
+  F --> PUB
+  A --> PUB
+  S --> POR
+  S -- "own records, bookings, requests" --> CHAT
+  I -- "advisees, own courses, attendance" --> CHAT
+  F -- "queue, approvals, passed conversations" --> CHAT
+  A -- "system, documents, accounts" --> CHAT
+  I --> CI
+  F --> CS
+  A --> CA

@@ -99,3 +99,21 @@ The Library Room B2 booking BK-2026-0152 has a detail page. A staff-free cancel 
 3. Arthit S. has 3 absences and Chai W. has 2. Handbook section 6.5 asks for a warning at 3 absences.
 4. The midterm of ICT411 was on Monday 19 October. Wai Yan Lynn was absent and has the make-up request REQ-2026-0490.
 5. The semester began on 17 August 2026. Week 10 holds the midterms and week 11 ends on 30 October.
+
+## 13. Invented content on the guest pages, 15 October 2026
+
+The guest pages need course, fee and people data that did not exist before. Wai Yan Lynn asked for them. The team approves the content.
+
+1. The curriculum of BSc Information and Communication Technology has 42 courses in 8 semesters and 132 credits. Year 1 has 36 credits, Year 2 has 30, Year 3 has 36 and Year 4 has 30.
+2. Years 1 to 3 reuse the courses of Wai Yan Lynn in section 2 and section 3. Year 3 Semester 1 holds ICT402, ICT411, ICT430, ICT440 and ICT450. Year 3 Semester 2 holds ICT461 to ICT465 and ICT490.
+3. Year 4 is new. Semester 1 has ICT471 Software Architecture, ICT472 Data Engineering, ICT473 Network Security, ICT481 Cloud Native Development and ICT482 Computer Vision. Semester 2 has ICT495 Internship with 6 credits, ICT483 Applied Cryptography, ICT484 Big Data Systems and ICT485 Human-Centred AI.
+4. Every course shows one prerequisite or None. Prerequisites show on the page only. The system does not check them in Project I.
+5. A course is General, Core or Elective. The core courses of Semester 2/2026 are ICT461, ICT462 and ICT490. This matches the Courses page.
+6. Two course pages exist. ICT310 Database Systems is taught by Dr. Pimchai. ICT463 Data Mining is taught by Dr. Suda. Only these two rows of the curriculum open a page.
+7. Tuition per semester is 12,500 THB for ICT and Computer Science, 13,500 THB for Software Engineering and 11,500 THB for Business Analytics. Cybersecurity is 12,500 THB and Digital Media Design is 11,000 THB.
+8. The three master programs cost 18,000 THB, 20,000 THB and 18,000 THB. Credits are 132, 136, 128, 36 and 42 as shown on the Fees page.
+9. The merit scholarship covers half of the tuition. This comes from the search result of MSc Data Science. The text about two payments and deferral cites Handbook sections 9.2 and 9.4.
+10. The applicant Nattapong S. has the reference APP-2026-0214 and applied to BSc Computer Science. The reference APP-2026-0301 belongs to Ploy Srisai on the Apply pages.
+11. Four documents are public. Student Handbook 2026 has 120 pages. Tuition and Fees 2026 has 18 pages. Library Policy v2 has 12 pages. Scholarship Rules 2026 has 14 pages. Only the Handbook opens online.
+12. Section 5.4 of the Handbook says that a student withdraws until the end of week 11 and cannot withdraw with a hold on the account.
+13. Eight people appear on the People page. They are Dr. Kanda, Dr. Pimchai, Dr. Somsak, Dr. Nattawut, Dr. Wipa, Dr. Anucha, Dr. Suda and Dr. Chaiwat. The research areas are invented.

@@ -1,0 +1,55 @@
+---
+config:
+  layout: elk
+---
+flowchart LR
+  subgraph Outside["Outside the host"]
+    BR["Browsers<br/>public site, portal, consoles"]
+    LINEP["LINE platform"]
+    TGP["Telegram platform"]
+    ORP["OpenRouter<br/>hosted model API"]
+  end
+
+  NG["ngrok tunnel<br/>public URL for webhooks"]
+
+  subgraph Host["Docker Compose on one host"]
+    subgraph App["Application"]
+      WEB["web<br/>React build"]
+      API["api<br/>FastAPI and the agents"]
+      WRK["worker<br/>scheduler, retries,<br/>ingestion, nightly signals"]
+    end
+    subgraph Chat["Chatwoot"]
+      CWW["chatwoot-web"]
+      CWK["chatwoot-worker"]
+      CWR["chatwoot-redis"]
+      CWD[("chatwoot-db<br/>PostgreSQL")]
+    end
+    subgraph Ident["Identity"]
+      KC["keycloak"]
+      KCD[("keycloak-db<br/>PostgreSQL")]
+    end
+    PG[("postgres<br/>PostgreSQL 16 with pgvector")]
+    VOL[("private volume<br/>slip and certificate images")]
+  end
+
+  BR --> WEB
+  BR --> API
+  BR --> KC
+  WEB --> API
+  API -. verify token .-> KC
+  KC --> KCD
+  API --> PG
+  WRK --> PG
+  API --> VOL
+  WRK --> VOL
+  API <--> CWW
+  WRK --> CWW
+  CWW --> CWK
+  CWW --> CWR
+  CWW --> CWD
+  CWK --> CWR
+  CWK --> CWD
+  LINEP --> NG
+  TGP --> NG
+  NG --> CWW
+  API -. inference .-> ORP

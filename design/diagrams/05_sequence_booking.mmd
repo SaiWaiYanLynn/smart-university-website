@@ -1,0 +1,28 @@
+sequenceDiagram
+  autonumber
+  actor A as Student A
+  actor B as Student B
+  participant AG as Booking agent
+  participant TL as Tool layer
+  participant DB as PostgreSQL
+
+  A->>AG: Yes, book Library Room B4 at 14:00
+  B->>AG: Yes, book Library Room B4 at 14:00
+  AG->>TL: book_slot for A
+  AG->>TL: book_slot for B
+  TL->>DB: BEGIN for A
+  TL->>DB: BEGIN for B
+  TL->>DB: A: SELECT the slot row FOR UPDATE
+  DB-->>TL: A holds the lock
+  TL->>DB: B: SELECT the slot row FOR UPDATE
+  Note over DB,TL: B waits for the lock
+  TL->>DB: A: read the slot again, it is open
+  TL->>DB: A: INSERT the reservation, close the slot, write the audit record
+  TL->>DB: A: COMMIT
+  DB-->>TL: The lock is free
+  TL->>DB: B: read the slot again
+  DB-->>TL: The slot is closed
+  TL->>DB: B: ROLLBACK
+  TL-->>AG: A is booked, B lost the slot
+  AG-->>A: Booked. Library Room B4, 14:00 to 16:00
+  AG-->>B: This slot was taken a moment ago. Here are the closest alternatives

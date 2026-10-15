@@ -1,0 +1,17 @@
+stateDiagram-v2
+  [*] --> Waiting: The student sends a slip image
+  Waiting --> Confirmed: A staff member confirms the payment
+  Waiting --> Rejected: A staff member rejects the slip with a reason
+  Rejected --> Waiting: The student sends a new slip
+  Confirmed --> [*]
+
+  note right of Waiting
+    The assistant stores the image,
+    runs the fixed checks and creates
+    the payment check.
+    The assistant never decides.
+  end note
+  note right of Confirmed
+    The balance changes only here.
+    The student gets a receipt.
+  end note

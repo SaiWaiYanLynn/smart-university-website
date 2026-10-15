@@ -1,0 +1,40 @@
+sequenceDiagram
+  autonumber
+  actor U as Linked user on LINE
+  participant CW as Chatwoot
+  participant API as REST API layer
+  participant SUP as Supervisor
+  participant AG as Specialist agent
+  participant TL as Tool layer
+  participant DB as PostgreSQL
+  participant LLM as Model adapter
+
+  U->>CW: Message on LINE
+  CW->>API: Webhook with the message and the channel ID
+  API->>DB: Find the account for the channel ID
+  alt No linked account
+    API-->>CW: Reply: log in and link the account to use the assistant
+    CW-->>U: Reply on LINE
+  else A staff member handles the chat
+    API-->>CW: Keep the message for staff, no reply
+  else Linked account, the assistant handles the chat
+    API->>SUP: Message, account ID and role
+    SUP->>DB: Load memory and recent messages
+    SUP->>LLM: Classify the intent and split into tasks
+    LLM-->>SUP: One task: read the own balance
+    SUP->>AG: Hand the task to the Records agent
+    AG->>LLM: Choose a tool and build arguments
+    LLM-->>AG: get_balance with the arguments
+    AG->>TL: Call the tool
+    TL->>TL: Check the role and the rows, take the subject from the token
+    TL->>DB: Read the rows of the subject
+    TL->>DB: Write an audit record of the personal read
+    TL-->>AG: Rows
+    AG->>LLM: Write the answer from the rows
+    LLM-->>AG: Answer text
+    AG-->>SUP: Answer
+    SUP->>DB: Save new facts to memory
+    SUP-->>API: Reply
+    API->>CW: Reply by the Chatwoot API
+    CW-->>U: Reply on LINE
+  end

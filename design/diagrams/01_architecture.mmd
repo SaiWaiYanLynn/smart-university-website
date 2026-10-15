@@ -1,37 +1,46 @@
+---
+config:
+  layout: elk
+---
 flowchart TB
   subgraph Users["People"]
     STU["Student"]
-    STF["Staff, instructors<br/>and administrators"]
+    STF["Instructors, staff<br/>and administrators"]
   end
 
   subgraph Frontend["React application, Vite"]
-    PUB["Public site"]
+    PUB["Public site<br/>programs, courses, fees, rules, people,<br/>applications, status, contact, news"]
     POR["Student portal"]
-    CON["Staff console<br/>queue, payments,<br/>documents, accounts"]
+    CON["Role consoles<br/>staff, instructor, administrator"]
   end
 
   CWT["Chatwoot<br/>web widget, LINE, Telegram,<br/>human handoff, image attachments"]
+  CHN["LINE and Telegram APIs<br/>rich menu, buttons, cards<br/>(week 1 spike decides)"]
 
   subgraph API["FastAPI application"]
-    REST["REST API layer<br/>verifies the access token"]
-    SUP["Student supervisor<br/>LangGraph router"]
-    MEM["Memory<br/>checkpointer and store,<br/>keyed by student ID"]
-    SCH["Scheduler<br/>reminders and timers"]
+    REST["REST API layer<br/>verifies the token, reads the role"]
+    LNK["Account linking<br/>channel ID to account"]
+    SUP["Supervisor<br/>LangGraph router,<br/>splits a message into tasks"]
+    MEM["Memory<br/>checkpointer and store,<br/>keyed by account ID"]
+    SCH["Scheduler and workers<br/>reminders, retries, watches,<br/>nightly signals"]
     subgraph AG["Specialist agents"]
-      K["Knowledge"]
-      R["Records<br/>catalogue search and loan list"]
-      B["Booking"]
-      Q["Request<br/>payment checks and loan renewals"]
+      K["Knowledge<br/>retrieval and citations"]
+      R["Records<br/>read only: own record, loans,<br/>catalogue, attendance, queue"]
+      B["Booking<br/>rooms and appointments"]
+      Q["Request<br/>requests, renewals, payment<br/>checks, approvals, bulk jobs"]
     end
+    ROLE["Role and row check<br/>tool set by role,<br/>rows by scope"]
     VAL["Tool argument validator"]
-    TOOL["Tool layer<br/>subject comes from the token"]
-    AUD["Audit writer"]
+    TOOL["Tool layer<br/>subject comes from the token,<br/>grade and plan maths in code"]
+    SLP["Slip reader<br/>fixed tool, no model"]
+    AUD["Audit writer<br/>every write, personal read<br/>and blocked call"]
     ING["Ingestion worker<br/>reads uploaded documents"]
-    LLM["Model adapter<br/>key pool, falls back<br/>on rate limit"]
+    EMB["Embedding model<br/>multilingual"]
+    LLM["Model adapter<br/>key pool, retry and queue<br/>on rate limit"]
   end
 
   PG[("PostgreSQL<br/>with pgvector")]
-  FS[("File storage<br/>payment slip images,<br/>private volume")]
+  FS[("File storage<br/>slip and certificate images,<br/>private volume")]
   KC["Keycloak<br/>OIDC identity"]
   OR["OpenRouter<br/>hosted model API<br/>free tier, one key per member"]
 
@@ -40,36 +49,42 @@ flowchart TB
   STU --> CWT
   STF --> CON
   STF --> CWT
+  CWT <--> CHN
 
+  PUB -- "no login" --> REST
   POR --> REST
   CON --> REST
   CWT -- webhook --> REST
+  REST -- "reply by Chatwoot API" --> CWT
+  REST -. "buttons and cards" .-> CHN
 
   REST --> SUP
   REST -. verify token .-> KC
+  REST --> LNK
+  LNK --> PG
   REST --> ING
 
   SUP --> MEM
   MEM --> PG
-  SCH --> B
+  SCH --> SUP
+  SCH -- "push message" --> CWT
 
-  SUP --> K
-  SUP --> R
-  SUP --> B
-  SUP --> Q
-
-  K --> VAL
-  R --> VAL
-  B --> VAL
-  Q --> VAL
-
+  SUP --> AG
+  AG --> ROLE
+  ROLE --> VAL
   VAL --> TOOL
+  ROLE -- "blocked call" --> AUD
+
   TOOL --> PG
   TOOL --> FS
+  TOOL --> SLP
+  SLP --> FS
   TOOL --> AUD
   AUD --> PG
+  ING --> EMB
+  K --> EMB
   ING --> PG
 
   SUP --> LLM
-  K --> LLM
+  AG --> LLM
   LLM -. inference .-> OR

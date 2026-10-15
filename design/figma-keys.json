@@ -267,7 +267,9 @@
     "layout-dashboard": "e550979289e414a63db1f195ab2bb8711ad88a14",
     "messages-square": "b28900a966e2830efc84ec51e47cd721700a5fff",
     "scroll-text": "c65896e90e9e946fdf05117beb4179241b9b3cb8",
-    "history": "42e93792b74aa501840f159e6a0175922b74e1d8"
+    "history": "42e93792b74aa501840f159e6a0175922b74e1d8",
+    "sun": "007dc653b3e18efdd8d5fefaa7b00648292acb18",
+    "moon": "1e346632a445be3ce4848f9d3c62c999252f98d1"
   },
   "v110Components": {
     "footer": [
@@ -362,7 +364,9 @@
     "info": "10:173",
     "arrow-left": "10:285",
     "arrow-right": "10:291",
-    "qr-code": "10:319"
+    "qr-code": "10:319",
+    "sun": "81:135",
+    "moon": "81:151"
   },
   "prototypeNodesV11": {
     "publicSite": {
@@ -756,5 +760,26 @@
     "194:29420",
     "194:29515",
     "194:29610"
-  ]
+  ],
+  "prototypeDarkTwins": {
+    "note": "Dark twin of every light frame that has a theme toggle (213). Sections are named Dark: <light section> and sit at x 28280 on the Prototype page. A twin is named Dark: <light frame name>. The toggle is the node icon-theme in Top Nav and Side Nav.",
+    "sectionOffsetX": 28280,
+    "darkSections": 21,
+    "themeToggleLibrary": {
+      "sideNavToggleFrame": "81:3766"
+    }
+  },
+  "prototypeGuestPages": {
+    "note": "Light frames in section Guest pages (y 76400). Dark twins sit in section Dark: Guest pages at x 28280.",
+    "curriculum": "221:54106",
+    "courseICT310": "222:54600",
+    "courseICT463": "222:54833",
+    "courseICT463SignedIn": "222:54999",
+    "fees": "224:54987",
+    "applicationStatus": "224:55414",
+    "applicationStatusResult": "224:55539",
+    "rules": "225:55308",
+    "people": "225:55497",
+    "handbook": "226:55534"
+  }
 }

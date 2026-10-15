@@ -1,45 +1,61 @@
 flowchart TD
   A["Message arrives on web, LINE or Telegram"] --> B["Detect the language"]
-  B --> C["Resolve the subject and the role from the session token"]
+  B --> C["Resolve the account and the role<br/>from the token or the linked channel ID"]
   C --> D{"Is the sender linked to an account?"}
-  D -- No --> E["Answer public questions only"]
+  D -- No --> E["Reply: log in and link the account<br/>to use the assistant"]
   E --> Z["Send on the originating channel"]
-  D -- Yes --> M["Load memory and recent messages by account ID"]
-  TM["Timer: an appointment starts in 24 hours"] --> B1
-  M --> RL["The role selects the tool set: student, instructor, staff or administrator"]
+  D -- Yes --> HO{"Is a staff member handling this conversation?"}
+  HO -- Yes --> HS["Stay silent and keep the message for staff"]
+  HO -- No --> M["Load memory and recent messages by account ID"]
+
+  TM1["Timer: an appointment starts in 24 hours"] --> B1
+  TM2["A watched request changes state"] --> NT0["Message the student with the new state"]
+  NT0 --> Z
+  TM3["Retry timer: a saved question is due"] --> T
+
+  M --> RL["The role selects the tool set:<br/>student, instructor, staff or administrator"]
   RL --> IM{"Does the message carry an image?"}
   IM -- Yes --> SF["Store the image privately"]
-  SF --> PC["Request agent creates a payment check, state waiting"]
+  SF --> IP{"What is the image for?<br/>The state of the chat decides"}
+  IP -- "Payment slip" --> SR["Fixed reader and duplicate check<br/>the model never sees the image"]
+  SR --> PC["Request agent creates a payment check,<br/>state waiting, with the check results"]
   PC --> NS["Notify staff in the Payments tab and in the chat"]
   NS --> RS["Reply: sent to Student Services for a check"]
   RS --> Z
   NS -.-> SD["Staff confirm or reject the slip"]
   SD -.-> NT["Notify the student"]
   NT -.-> Z
-  IM -- No --> F["Supervisor classifies the intent"]
-  F --> G{"Which specialist agent?"}
+  IP -- "File for an open request" --> AF["Attach the file to the request<br/>for staff to read"]
+  AF --> RS2["Reply: the file is with Student Services"]
+  RS2 --> Z
+  IM -- No --> F["Supervisor classifies the intent<br/>and splits the message into tasks"]
+  F -- "Every model key is rate limited" --> BZ["Say the assistant is busy<br/>and offer a retry or a person"]
+  BZ --> Z
+  F --> G{"Which specialist agent for each task?"}
 
-  G -- "Low confidence" --> H["Hand the conversation to staff"]
+  G -- "Low confidence" --> H["Hand the conversation to staff<br/>with a summary and a draft reply"]
   G -- "Policy question" --> K1["Knowledge agent retrieves passages"]
-  G -- "Own record, loans or catalogue search" --> R1["Records agent"]
+  G -- "Own record, loans, catalogue,<br/>attendance or queue" --> R1["Records agent"]
   G -- "Booking" --> B1["Booking agent"]
-  G -- "Service request or loan renewal" --> Q1["Request agent"]
+  G -- "Service request, renewal,<br/>approval or bulk job" --> Q1["Request agent"]
 
   K1 --> K2{"Any passage above the similarity threshold?"}
   K2 -- No --> UQ["Record the question as unanswered"]
   UQ --> H
-  K2 -- Yes --> Y1["Attach the source document and section"]
-  Y1 --> Y["Compose the reply"]
+  K2 -- Yes --> KC{"Do the cited passages disagree?"}
+  KC -- Yes --> SC["Record a source conflict<br/>for the administrator"]
+  SC --> Y1
+  KC -- No --> Y1["Attach the source document and section"]
+  Y1 --> Y["Compose one reply from the results of all tasks"]
 
-  R1 --> S{"Does the message ask for rows outside the role?"}
-  S -- Yes --> S2["Refuse, and record the attempt"]
-  S2 --> Z
-  S -- No --> T["Agent selects a tool and builds arguments"]
-
+  R1 --> T["Agent selects a tool and builds arguments"]
   B1 --> T
   Q1 --> T
 
-  T --> MD{"Is a needed detail missing?"}
+  T --> RC{"Is the tool allowed for the role,<br/>and are the rows in scope?"}
+  RC -- No --> S2["Refuse, and record a blocked call<br/>in the audit log"]
+  S2 --> Z
+  RC -- Yes --> MD{"Is a needed detail missing?"}
   MD -- Yes --> CQ["Ask one question and change nothing"]
   CQ --> Z
   MD -- No --> V{"Are the arguments valid?"}
@@ -48,12 +64,20 @@ flowchart TD
   V -- "No, second failure" --> H
   V -- Yes --> W{"Does the tool write data?"}
 
-  W -- No --> RD["Read, scoped to the subject in the token"]
-  RD --> Y
-  W -- Yes --> CF["Ask the sender to confirm"]
-  CF --> EX["Execute inside one transaction"]
+  W -- No --> RD["Read, scoped to the subject in the token,<br/>and audit a personal read"]
+  RD --> TF{"Does the tool answer?"}
+  TF -- No --> PQ["Save the question and retry every 5 minutes"]
+  PQ --> PM["Tell the sender that the answer follows"]
+  PM --> Z
+  TF -- Yes --> Y
+
+  W -- Yes --> CF{"Does the sender say yes?"}
+  CF -- No --> NC["Change nothing"]
+  NC --> Z
+  CF -- Yes --> EX["Execute inside one transaction"]
   EX --> AUD["Write an audit record"]
-  AUD --> Y
+  AUD --> NO["Tell the other person,<br/>when the action concerns one"]
+  NO --> Y
 
   Y --> SV["Save new facts to memory"]
   SV --> Z
