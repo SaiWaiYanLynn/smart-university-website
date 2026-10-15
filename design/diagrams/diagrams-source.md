@@ -34,7 +34,7 @@ flowchart TB
   end
 
   CWT["Chatwoot<br/>web widget, LINE, Telegram,<br/>human handoff, image attachments<br/>admin screen for the IT team only"]
-  CHN["LINE and Telegram APIs<br/>direct route for cards<br/>(route not decided)"]
+  CHN["LINE and Telegram APIs<br/>rich menu setup only,<br/>no cards"]
 
   subgraph API["FastAPI application"]
     REST["REST API layer<br/>verifies the token, reads the role"]
@@ -76,7 +76,7 @@ flowchart TB
   CON -- "takeover and reply" --> REST
   CWT -- webhook --> REST
   REST <-- "read, reply, take over and release<br/>by the Chatwoot API" --> CWT
-  REST -. "buttons and cards" .-> CHN
+  REST -. "rich menu, set once" .-> CHN
 
   REST --> SUP
   REST -. verify token .-> KC
@@ -121,7 +121,7 @@ Five points are new since the first version.
 4. The public site calls the REST API without a login. This serves applications, contact messages and news.
 5. The supervisor is one LangChain agent that calls each sub-agent as a tool. Every role uses the same supervisor.
 
-The model adapter holds one OpenRouter free-tier key for each member and moves to the next key at a rate limit. A paid provider needs new settings in that one module. The LINE and Telegram APIs show as a dotted path. The route for cards is not decided. Chatwoot sends buttons to LINE and Telegram but it does not send cards.
+The model adapter holds one OpenRouter free-tier key for each member and moves to the next key at a rate limit. A paid provider needs new settings in that one module. The LINE and Telegram APIs show as a dotted path. The assistant sends text, buttons and photos through Chatwoot. Chatwoot does not send cards to LINE and Telegram. The dotted path covers the rich menu, which the University sets once.
 
 ---
 

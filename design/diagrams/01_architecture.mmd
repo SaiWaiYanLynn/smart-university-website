@@ -16,7 +16,7 @@ flowchart TB
   end
 
   CWT["Chatwoot<br/>web widget, LINE, Telegram,<br/>human handoff, image attachments<br/>admin screen for the IT team only"]
-  CHN["LINE and Telegram APIs<br/>direct route for cards<br/>(route not decided)"]
+  CHN["LINE and Telegram APIs<br/>rich menu setup only,<br/>no cards"]
 
   subgraph API["FastAPI application"]
     REST["REST API layer<br/>verifies the token, reads the role"]
@@ -58,7 +58,7 @@ flowchart TB
   CON -- "takeover and reply" --> REST
   CWT -- webhook --> REST
   REST <-- "read, reply, take over and release<br/>by the Chatwoot API" --> CWT
-  REST -. "buttons and cards" .-> CHN
+  REST -. "rich menu, set once" .-> CHN
 
   REST --> SUP
   REST -. verify token .-> KC
