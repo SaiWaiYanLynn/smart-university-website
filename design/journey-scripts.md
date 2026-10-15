@@ -31,8 +31,8 @@ A: For a visa renewal you need three documents from Thales University:
 **1.** Enrolment Certificate, issued by the Registrar
 **2.** Official Transcript for the current academic year
 **3.** A letter confirming your tuition payment status
-Do you want me to request all three together?
-`[Yes, request all three]` `[Not now]`.
+Do you want me to start with the official transcript?
+`[Yes, start with the transcript]` `[Not now]`.
 
 → **Citation card** attached under the bubble:
 Student Handbook 2026 · Section 7.3 Immigration Documents · `View source`
@@ -295,13 +295,13 @@ Other state frames: login with a wrong password, search results with the assista
 
 **A2, administrator.** A2.1 lists accounts and says that there is no self-registration. A2.2 shows system status with sample values for model keys, rate limit hits and the evaluation score.
 
-> Narration point: the project has no staff-side agent. These consoles show how the student-side agents save staff time.
+> Narration point: these consoles show how the agents save staff time. Staff can also ask the assistant in chat, see J21 to J23.
 
 ## J11, one message and three agents (web, Wednesday 14 October, 10:05)
 
 **F11.1** S: I want to plan my graduation. How many credits do I still need, and can I see Dr. Kanda about it? The typing indicator shows. A trace panel says that the supervisor split the message into three tasks.
 
-**F11.2** A: You have 96 of 132 credits, so you need 36 more. The rule is 132 credits and a grade point average of 2.00 or higher. Dr. Kanda is your advisor. These times are free: → **citation card** Student Handbook 2026, section 6.2 → two **slot cards** for Dr. Kanda. The trace lists the Records, Knowledge and Booking steps.
+**F11.2** A: You have 66 of 132 credits, so you need 66 more. The rule is 132 credits and a grade point average of 2.00 or higher. Dr. Kanda is your advisor. These times are free: → **citation card** Student Handbook 2026, section 6.2 → two **slot cards** for Dr. Kanda. The trace lists the Records, Knowledge and Booking steps.
 
 **F11.3** S selects Wednesday 21 October, 10:00. A: Booked. I will send Dr. Kanda a short brief from this chat before the meeting. → **summary card**: booking ADV-2026-0147. My bookings already lists this appointment.
 
@@ -322,3 +322,99 @@ Other state frames: login with a wrong password, search results with the assista
 **F7.6** S: Yes, renew it. A: Done. Clean Architecture is now due on 5 November 2026. You have 1 renewal left. A timed link then opens the Library account page with the new due date.
 
 > Narration point: the Records agent only reads the loan. The Request agent writes the new due date after the student says yes, and the Audit step logs it.
+
+## J13, ask everything on LINE (Thursday 15 October, 08:04)
+
+**F13.1** A: Hello Wai Yan Lynn. Ask me about your balance, timetable, grades, loans or requests. You can also tap a button below. → **rich menu** with six buttons: Balance, Timetable, Grades, Loans, Requests and Bookings.
+
+**F13.2** S: How much do I still owe? A: You owe 12,500 THB for tuition of Semester 1/2026, due 27 November 2026. Your slip of 14 October waits for a staff check. Then I message you.
+
+**F13.3** S: What do I have today? A: Today, Thursday 15 October: 09:00 to 12:00, ICT430 Mobile Applications, Lab 2. 13:00 to 15:00, Library Room B2, access code B2-4821. Nothing else is planned.
+
+**F13.4** S: What was my grade in Database Systems? A: ICT310 Database Systems, Semester 2/2025: B. Your grade point average is 3.43. You have 66 of 132 credits.
+
+**F13.5** S: Which books are due? And where is my transcript? A: Clean Architecture is due on 22 October. Computer Networks is due on 29 October. Your transcript request REQ-2026-0481 is under review. Then I message you.
+
+**F13.6** S: Please pay my tuition for me. A: I cannot move money. Send me a photo of your bank slip. A staff member checks it and you get a message.
+
+> Narration point: the student never opens the website. Every answer comes from the Records agent, which only reads. The linked student ID decides whose records are read, and the message text never does.
+
+## J14, ask everything on Telegram (Thursday 15 October, 12:18 to 12:24)
+
+**F14.1** A: Hello Wai Yan Lynn. Type / to see what I can do, or ask in your own words. → command list: /balance, /timetable, /grades, /loans and /status.
+
+**F14.2** S: /timetable tomorrow. A: Tomorrow, Friday 16 October: 09:00 to 11:00, ICT450 Technical English, Room 3-204. No booking is planned. `[Show my grades]` `[Back to the commands]`
+
+**F14.3** S: /grades. A: Pick a semester. For an older one, type /grades 2/2024. `[Semester 2/2025]`
+
+**F14.4** S: Semester 2/2025. A: Semester 2/2025, average 3.50, then the five grades of the semester.
+
+**F14.5** S: /status. A: REQ-2026-0481, official transcript, 2 copies. State: under review. Submitted on 14 October 2026 at 14:31. Then I message you after each change.
+
+**F14.6** S: /balance. A: Balance of Semester 1/2026: 12,500 THB, due on 27 November 2026. Your slip of 14 October waits for a staff check.
+
+**F14.7** S: /loans. A: Clean Architecture, due on 22 October 2026. Computer Networks, due on 29 October 2026. You can renew each book twice.
+
+> Narration point: a command is a shortcut. The supervisor reads it like any other message, so the same agents and rules serve every channel.
+
+## J15 to J20, things that only an agent can do
+
+These six scenarios use plain text only. A student can run them through Chatwoot with no button and no card. A fixed question and answer bot cannot handle any of them, because each one needs a record, a rule, a calculation or a later action.
+
+**J15, what-if grade planning (Telegram, Thursday 15 October, 12:31).** S: Can I still reach 3.50 this semester? A: Your grade point average is 3.43 over 66 credits. This semester has 15 credits. You need an average of 3.80 in them, for example three A and two B+. Then you finish with 81 credits and 3.50. S: What if I get B+ in every course? A: Then your average becomes 3.44. With A in every course it becomes 3.54.
+
+**J16, graduation plan (LINE, Thursday 15 October, 12:40).** S: Can I finish in Semester 2/2027? A: Yes, if you pass every course and keep an average of at least 2.00. A plan follows with 21, 15 and 15 credits in the next three semesters. The load limit is Handbook section 5.4. S: Send this plan to Dr. Kanda. A: Done. Dr. Kanda sees the plan in the brief for the appointment on Wednesday 21 October at 10:00.
+
+**J17, standing instruction (LINE, Thursday 15 October, 09:50, then Friday 16 October, 09:12).** S: Tell me when my transcript is ready. A: Done. I watch REQ-2026-0481. On Friday the state changes to Ready and the assistant writes first with the collection details.
+
+**J18, booking with a condition (Telegram, Thursday 15 October, 12:50).** S: I need a room for 6 on Friday after my class. A: The assistant reads the class that ends at 11:00 and offers two rooms. S: 1. A: Booked, reference BK-2026-0153.
+
+**J19, a tool fails and recovers (LINE, Friday 16 October, 08:30 and 08:41).** S: What were my grades last semester? A: The grade service does not answer now. The assistant saves the question and tries again every 5 minutes. At 08:41 it sends the answer without a new question.
+
+**J20, make-up exam request (LINE, Tuesday 20 and Wednesday 21 October).** S: I was sick on Monday and missed the ICT411 midterm. A: The assistant cites Handbook section 8.2, counts 3 working days to Thursday 22 October and offers a request. The student sends a photo of the certificate. The assistant opens REQ-2026-0490 and passes the photo to staff. On Wednesday the Registrar approves and the assistant writes the exam date.
+
+> Narration point: each scenario needs a tool, a state or a rule that a prebuilt answer list does not have. The Agent Trace panel names the agents and the tools in every frame.
+
+## Role scenarios 2, agent features for staff, instructor and administrator
+
+Each console shows work that the agents and the background workers did, and a person decides every action. Staff, instructors and administrators can also ask for the same work in chat, see J21 to J23.
+
+**R3, a handoff with a summary and a draft (staff, 14 October).** The escalated conversation of Wai Yan Lynn opens with a summary: what the student asked, what the assistant searched, what the records say and why a person is needed. A draft reply from Scholarship Rules waits in the composer. One button sends it and opens SC2.
+
+**R4, a slip with a flagged check (staff, 15 October).** The assistant ran four checks on the slip of Napat R. The last one found that the reference was used before on another slip. The banner says that a person decides. The assistant never confirms a payment.
+
+**R5, a queue sorted by the assistant (staff, 20 October).** The queue shows a priority and a reason for each row: a deadline, a student who waits, a fee hold, a routine item and a request that nobody collected.
+
+**R6, advisees who need attention (instructor, 20 October).** The assistant read the records of the four advisees and flags three. The detail page for Napat R. shows the evidence and one step: ask the assistant to invite the student. The assistant then writes to the student on LINE and offers two free times.
+
+**R7, a study plan to approve (instructor, 21 October).** The plan from J16 arrives with checks: the load per semester, the total of 132 credits, the average and the open courses. The assistant updated the plan on 20 October after the withdrawal of ICT440. One click approves it and the student gets a message.
+
+**A3, sources that disagree (administrator, 20 October).** The assistant compared the passages it cited. It found that Library Policy v2 says 2 renewals and Student Handbook 2026 says 3. The page shows both passages. The administrator picks the right one and Student Services gets a task.
+
+**A4, blocked attempts (administrator, 20 October).** A list shows every tool call that the checker stopped. A replay of one call shows the steps: the Records agent proposed a call for another student, and the checker stopped it before it ran.
+
+> Narration point: the consoles stay simple, because the student side agents prepare the work. A person still decides.
+
+## J21 to J23, the assistant for instructors, staff and administrators
+
+Wai Yan Lynn decided on 15 October 2026 that staff and teachers use the assistant in chat too. These frames use plain text only. The same bot serves them. The linked account tells the role, and the role sets the tools and the rows that a tool can read.
+
+**J21, an instructor (LINE, Tuesday 20 and Wednesday 21 October).** S: What classes do I have tomorrow? A: Tomorrow, Wednesday 21 October, there are the meeting at 10:00 and ICT411 Cloud Computing at 13:00 in Room 5-102. S: Prepare me for the meeting with Wai Yan Lynn. A: A short brief with the average, the credits, the approved withdrawal and the study plan. S: Move my meeting with Mali on Thursday to Friday afternoon. A: The assistant offers 15:00 or 16:00 and asks which. S: 15:00. A: Moved, and Mali S. is told on LINE. On Wednesday the instructor asks who needs a make-up exam in ICT411.
+
+**J22, a staff member (Telegram, Tuesday 20 October, 09:11 to 09:30).** S: How many items wait for me and which is the oldest? A: 5 items. The oldest is REQ-2026-0487, blocked by a fee hold. S: Approve REQ-2026-0489. A: The assistant asks for a yes, then approves and tells the student. S: Remind everyone whose request is ready for more than 3 days. A: One student, a draft message and a question. S: Show me everything Wai Yan Lynn asked the assistant this week. A: The assistant shows only conversations that were passed to Student Services.
+
+**J23, an administrator (LINE, Tuesday 20 October, 10:15 to 10:46).** S: Why were answers slow on Monday evening? A: 14 rate limit events on key 2, 9 delayed answers and no failure. S: Add this file, Examination Rules 2026. A: 96 sections indexed. One of the 4 open questions now has a cited answer. S: Create accounts for the 12 students in the file. A: 11 are valid and row 7 repeats an ID. After a yes the assistant creates 11 accounts.
+
+> Narration point: the role comes from the account. The tools and the rows follow the role, and every write waits for a yes.
+
+## J24, the instructor asks about attendance (LINE, Tuesday 20 and Wednesday 21 October)
+
+**F24.1** S: Who missed ICT411 last Wednesday? A: Wednesday 14 October: 42 enrolled, 38 present, 1 late and 3 absent. The absent students are Kittipong A., Arthit S. and Chai W.
+
+**F24.2** S: Is anyone close to the absence limit? A: Arthit S. has 3 absences in 9 classes. Handbook section 6.5 asks for a warning at 3 absences. Chai W. has 2. The assistant asks for a yes before it sends Arthit S. a message and tells Student Services.
+
+**F24.3** S: Yes. A: Sent to Arthit S. on LINE. Student Services can see the warning, and the audit log holds it.
+
+**F24.4** S (Wednesday 21 October): Did Wai Yan Lynn sit the midterm? A: No. She was absent on Monday 19 October. Her make-up exam, REQ-2026-0490, is approved for Monday 26 October at 13:00 in Room 5-102.
+
+> Narration point: the instructor reads attendance of the own course only. A tool counts the absences, and the Handbook gives the limit.

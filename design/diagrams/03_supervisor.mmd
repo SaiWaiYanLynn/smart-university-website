@@ -1,12 +1,13 @@
 flowchart TD
   A["Message arrives on web, LINE or Telegram"] --> B["Detect the language"]
-  B --> C["Resolve the subject from the session token"]
-  C --> D{"Is the sender linked to a student account?"}
+  B --> C["Resolve the subject and the role from the session token"]
+  C --> D{"Is the sender linked to an account?"}
   D -- No --> E["Answer public questions only"]
   E --> Z["Send on the originating channel"]
-  D -- Yes --> M["Load memory and recent messages by student ID"]
+  D -- Yes --> M["Load memory and recent messages by account ID"]
   TM["Timer: an appointment starts in 24 hours"] --> B1
-  M --> IM{"Does the message carry an image?"}
+  M --> RL["The role selects the tool set: student, instructor, staff or administrator"]
+  RL --> IM{"Does the message carry an image?"}
   IM -- Yes --> SF["Store the image privately"]
   SF --> PC["Request agent creates a payment check, state waiting"]
   PC --> NS["Notify staff in the Payments tab and in the chat"]
@@ -30,7 +31,7 @@ flowchart TD
   K2 -- Yes --> Y1["Attach the source document and section"]
   Y1 --> Y["Compose the reply"]
 
-  R1 --> S{"Does the message name a different student?"}
+  R1 --> S{"Does the message ask for rows outside the role?"}
   S -- Yes --> S2["Refuse, and record the attempt"]
   S2 --> Z
   S -- No --> T["Agent selects a tool and builds arguments"]
@@ -49,7 +50,7 @@ flowchart TD
 
   W -- No --> RD["Read, scoped to the subject in the token"]
   RD --> Y
-  W -- Yes --> CF["Ask the student to confirm"]
+  W -- Yes --> CF["Ask the sender to confirm"]
   CF --> EX["Execute inside one transaction"]
   EX --> AUD["Write an audit record"]
   AUD --> Y

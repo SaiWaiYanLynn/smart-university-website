@@ -21,6 +21,19 @@ erDiagram
   CONVERSATION ||--o{ MEMORY_FACT : source_of
   RESERVATION ||--o| ADVISOR_BRIEF : prepared_for
   UNANSWERED_QUESTION }o--o| DOCUMENT : closed_by
+  COURSE ||--o{ ENROLLMENT : has
+  USER ||--o{ ENROLLMENT : takes
+  COURSE ||--o{ CLASS_SESSION : meets_as
+  CLASS_SESSION ||--o{ ATTENDANCE : records
+  USER ||--o{ ATTENDANCE : attends
+  USER ||--o{ ADVISOR_LINK : advises
+  USER ||--o{ ADVISOR_LINK : advised_by
+  USER ||--o{ NOTIFICATION : receives
+  MESSAGE ||--o| FEEDBACK : rated_by
+  USER ||--o{ WATCH : asks_for
+  REQUEST ||--o{ WATCH : watched_by
+  USER ||--o{ PENDING_QUESTION : waits_for
+  DOCUMENT ||--o{ SOURCE_CONFLICT : disagrees_in
 
   USER {
     uuid id PK
@@ -111,6 +124,7 @@ erDiagram
     uuid actor_id FK
     string action
     string target
+    string outcome
     timestamp occurred_at
   }
   BOOK {
@@ -177,4 +191,101 @@ erDiagram
     int times_asked
     string state
     timestamp last_asked_at
+  }
+
+  COURSE {
+    uuid id PK
+    string code UK
+    string title
+    int credits
+    uuid instructor_id FK
+    string room
+    string schedule
+  }
+  ENROLLMENT {
+    uuid id PK
+    uuid course_id FK
+    uuid user_id FK
+    string term
+    string grade
+    boolean counts_in_average
+  }
+  CLASS_SESSION {
+    uuid id PK
+    uuid course_id FK
+    timestamp starts_at
+    string kind
+  }
+  ATTENDANCE {
+    uuid id PK
+    uuid session_id FK
+    uuid user_id FK
+    string status
+    int minutes_late
+  }
+  ADVISOR_LINK {
+    uuid id PK
+    uuid advisor_id FK
+    uuid advisee_id FK
+  }
+  NOTIFICATION {
+    uuid id PK
+    uuid user_id FK
+    string title
+    text body
+    boolean is_read
+    timestamp created_at
+  }
+  FEEDBACK {
+    uuid id PK
+    uuid message_id FK
+    boolean helpful
+    timestamp created_at
+  }
+  WATCH {
+    uuid id PK
+    uuid user_id FK
+    uuid request_id FK
+    string channel
+    boolean active
+  }
+  PENDING_QUESTION {
+    uuid id PK
+    uuid user_id FK
+    uuid conversation_id FK
+    text question
+    int retries
+    timestamp next_try_at
+  }
+  SOURCE_CONFLICT {
+    uuid id PK
+    uuid document_a FK
+    uuid document_b FK
+    text passage_a
+    text passage_b
+    string state
+  }
+  APPLICATION {
+    uuid id PK
+    string reference UK
+    string applicant_name
+    string email
+    string programme
+    string intake
+    string state
+  }
+  CONTACT_MESSAGE {
+    uuid id PK
+    string name
+    string email
+    string topic
+    text body
+    timestamp created_at
+  }
+  CONTENT_ITEM {
+    uuid id PK
+    string kind
+    string title
+    text body
+    date published_on
   }

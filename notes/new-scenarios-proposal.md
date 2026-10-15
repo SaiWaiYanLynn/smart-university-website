@@ -2,7 +2,7 @@
 
 Date: 13 October 2026. Wai Yan Lynn approved the whole list on 14 October 2026. J10 moved to 19 and 20 October so it does not clash with the portal frames of 15 October. All scenarios are built.
 
-The project scope says a staff-side conversational agent is out of scope. So each role scenario shows a console that the student-side agents feed. The benefit is time saved for the person, not a second chatbot.
+Wai Yan Lynn decided on 15 October 2026 that staff, instructors and administrators also use the assistant in chat. Each role scenario shows a console that the agents feed. The same work is also available in chat, see J21 to J23. The benefit is time saved for the person.
 
 ## J10. The agent remembers across days (student)
 

@@ -30,6 +30,15 @@ Features that the prototype shows and that the documents must also name
 4. FR-D1. An administrator uploads a document and sees the ingestion result.
 5. FR-D2. An administrator reads the questions that the assistant failed to answer with a citation.
 6. FR-A1. A page that shows the model keys, the rate limit hits and the evaluation score.
+7. FR-C1. The student asks for the balance, the timetable, grades, loans and the request state in a chat on LINE or Telegram. The Records agent only reads, and every read leaves an audit record.
+
+Chat for staff, instructors and administrators (decided on 15 October 2026)
+
+1. FR-S1. An instructor asks for classes, appointments, an advisee brief and a study plan. An instructor moves an appointment after a yes.
+2. FR-S2. A staff member asks about the queue, approves a request after a yes and sends a bulk reminder after a yes.
+3. FR-S3. An administrator asks about rate limit events, adds a document and creates accounts from a file after a yes.
+5. FR-S5. An instructor asks who was absent in a course session, who is near the absence limit and whether a student sat an exam. A warning to a student needs a yes. The attendance rows are seed data in Project I. The marking of attendance is out of scope.
+4. FR-S4. The role of the linked account sets the tools and the rows. An instructor reads the records of advisees only. Staff read passed conversations only. Every write leaves an audit record.
 
 ## 2. Privacy rule for slips
 
@@ -47,6 +56,9 @@ A slip shows a name, a bank and an account number. The proposal states these rul
 3. The 100 routing messages include 10 catalogue questions and 5 messages with an image.
 4. Memory: 3 cases. The same topic on the next day, the same topic on another channel and a request to forget a topic.
 5. Reminder: 2 cases. A reminder at 24 hours and no reminder for a cancelled booking.
+7. Role chat: 20 cases in the 50-question set and the 100 routing messages. They cover each role, a write that waits for a yes and a request outside the role.
+6. Records on channels: 10 cases in the 50-question set. They cover the balance, a day of the timetable, a grade and the grade point average.
+   They also cover a loan list, a request state, a question about another student and a question in Thai.
 
 ## 4. Risks to add
 
