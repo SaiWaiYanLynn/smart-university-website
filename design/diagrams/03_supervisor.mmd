@@ -13,7 +13,7 @@ flowchart TD
   NT0 --> Z
   TM3["Retry timer: a saved question is due"] --> T
 
-  M --> RL["The role selects the tool set:<br/>student, instructor, staff or administrator"]
+  M --> RL["Role middleware selects the tool set:<br/>student, instructor, staff or administrator"]
   RL --> IM{"Does the message carry an image?"}
   IM -- Yes --> SF["Store the image privately"]
   SF --> IP{"What is the image for?<br/>The state of the chat decides"}
@@ -28,10 +28,10 @@ flowchart TD
   IP -- "File for an open request" --> AF["Attach the file to the request<br/>for staff to read"]
   AF --> RS2["Reply: the file is with Student Services"]
   RS2 --> Z
-  IM -- No --> F["Supervisor classifies the intent<br/>and splits the message into tasks"]
+  IM -- No --> F["Supervisor agent classifies the intent,<br/>splits the message into tasks<br/>and calls sub-agents as tools"]
   F -- "Every model key is rate limited" --> BZ["Say the assistant is busy<br/>and offer a retry or a person"]
   BZ --> Z
-  F --> G{"Which specialist agent for each task?"}
+  F --> G{"Which sub-agent for each task?"}
 
   G -- "Low confidence" --> H["Hand the conversation to staff<br/>with a summary and a draft reply"]
   G -- "Policy question" --> K1["Knowledge agent retrieves passages"]

@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1660" height="1318" viewBox="0 0 1660 1318" font-family="Inter, Helvetica, Arial, sans-serif">
-<rect width="1660" height="1318" fill="#ffffff"/>
-<rect x="30" y="190" width="1600" height="1088" fill="#FAFAFA" stroke="#27272A" stroke-width="2"/>
-<text x="830.0" y="220" text-anchor="middle" font-size="22" font-weight="700" fill="#27272A">Smart University Website</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1960" height="1344" viewBox="0 0 1960 1344" font-family="Inter, Helvetica, Arial, sans-serif">
+<rect width="1960" height="1344" fill="#ffffff"/>
+<rect x="30" y="190" width="1900" height="1114" fill="#FAFAFA" stroke="#27272A" stroke-width="2"/>
+<text x="980.0" y="220" text-anchor="middle" font-size="22" font-weight="700" fill="#27272A">Smart University Website</text>
 <g stroke="#27272A" stroke-width="2" fill="none"><circle cx="188.0" cy="50" r="10" fill="#fff"/><line x1="188.0" y1="60" x2="188.0" y2="92"/><line x1="170.0" y1="70" x2="206.0" y2="70"/><line x1="188.0" y1="92" x2="174.0" y2="114"/><line x1="188.0" y1="92" x2="202.0" y2="114"/></g>
 <text x="188.0" y="138" text-anchor="middle" font-size="16" font-weight="600" fill="#27272A">Guest</text>
 <polyline points="188.0,144 188.0,180 72,180 72,812.0" fill="none" stroke="#0F766E" stroke-width="1.6"/>
@@ -165,10 +165,22 @@
 <ellipse cx="1408.0" cy="680.0" rx="118.0" ry="24.0" fill="#F0FDFA" stroke="#0F766E" stroke-width="1.6"/>
 <text x="1408.0" y="677.0" text-anchor="middle" font-size="13" fill="#27272A">Read the audit log</text>
 <text x="1408.0" y="693.0" text-anchor="middle" font-size="13" fill="#27272A">and blocked calls</text>
-<rect x="60" y="1108" width="1540" height="150" fill="#ffffff" stroke="#A1A1AA" stroke-dasharray="6 4"/>
+<rect x="60" y="1108" width="1840" height="176" fill="#ffffff" stroke="#A1A1AA" stroke-dasharray="6 4"/>
 <text x="80" y="1140" font-size="14" fill="#27272A" >Every role also does everything a guest does.</text>
 <text x="80" y="1166" font-size="14" fill="#27272A" font-weight="700">Rules that apply to every use case with the assistant:</text>
 <text x="80" y="1192" font-size="14" fill="#27272A" >include: Check the role and the rows.   include: Cite the source document, for a policy answer.</text>
 <text x="80" y="1218" font-size="14" fill="#27272A" >include: Confirm before writing, for every write.   include: Write an audit record, for every write and every personal read.</text>
 <text x="80" y="1244" font-size="14" fill="#27272A" >A person decides every payment slip. The assistant never decides.</text>
+<g stroke="#27272A" stroke-width="2" fill="none"><circle cx="1688.0" cy="50" r="10" fill="#fff"/><line x1="1688.0" y1="60" x2="1688.0" y2="92"/><line x1="1670.0" y1="70" x2="1706.0" y2="70"/><line x1="1688.0" y1="92" x2="1674.0" y2="114"/><line x1="1688.0" y1="92" x2="1702.0" y2="114"/></g>
+<text x="1688.0" y="138" text-anchor="middle" font-size="16" font-weight="600" fill="#27272A">IT team</text>
+<polyline points="1688.0,144 1688.0,180 1572,180 1572,350.0" fill="none" stroke="#0F766E" stroke-width="1.6"/>
+<line x1="1572" y1="284" x2="1590" y2="284" stroke="#0F766E" stroke-width="1.6"/>
+<ellipse cx="1708.0" cy="284" rx="118.0" ry="24.0" fill="#F0FDFA" stroke="#0F766E" stroke-width="1.6"/>
+<text x="1708.0" y="281" text-anchor="middle" font-size="13" fill="#27272A">Manage Chatwoot</text>
+<text x="1708.0" y="297" text-anchor="middle" font-size="13" fill="#27272A">inboxes and channels</text>
+<line x1="1572" y1="350" x2="1590" y2="350" stroke="#0F766E" stroke-width="1.6"/>
+<ellipse cx="1708.0" cy="350" rx="118.0" ry="24.0" fill="#F0FDFA" stroke="#0F766E" stroke-width="1.6"/>
+<text x="1708.0" y="347" text-anchor="middle" font-size="13" fill="#27272A">Set up the Chatwoot</text>
+<text x="1708.0" y="363" text-anchor="middle" font-size="13" fill="#27272A">bot and agents</text>
+<text x="80" y="1270" font-size="14" fill="#27272A" >The IT team signs in to Chatwoot with its own login, because Chatwoot has no Keycloak sign-in.</text>
 </svg>

@@ -2,12 +2,15 @@ sequenceDiagram
   autonumber
   actor A as Student A
   actor B as Student B
-  participant AG as Booking agent
+  participant SUP as Supervisor agent
+  participant AG as Booking sub-agent
   participant TL as Tool layer
   participant DB as PostgreSQL
 
-  A->>AG: Yes, book Library Room B4 at 14:00
-  B->>AG: Yes, book Library Room B4 at 14:00
+  A->>SUP: Yes, book Library Room B4 at 14:00
+  B->>SUP: Yes, book Library Room B4 at 14:00
+  SUP->>AG: Call the Booking sub-agent as a tool for A
+  SUP->>AG: Call the Booking sub-agent as a tool for B
   AG->>TL: book_slot for A
   AG->>TL: book_slot for B
   TL->>DB: BEGIN for A
@@ -24,5 +27,6 @@ sequenceDiagram
   DB-->>TL: The slot is closed
   TL->>DB: B: ROLLBACK
   TL-->>AG: A is booked, B lost the slot
-  AG-->>A: Booked. Library Room B4, 14:00 to 16:00
-  AG-->>B: This slot was taken a moment ago. Here are the closest alternatives
+  AG-->>SUP: Results for A and B
+  SUP-->>A: Booked. Library Room B4, 14:00 to 16:00
+  SUP-->>B: This slot was taken a moment ago. Here are the closest alternatives

@@ -8,12 +8,14 @@ flowchart LR
   I["Instructor"]
   F["Staff"]
   A["Administrator"]
+  IT["IT team"]
 
-  PUB["Public site, no login<br/>programs, curriculum, courses, fees and scholarships,<br/>faculties, people, admissions, calendar, visit,<br/>rules and policies, news, research, campus life,<br/>catalogue search, apply, application status, contact"]
+  PUB["Public site, no login<br/>programs, curriculum, courses, fees and scholarships,<br/>faculties, people, admissions, calendar,<br/>rules and policies, news, research, campus life,<br/>catalogue search, apply, application status, contact"]
   POR["Student portal<br/>dashboard, requests, bookings, timetable,<br/>grades, courses, fees, library account,<br/>notifications, profile"]
   CHAT["Assistant in chat<br/>web, LINE, Telegram<br/>linked accounts only"]
-  CI["Instructor console<br/>advising brief, advisee signals, study plans"]
-  CS["Staff console<br/>queue, requests, bookings, payments, audit log"]
+  CI["Instructor console<br/>advising, appointments, courses,<br/>advising brief, advisee signals, study plans"]
+  CS["Staff console<br/>queue, ask the assistant, chat takeover and reply,<br/>requests, bookings, payments, audit log"]
+  CW["Chatwoot admin screen<br/>inboxes, channels, bots and agents,<br/>no student or staff service"]
   CA["Administrator console<br/>documents, accounts, system status,<br/>source conflicts, blocked calls"]
 
   G --> PUB
@@ -29,3 +31,4 @@ flowchart LR
   I --> CI
   F --> CS
   A --> CA
+  IT -- "own login" --> CW

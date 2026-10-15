@@ -18,7 +18,7 @@ flowchart LR
       API["api<br/>FastAPI and the agents"]
       WRK["worker<br/>scheduler, retries,<br/>ingestion, nightly signals"]
     end
-    subgraph Chat["Chatwoot"]
+    subgraph Chat["Chatwoot, admin screen for the IT team only"]
       CWW["chatwoot-web"]
       CWK["chatwoot-worker"]
       CWR["chatwoot-redis"]
@@ -35,6 +35,7 @@ flowchart LR
   BR --> WEB
   BR --> API
   BR --> KC
+  BR -. "IT admin screen, own login" .-> CWW
   WEB --> API
   API -. verify token .-> KC
   KC --> KCD

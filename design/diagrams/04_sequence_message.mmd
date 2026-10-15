@@ -3,8 +3,8 @@ sequenceDiagram
   actor U as Linked user on LINE
   participant CW as Chatwoot
   participant API as REST API layer
-  participant SUP as Supervisor
-  participant AG as Specialist agent
+  participant SUP as Supervisor agent
+  participant AG as Sub-agent
   participant TL as Tool layer
   participant DB as PostgreSQL
   participant LLM as Model adapter
@@ -22,7 +22,7 @@ sequenceDiagram
     SUP->>DB: Load memory and recent messages
     SUP->>LLM: Classify the intent and split into tasks
     LLM-->>SUP: One task: read the own balance
-    SUP->>AG: Hand the task to the Records agent
+    SUP->>AG: Call the Records sub-agent as a tool
     AG->>LLM: Choose a tool and build arguments
     LLM-->>AG: get_balance with the arguments
     AG->>TL: Call the tool

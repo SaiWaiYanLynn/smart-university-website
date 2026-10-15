@@ -781,5 +781,24 @@
     "rules": "225:55308",
     "people": "225:55497",
     "handbook": "226:55534"
+  },
+  "prototypeR8": {
+    "note": "R8 staff asks the assistant in the console, added 16 October 2026",
+    "lightSection": "240:57551",
+    "light": {
+      "R6.1": "240:57552",
+      "R6.2": "240:57747",
+      "R6.3": "240:57915"
+    },
+    "dark": {
+      "R6.1": "240:58064",
+      "R6.2": "240:58094",
+      "R6.3": "240:58126"
+    },
+    "entry": "Ask the assistant button in R5.1 188:28088 and Dark R5.1 227:74241 (20 October queue). SC1 Queue has no button.",
+    "instructorPages": {
+      "R2.4 appointments light": "244:58569",
+      "R2.5 courses light": "244:58587"
+    }
   }
 }

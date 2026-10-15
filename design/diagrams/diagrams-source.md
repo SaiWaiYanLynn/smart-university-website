@@ -24,6 +24,7 @@ flowchart TB
   subgraph Users["People"]
     STU["Student"]
     STF["Instructors, staff<br/>and administrators"]
+    ITT["IT team"]
   end
 
   subgraph Frontend["React application, Vite"]
@@ -32,22 +33,22 @@ flowchart TB
     CON["Role consoles<br/>staff, instructor, administrator"]
   end
 
-  CWT["Chatwoot<br/>web widget, LINE, Telegram,<br/>human handoff, image attachments"]
-  CHN["LINE and Telegram APIs<br/>rich menu, buttons, cards<br/>(week 1 spike decides)"]
+  CWT["Chatwoot<br/>web widget, LINE, Telegram,<br/>human handoff, image attachments<br/>admin screen for the IT team only"]
+  CHN["LINE and Telegram APIs<br/>direct route for cards<br/>(route not decided)"]
 
   subgraph API["FastAPI application"]
     REST["REST API layer<br/>verifies the token, reads the role"]
     LNK["Account linking<br/>channel ID to account"]
-    SUP["Supervisor<br/>LangGraph router,<br/>splits a message into tasks"]
+    SUP["Supervisor agent<br/>LangChain agent, calls sub-agents as tools,<br/>splits a message into tasks"]
     MEM["Memory<br/>checkpointer and store,<br/>keyed by account ID"]
     SCH["Scheduler and workers<br/>reminders, retries, watches,<br/>nightly signals"]
-    subgraph AG["Specialist agents"]
+    subgraph AG["Sub-agents, called as tools"]
       K["Knowledge<br/>retrieval and citations"]
       R["Records<br/>read only: own record, loans,<br/>catalogue, attendance, queue"]
       B["Booking<br/>rooms and appointments"]
       Q["Request<br/>requests, renewals, payment<br/>checks, approvals, bulk jobs"]
     end
-    ROLE["Role and row check<br/>tool set by role,<br/>rows by scope"]
+    ROLE["Role middleware and row check<br/>filters the tools by role,<br/>rows by scope"]
     VAL["Tool argument validator"]
     TOOL["Tool layer<br/>subject comes from the token,<br/>grade and plan maths in code"]
     SLP["Slip reader<br/>fixed tool, no model"]
@@ -67,17 +68,19 @@ flowchart TB
   STU --> CWT
   STF --> CON
   STF --> CWT
+  ITT -- "admin screen, own login" --> CWT
   CWT <--> CHN
 
   PUB -- "no login" --> REST
   POR --> REST
-  CON --> REST
+  CON -- "takeover and reply" --> REST
   CWT -- webhook --> REST
-  REST -- "reply by Chatwoot API" --> CWT
+  REST <-- "read, reply, take over and release<br/>by the Chatwoot API" --> CWT
   REST -. "buttons and cards" .-> CHN
 
   REST --> SUP
   REST -. verify token .-> KC
+  Frontend -- "sign in" --> KC
   REST --> LNK
   LNK --> PG
   REST --> ING
@@ -108,22 +111,23 @@ flowchart TB
   LLM -. inference .-> OR
 ```
 
-Four boxes sit outside the FastAPI application: Keycloak, OpenRouter, PostgreSQL and Chatwoot. Chatwoot also stays outside it. That boundary shows what is inside the system and what is outside.
+Four boxes sit outside the FastAPI application: Keycloak, OpenRouter, PostgreSQL and Chatwoot. Chatwoot also stays outside it. That boundary shows what is inside the system and what is outside. The Chatwoot admin screen is for the IT team only. Staff handle chats in the staff console, which calls Chatwoot through its API.
 
-Four points are new since the first version.
+Five points are new since the first version.
 
-1. The role from the token selects the tool set. The role and row check sits between the agents and the tool layer, and it writes every blocked call to the audit log.
+1. The role from the token selects the tool set. A role middleware filters the tools on each model call. The row check sits between the sub-agents and the tool layer, and it writes every blocked call to the audit log.
 2. The scheduler and the workers send messages first. They cover reminders, retries of a failed tool, watches on a request and the nightly signals for instructors.
 3. The slip reader is a fixed tool. The model never sees an image, so no image goes to OpenRouter.
 4. The public site calls the REST API without a login. This serves applications, contact messages and news.
+5. The supervisor is one LangChain agent that calls each sub-agent as a tool. Every role uses the same supervisor.
 
-The model adapter holds one OpenRouter free-tier key for each member and moves to the next key at a rate limit. A paid provider needs new settings in that one module. The LINE and Telegram APIs show as a dotted path. The week 1 spike decides the route of buttons and cards.
+The model adapter holds one OpenRouter free-tier key for each member and moves to the next key at a rate limit. A paid provider needs new settings in that one module. The LINE and Telegram APIs show as a dotted path. The route for cards is not decided. Chatwoot sends buttons to LINE and Telegram but it does not send cards.
 
 ---
 
 ## 2. Use case diagram
 
-The diagram is `12_use_case.drawio`. Open it in draw.io to edit it. `12_use_case.svg` and `12_use_case.png` show the same layout. The system boundary is titled Smart University Website. Five actors stand outside it. A role sets the tools and the rows of the assistant, and every write asks for a yes.
+The diagram is `12_use_case.drawio`. Open it in draw.io to edit it. `12_use_case.svg` and `12_use_case.png` show the same layout. The system boundary is titled Smart University Website. Six actors stand outside it. A role sets the tools and the rows of the assistant, and every write asks for a yes.
 
 **Actor: Guest.** A guest is a visitor with no account, for example an applicant. A guest never uses the assistant.
 - Read programs and curriculum, course information, fees and scholarships, rules and policies, faculties and people.
@@ -155,6 +159,11 @@ The diagram is `12_use_case.drawio`. Open it in draw.io to edit it. `12_use_case
 - Manage accounts and roles, and create accounts from a file.
 - Upload documents, read the questions without an answer and resolve sources that disagree.
 - Read the system status, the audit log and the blocked calls.
+
+**Actor: IT team.** The IT team runs the platform. It is not a role in the application.
+- Manage the Chatwoot inboxes and channels.
+- Set up the Chatwoot bot and agents.
+- Sign in to Chatwoot with its own login, because Chatwoot has no Keycloak sign-in.
 
 Every role also does everything a guest does. Four relationships are in the note box of the diagram. Every use case with the assistant includes the role and row check. A policy answer includes the source citation. Every write includes the confirmation and the audit record. A person decides every payment slip.
 
@@ -281,6 +290,7 @@ erDiagram
     uuid user_id FK
     string channel
     string external_id
+    int chatwoot_conversation_id
     boolean human_owned
     uuid owner_staff_id FK
     timestamp escalated_at
@@ -495,6 +505,7 @@ erDiagram
     uuid user_id FK
     string channel
     string external_id UK
+    int chatwoot_contact_id
     timestamp linked_at
   }
   REQUEST_FILE {
@@ -586,7 +597,7 @@ erDiagram
   }
 ```
 
-Four points to make when presenting this.
+When you present this, make four points.
 
 1. `SLOT` to `RESERVATION` is one to zero-or-one. That single constraint makes a double booking impossible.
 2. `DOCUMENT` and `DOCUMENT_CHUNK` carry the source title and section. This is how every answer cites its rule.
@@ -615,7 +626,7 @@ flowchart TD
   NT0 --> Z
   TM3["Retry timer: a saved question is due"] --> T
 
-  M --> RL["The role selects the tool set:<br/>student, instructor, staff or administrator"]
+  M --> RL["Role middleware selects the tool set:<br/>student, instructor, staff or administrator"]
   RL --> IM{"Does the message carry an image?"}
   IM -- Yes --> SF["Store the image privately"]
   SF --> IP{"What is the image for?<br/>The state of the chat decides"}
@@ -630,10 +641,10 @@ flowchart TD
   IP -- "File for an open request" --> AF["Attach the file to the request<br/>for staff to read"]
   AF --> RS2["Reply: the file is with Student Services"]
   RS2 --> Z
-  IM -- No --> F["Supervisor classifies the intent<br/>and splits the message into tasks"]
+  IM -- No --> F["Supervisor agent classifies the intent,<br/>splits the message into tasks<br/>and calls sub-agents as tools"]
   F -- "Every model key is rate limited" --> BZ["Say the assistant is busy<br/>and offer a retry or a person"]
   BZ --> Z
-  F --> G{"Which specialist agent for each task?"}
+  F --> G{"Which sub-agent for each task?"}
 
   G -- "Low confidence" --> H["Hand the conversation to staff<br/>with a summary and a draft reply"]
   G -- "Policy question" --> K1["Knowledge agent retrieves passages"]
@@ -689,7 +700,7 @@ flowchart TD
 This diagram shows what we develop and how. Six branches are worth saying out loud in the presentation.
 
 1. The subject always comes from the token, never from the message text.
-2. The role selects the tool set, and the role and row check stops a call outside the role. The call goes to the audit log as a blocked call.
+2. The role middleware selects the tool set, and the row check stops a call outside the role. The call goes to the audit log as a blocked call.
 3. No passage above the threshold means a refusal and a handoff, never a guess.
 4. Before every write, the agent asks for a yes. Each write leaves an audit record.
 5. An image goes to private storage. A fixed tool reads a slip, and the model never sees the image.
@@ -707,8 +718,8 @@ sequenceDiagram
   actor U as Linked user on LINE
   participant CW as Chatwoot
   participant API as REST API layer
-  participant SUP as Supervisor
-  participant AG as Specialist agent
+  participant SUP as Supervisor agent
+  participant AG as Sub-agent
   participant TL as Tool layer
   participant DB as PostgreSQL
   participant LLM as Model adapter
@@ -726,7 +737,7 @@ sequenceDiagram
     SUP->>DB: Load memory and recent messages
     SUP->>LLM: Classify the intent and split into tasks
     LLM-->>SUP: One task: read the own balance
-    SUP->>AG: Hand the task to the Records agent
+    SUP->>AG: Call the Records sub-agent as a tool
     AG->>LLM: Choose a tool and build arguments
     LLM-->>AG: get_balance with the arguments
     AG->>TL: Call the tool
@@ -744,7 +755,7 @@ sequenceDiagram
   end
 ```
 
-The diagram shows three branches at the REST API layer. A sender without a linked account gets a reply that asks for a login. A conversation that a staff member handles gets no reply. Every other message reaches the supervisor.
+The diagram shows three branches at the REST API layer. A sender without a linked account gets a reply that asks for a login. A conversation that a staff member handles gets no reply. Every other message reaches the supervisor agent.
 
 ---
 
@@ -757,12 +768,15 @@ sequenceDiagram
   autonumber
   actor A as Student A
   actor B as Student B
-  participant AG as Booking agent
+  participant SUP as Supervisor agent
+  participant AG as Booking sub-agent
   participant TL as Tool layer
   participant DB as PostgreSQL
 
-  A->>AG: Yes, book Library Room B4 at 14:00
-  B->>AG: Yes, book Library Room B4 at 14:00
+  A->>SUP: Yes, book Library Room B4 at 14:00
+  B->>SUP: Yes, book Library Room B4 at 14:00
+  SUP->>AG: Call the Booking sub-agent as a tool for A
+  SUP->>AG: Call the Booking sub-agent as a tool for B
   AG->>TL: book_slot for A
   AG->>TL: book_slot for B
   TL->>DB: BEGIN for A
@@ -779,8 +793,9 @@ sequenceDiagram
   DB-->>TL: The slot is closed
   TL->>DB: B: ROLLBACK
   TL-->>AG: A is booked, B lost the slot
-  AG-->>A: Booked. Library Room B4, 14:00 to 16:00
-  AG-->>B: This slot was taken a moment ago. Here are the closest alternatives
+  AG-->>SUP: Results for A and B
+  SUP-->>A: Booked. Library Room B4, 14:00 to 16:00
+  SUP-->>B: This slot was taken a moment ago. Here are the closest alternatives
 ```
 
 This is the same story as the prototype frame J6.3. A row lock and a second read make a double booking impossible.
@@ -845,8 +860,11 @@ stateDiagram-v2
   state "Waiting for staff" as WaitingForStaff
   state "Staff handling" as StaffHandling
   [*] --> AssistantHandling: A message arrives from a linked account
+  note left of AssistantHandling
+    Chatwoot status: pending.
+  end note
   AssistantHandling --> WaitingForStaff: The student asks for a person, confidence is low, or no source is found
-  WaitingForStaff --> StaffHandling: A staff member takes over
+  WaitingForStaff --> StaffHandling: A staff member takes over in the staff console
   StaffHandling --> AssistantHandling: The staff member releases the conversation
   StaffHandling --> Closed: The staff member closes the conversation
   AssistantHandling --> Closed: The student ends the chat
@@ -854,10 +872,12 @@ stateDiagram-v2
   note right of WaitingForStaff
     The assistant writes a summary and
     a draft reply for the staff member.
+    Chatwoot status: open, no owner.
   end note
   note right of StaffHandling
     The assistant stays silent.
     The conversation is human owned.
+    Chatwoot status: open, with an owner.
   end note
 ```
 
@@ -909,7 +929,7 @@ flowchart LR
       API["api<br/>FastAPI and the agents"]
       WRK["worker<br/>scheduler, retries,<br/>ingestion, nightly signals"]
     end
-    subgraph Chat["Chatwoot"]
+    subgraph Chat["Chatwoot, admin screen for the IT team only"]
       CWW["chatwoot-web"]
       CWK["chatwoot-worker"]
       CWR["chatwoot-redis"]
@@ -926,6 +946,7 @@ flowchart LR
   BR --> WEB
   BR --> API
   BR --> KC
+  BR -. "IT admin screen, own login" .-> CWW
   WEB --> API
   API -. verify token .-> KC
   KC --> KCD
@@ -946,7 +967,7 @@ flowchart LR
   API -. inference .-> ORP
 ```
 
-One Docker Compose file starts every container on one host. An ngrok tunnel gives LINE and Telegram a public address for the webhook. The team decides the production database later.
+One Docker Compose file starts every container on one host. An ngrok tunnel gives LINE and Telegram a public address for the webhook. The team decides the production database later. Chatwoot has its own admin screen, and only the IT team opens it.
 
 ---
 
@@ -965,12 +986,14 @@ flowchart LR
   I["Instructor"]
   F["Staff"]
   A["Administrator"]
+  IT["IT team"]
 
-  PUB["Public site, no login<br/>programs, curriculum, courses, fees and scholarships,<br/>faculties, people, admissions, calendar, visit,<br/>rules and policies, news, research, campus life,<br/>catalogue search, apply, application status, contact"]
+  PUB["Public site, no login<br/>programs, curriculum, courses, fees and scholarships,<br/>faculties, people, admissions, calendar,<br/>rules and policies, news, research, campus life,<br/>catalogue search, apply, application status, contact"]
   POR["Student portal<br/>dashboard, requests, bookings, timetable,<br/>grades, courses, fees, library account,<br/>notifications, profile"]
   CHAT["Assistant in chat<br/>web, LINE, Telegram<br/>linked accounts only"]
-  CI["Instructor console<br/>advising brief, advisee signals, study plans"]
-  CS["Staff console<br/>queue, requests, bookings, payments, audit log"]
+  CI["Instructor console<br/>advising, appointments, courses,<br/>advising brief, advisee signals, study plans"]
+  CS["Staff console<br/>queue, ask the assistant, chat takeover and reply,<br/>requests, bookings, payments, audit log"]
+  CW["Chatwoot admin screen<br/>inboxes, channels, bots and agents,<br/>no student or staff service"]
   CA["Administrator console<br/>documents, accounts, system status,<br/>source conflicts, blocked calls"]
 
   G --> PUB
@@ -986,6 +1009,7 @@ flowchart LR
   I --> CI
   F --> CS
   A --> CA
+  IT -- "own login" --> CW
 ```
 
-Every role reaches the public site without a login. The assistant in chat serves linked accounts only. A guest never uses the assistant.
+Every role reaches the public site without a login. The assistant in chat serves linked accounts only. A guest never uses the assistant. The IT team reaches only the Chatwoot admin screen.

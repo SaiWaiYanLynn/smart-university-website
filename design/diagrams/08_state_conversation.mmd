@@ -3,8 +3,11 @@ stateDiagram-v2
   state "Waiting for staff" as WaitingForStaff
   state "Staff handling" as StaffHandling
   [*] --> AssistantHandling: A message arrives from a linked account
+  note left of AssistantHandling
+    Chatwoot status: pending.
+  end note
   AssistantHandling --> WaitingForStaff: The student asks for a person, confidence is low, or no source is found
-  WaitingForStaff --> StaffHandling: A staff member takes over
+  WaitingForStaff --> StaffHandling: A staff member takes over in the staff console
   StaffHandling --> AssistantHandling: The staff member releases the conversation
   StaffHandling --> Closed: The staff member closes the conversation
   AssistantHandling --> Closed: The student ends the chat
@@ -12,8 +15,10 @@ stateDiagram-v2
   note right of WaitingForStaff
     The assistant writes a summary and
     a draft reply for the staff member.
+    Chatwoot status: open, no owner.
   end note
   note right of StaffHandling
     The assistant stays silent.
     The conversation is human owned.
+    Chatwoot status: open, with an owner.
   end note

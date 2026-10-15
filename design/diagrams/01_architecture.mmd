@@ -6,6 +6,7 @@ flowchart TB
   subgraph Users["People"]
     STU["Student"]
     STF["Instructors, staff<br/>and administrators"]
+    ITT["IT team"]
   end
 
   subgraph Frontend["React application, Vite"]
@@ -14,22 +15,22 @@ flowchart TB
     CON["Role consoles<br/>staff, instructor, administrator"]
   end
 
-  CWT["Chatwoot<br/>web widget, LINE, Telegram,<br/>human handoff, image attachments"]
-  CHN["LINE and Telegram APIs<br/>rich menu, buttons, cards<br/>(week 1 spike decides)"]
+  CWT["Chatwoot<br/>web widget, LINE, Telegram,<br/>human handoff, image attachments<br/>admin screen for the IT team only"]
+  CHN["LINE and Telegram APIs<br/>direct route for cards<br/>(route not decided)"]
 
   subgraph API["FastAPI application"]
     REST["REST API layer<br/>verifies the token, reads the role"]
     LNK["Account linking<br/>channel ID to account"]
-    SUP["Supervisor<br/>LangGraph router,<br/>splits a message into tasks"]
+    SUP["Supervisor agent<br/>LangChain agent, calls sub-agents as tools,<br/>splits a message into tasks"]
     MEM["Memory<br/>checkpointer and store,<br/>keyed by account ID"]
     SCH["Scheduler and workers<br/>reminders, retries, watches,<br/>nightly signals"]
-    subgraph AG["Specialist agents"]
+    subgraph AG["Sub-agents, called as tools"]
       K["Knowledge<br/>retrieval and citations"]
       R["Records<br/>read only: own record, loans,<br/>catalogue, attendance, queue"]
       B["Booking<br/>rooms and appointments"]
       Q["Request<br/>requests, renewals, payment<br/>checks, approvals, bulk jobs"]
     end
-    ROLE["Role and row check<br/>tool set by role,<br/>rows by scope"]
+    ROLE["Role middleware and row check<br/>filters the tools by role,<br/>rows by scope"]
     VAL["Tool argument validator"]
     TOOL["Tool layer<br/>subject comes from the token,<br/>grade and plan maths in code"]
     SLP["Slip reader<br/>fixed tool, no model"]
@@ -49,17 +50,19 @@ flowchart TB
   STU --> CWT
   STF --> CON
   STF --> CWT
+  ITT -- "admin screen, own login" --> CWT
   CWT <--> CHN
 
   PUB -- "no login" --> REST
   POR --> REST
-  CON --> REST
+  CON -- "takeover and reply" --> REST
   CWT -- webhook --> REST
-  REST -- "reply by Chatwoot API" --> CWT
+  REST <-- "read, reply, take over and release<br/>by the Chatwoot API" --> CWT
   REST -. "buttons and cards" .-> CHN
 
   REST --> SUP
   REST -. verify token .-> KC
+  Frontend -- "sign in" --> KC
   REST --> LNK
   LNK --> PG
   REST --> ING

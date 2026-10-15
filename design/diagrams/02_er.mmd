@@ -116,6 +116,7 @@ erDiagram
     uuid user_id FK
     string channel
     string external_id
+    int chatwoot_conversation_id
     boolean human_owned
     uuid owner_staff_id FK
     timestamp escalated_at
@@ -330,6 +331,7 @@ erDiagram
     uuid user_id FK
     string channel
     string external_id UK
+    int chatwoot_contact_id
     timestamp linked_at
   }
   REQUEST_FILE {
