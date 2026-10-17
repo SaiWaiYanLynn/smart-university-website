@@ -1,6 +1,6 @@
 # Smart University Website: Diagram Source
 
-For the three members who build diagrams. Updated on 15 October 2026 to match the prototype, J1 to J24 and the role scenarios. Follow these steps for each Mermaid diagram:
+For the three members who build diagrams. Updated on 17 October 2026 to match the prototype stories S1 to S9, T1 to T4, I1, I2 and A1. Follow these steps for each Mermaid diagram:
 
 1. Paste the code block into `mermaid.live`.
 2. Export as SVG.
@@ -54,13 +54,13 @@ flowchart TB
     AUD["Audit writer<br/>every write, personal read<br/>and blocked call"]
     ING["Ingestion worker<br/>reads uploaded documents"]
     EMB["Embedding model<br/>multilingual"]
-    LLM["Model adapter<br/>one key for each member,<br/>retry and queue on rate limit"]
+    LLM["Model adapter<br/>one place for the key and the model,<br/>retry and queue on rate limit"]
   end
 
   PG[("PostgreSQL<br/>with pgvector")]
   FS[("File storage<br/>certificate images and request files,<br/>private volume")]
   KC["Keycloak<br/>OIDC identity"]
-  OR["OpenRouter<br/>hosted model API<br/>free tier, one key per member"]
+  OR["OpenRouter<br/>hosted model API<br/>free tier, limits count per account"]
 
   STU --> PUB
   STU --> POR
@@ -117,7 +117,7 @@ Five points are new since the first version.
 4. The public site calls the REST API without a login. This serves applications, contact messages and news.
 5. The supervisor is one LangChain agent that calls each sub-agent as a tool. Every role uses the same supervisor.
 
-The model adapter holds one OpenRouter free-tier key for each member. OpenRouter counts the free limits for each account. When the limit is reached, the adapter queues and retries. A paid provider needs new settings in that one module. The assistant sends plain text through Chatwoot to LINE and Telegram. It sends no buttons, no cards and no rich menu there. A student can send a photo, and the assistant never answers with one. The user types yes to agree.
+The model adapter holds the OpenRouter key and the model name in settings. OpenRouter counts the free limits for each account, not for each key, so more keys do not add capacity. When the limit is reached, the adapter queues and retries. A paid provider needs new settings in that one module. The assistant sends plain text through Chatwoot to LINE and Telegram. It sends no buttons, no cards and no rich menu there. A student can send a photo, and the assistant never answers with one. The user types yes to agree.
 
 ---
 
@@ -780,7 +780,7 @@ sequenceDiagram
   SUP-->>B: This slot was taken a moment ago. Here are the closest alternatives
 ```
 
-This is the same story as the prototype frame J6.3. A row lock and a second read make a double booking impossible.
+This is the same story as the prototype frames of story S6. A row lock and a second read make a double booking impossible.
 
 ---
 

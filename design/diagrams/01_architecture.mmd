@@ -36,13 +36,13 @@ flowchart TB
     AUD["Audit writer<br/>every write, personal read<br/>and blocked call"]
     ING["Ingestion worker<br/>reads uploaded documents"]
     EMB["Embedding model<br/>multilingual"]
-    LLM["Model adapter<br/>one key for each member,<br/>retry and queue on rate limit"]
+    LLM["Model adapter<br/>one place for the key and the model,<br/>retry and queue on rate limit"]
   end
 
   PG[("PostgreSQL<br/>with pgvector")]
   FS[("File storage<br/>certificate images and request files,<br/>private volume")]
   KC["Keycloak<br/>OIDC identity"]
-  OR["OpenRouter<br/>hosted model API<br/>free tier, one key per member"]
+  OR["OpenRouter<br/>hosted model API<br/>free tier, limits count per account"]
 
   STU --> PUB
   STU --> POR

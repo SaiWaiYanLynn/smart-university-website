@@ -1,5 +1,7 @@
 # Smart University Website: Chat Journey Scripts
 
+> **SUPERSEDED on 17 October 2026.** This file is the first script of the chat journeys. It uses tap buttons and old codes (J1 to J24), and several scenarios were deleted. The prototype now holds 15 stories (S1 to S9, T1 to T4, I1, I2, A1) in plain text only. Do not build from this file. The map from old to new codes is in `notes/story-map-2026-10-16.md`, which is local only.
+
 For the Figma prototype. Every frame below is one Figma frame. The text is final. Lay it out, do not rewrite it.
 
 Student persona used throughout: **Wai Yan Lynn, 67111411, 3rd year ICT.**
