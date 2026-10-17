@@ -1,17 +1,18 @@
 stateDiagram-v2
-  [*] --> Waiting: The student sends a slip image
-  Waiting --> Confirmed: A staff member confirms the payment
-  Waiting --> Rejected: A staff member rejects the slip with a reason
-  Rejected --> Waiting: The student sends a new slip
-  Confirmed --> [*]
+  [*] --> Open: A charge is created for a student
+  Open --> Paid: A staff member checks the slip, tells the assistant, and says yes
+  Paid --> Open: A staff member reverses the record, with a reason and a yes
+  Paid --> [*]
 
-  note right of Waiting
-    The assistant stores the image,
-    runs the fixed checks and creates
-    the payment check.
-    The assistant never decides.
+  note right of Open
+    The student sends the slip in the chat.
+    A person checks it in a normal chat
+    and replies by hand.
+    The assistant never reads the slip
+    and never decides.
   end note
-  note right of Confirmed
+  note right of Paid
     The balance changes only here.
-    The student gets a receipt.
+    The Request agent writes the payment record
+    and an audit record.
   end note

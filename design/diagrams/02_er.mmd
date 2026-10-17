@@ -13,10 +13,9 @@ erDiagram
   BOOK ||--o{ LOAN : lent_as
   USER ||--o{ LOAN : borrows
   USER ||--o{ CHARGE : owes
-  CHARGE ||--o{ PAYMENT_CHECK : paid_by
-  USER ||--o{ PAYMENT_CHECK : submits
-  USER ||--o{ PAYMENT_CHECK : decides
-  PAYMENT_CHECK ||--|| SLIP_FILE : shows
+  CHARGE ||--o{ PAYMENT : paid_by
+  USER ||--o{ PAYMENT : records
+  PAYMENT }o--o| CONVERSATION : proven_in
   USER ||--o{ MEMORY_FACT : remembered_for
   CONVERSATION ||--o{ MEMORY_FACT : source_of
   RESERVATION ||--o| ADVISOR_BRIEF : prepared_for
@@ -37,7 +36,6 @@ erDiagram
   USER ||--o{ CHANNEL_LINK : links
   REQUEST ||--o{ REQUEST_FILE : has
   REQUEST ||--o{ AGENT_CHECK : checked_by
-  PAYMENT_CHECK ||--o{ AGENT_CHECK : checked_by
   REQUEST }o--o| CONVERSATION : started_in
   USER ||--o{ STUDY_PLAN : follows
   USER ||--o{ STUDY_PLAN : approves
@@ -184,23 +182,15 @@ erDiagram
     date due_on
     string state
   }
-  PAYMENT_CHECK {
+  PAYMENT {
     uuid id PK
     uuid charge_id FK
-    uuid submitted_by FK
-    uuid decided_by FK
+    uuid recorded_by FK
+    uuid conversation_id FK
+    decimal amount
     string state
-    decimal amount_on_slip
     string reason
-    timestamp submitted_at
-    timestamp decided_at
-  }
-  SLIP_FILE {
-    uuid id PK
-    uuid payment_check_id FK
-    string storage_path
-    string mime_type
-    timestamp keep_until
+    timestamp recorded_at
   }
   MEMORY_FACT {
     uuid id PK
@@ -344,7 +334,6 @@ erDiagram
   AGENT_CHECK {
     uuid id PK
     uuid request_id FK
-    uuid payment_check_id FK
     string name
     string result
     text detail

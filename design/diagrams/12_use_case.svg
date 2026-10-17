@@ -128,8 +128,8 @@
 <text x="1108.0" y="495.0" text-anchor="middle" font-size="13" fill="#27272A">change a request</text>
 <line x1="972" y1="548.0" x2="990" y2="548.0" stroke="#0F766E" stroke-width="1.6"/>
 <ellipse cx="1108.0" cy="548.0" rx="118.0" ry="24.0" fill="#F0FDFA" stroke="#0F766E" stroke-width="1.6"/>
-<text x="1108.0" y="545.0" text-anchor="middle" font-size="13" fill="#27272A">Confirm or reject</text>
-<text x="1108.0" y="561.0" text-anchor="middle" font-size="13" fill="#27272A">a payment slip</text>
+<text x="1108.0" y="545.0" text-anchor="middle" font-size="13" fill="#27272A">Check a slip and</text>
+<text x="1108.0" y="561.0" text-anchor="middle" font-size="13" fill="#27272A">record the payment</text>
 <line x1="972" y1="614.0" x2="990" y2="614.0" stroke="#0F766E" stroke-width="1.6"/>
 <ellipse cx="1108.0" cy="614.0" rx="118.0" ry="24.0" fill="#F0FDFA" stroke="#0F766E" stroke-width="1.6"/>
 <text x="1108.0" y="619.0" text-anchor="middle" font-size="13" fill="#27272A">Send a bulk reminder</text>
@@ -170,7 +170,7 @@
 <text x="80" y="1166" font-size="14" fill="#27272A" font-weight="700">Rules that apply to every use case with the assistant:</text>
 <text x="80" y="1192" font-size="14" fill="#27272A" >include: Check the role and the rows.   include: Cite the source document, for a policy answer.</text>
 <text x="80" y="1218" font-size="14" fill="#27272A" >include: Confirm before writing, for every write.   include: Write an audit record, for every write and every personal read.</text>
-<text x="80" y="1244" font-size="14" fill="#27272A" >A person decides every payment slip. The assistant never decides.</text>
+<text x="80" y="1244" font-size="14" fill="#27272A" >A person decides every payment slip. The assistant records it only after a yes.</text>
 <g stroke="#27272A" stroke-width="2" fill="none"><circle cx="1688.0" cy="50" r="10" fill="#fff"/><line x1="1688.0" y1="60" x2="1688.0" y2="92"/><line x1="1670.0" y1="70" x2="1706.0" y2="70"/><line x1="1688.0" y1="92" x2="1674.0" y2="114"/><line x1="1688.0" y1="92" x2="1702.0" y2="114"/></g>
 <text x="1688.0" y="138" text-anchor="middle" font-size="16" font-weight="600" fill="#27272A">IT team</text>
 <polyline points="1688.0,144 1688.0,180 1572,180 1572,350.0" fill="none" stroke="#0F766E" stroke-width="1.6"/>

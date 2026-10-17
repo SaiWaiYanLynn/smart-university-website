@@ -16,7 +16,7 @@ flowchart TB
   end
 
   CWT["Chatwoot<br/>web widget, LINE, Telegram,<br/>human handoff, image attachments<br/>admin screen for the IT team only"]
-  CHN["LINE and Telegram APIs<br/>rich menu setup only,<br/>no cards"]
+  CHN["LINE and Telegram APIs<br/>plain text and photos only"]
 
   subgraph API["FastAPI application"]
     REST["REST API layer<br/>verifies the token, reads the role"]
@@ -28,20 +28,19 @@ flowchart TB
       K["Knowledge<br/>retrieval and citations"]
       R["Records<br/>read only: own record, loans,<br/>catalogue, attendance, queue"]
       B["Booking<br/>rooms and appointments"]
-      Q["Request<br/>requests, renewals, payment<br/>checks, approvals, bulk jobs"]
+      Q["Request<br/>requests, renewals, payment<br/>records, approvals, bulk jobs"]
     end
     ROLE["Role middleware and row check<br/>filters the tools by role,<br/>rows by scope"]
     VAL["Tool argument validator"]
     TOOL["Tool layer<br/>subject comes from the token,<br/>grade and plan maths in code"]
-    SLP["Slip reader<br/>fixed tool, no model"]
     AUD["Audit writer<br/>every write, personal read<br/>and blocked call"]
     ING["Ingestion worker<br/>reads uploaded documents"]
     EMB["Embedding model<br/>multilingual"]
-    LLM["Model adapter<br/>key pool, retry and queue<br/>on rate limit"]
+    LLM["Model adapter<br/>one key for each member,<br/>retry and queue on rate limit"]
   end
 
   PG[("PostgreSQL<br/>with pgvector")]
-  FS[("File storage<br/>slip and certificate images,<br/>private volume")]
+  FS[("File storage<br/>certificate images and request files,<br/>private volume")]
   KC["Keycloak<br/>OIDC identity"]
   OR["OpenRouter<br/>hosted model API<br/>free tier, one key per member"]
 
@@ -58,7 +57,6 @@ flowchart TB
   CON -- "takeover and reply" --> REST
   CWT -- webhook --> REST
   REST <-- "read, reply, take over and release<br/>by the Chatwoot API" --> CWT
-  REST -. "rich menu, set once" .-> CHN
 
   REST --> SUP
   REST -. verify token .-> KC
@@ -80,8 +78,6 @@ flowchart TB
 
   TOOL --> PG
   TOOL --> FS
-  TOOL --> SLP
-  SLP --> FS
   TOOL --> AUD
   AUD --> PG
   ING --> EMB

@@ -17,19 +17,16 @@ flowchart TD
   RL --> IM{"Does the message carry an image?"}
   IM -- Yes --> SF["Store the image privately"]
   SF --> IP{"What is the image for?<br/>The state of the chat decides"}
-  IP -- "Payment slip" --> SR["Fixed reader and duplicate check<br/>the model never sees the image"]
-  SR --> PC["Request agent creates a payment check,<br/>state waiting, with the check results"]
-  PC --> NS["Notify staff in the Payments tab and in the chat"]
-  NS --> RS["Reply: sent to Student Services for a check"]
+  IP -- "Payment slip" --> HS2["Pass the conversation to Student Services<br/>the assistant stays silent<br/>and never reads the slip"]
+  HS2 --> RS["Reply: Student Services will check the slip<br/>and reply in this chat"]
   RS --> Z
-  NS -.-> SD["Staff confirm or reject the slip"]
-  SD -.-> NT["Notify the student"]
-  NT -.-> Z
+  HS2 -.-> SD["A staff member checks the slip<br/>and replies by hand in the same chat"]
+  SD -.-> SR2["Later, the staff member asks the assistant<br/>to record the payment: a write, after a yes"]
   IP -- "File for an open request" --> AF["Attach the file to the request<br/>for staff to read"]
   AF --> RS2["Reply: the file is with Student Services"]
   RS2 --> Z
   IM -- No --> F["Supervisor agent classifies the intent,<br/>splits the message into tasks<br/>and calls sub-agents as tools"]
-  F -- "Every model key is rate limited" --> BZ["Say the assistant is busy<br/>and offer a retry or a person"]
+  F -- "The model is rate limited" --> BZ["Say the assistant is busy<br/>and offer a retry or a person"]
   BZ --> Z
   F --> G{"Which sub-agent for each task?"}
 

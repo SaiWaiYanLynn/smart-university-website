@@ -34,7 +34,7 @@ flowchart TB
   end
 
   CWT["Chatwoot<br/>web widget, LINE, Telegram,<br/>human handoff, image attachments<br/>admin screen for the IT team only"]
-  CHN["LINE and Telegram APIs<br/>rich menu setup only,<br/>no cards"]
+  CHN["LINE and Telegram APIs<br/>plain text and photos only"]
 
   subgraph API["FastAPI application"]
     REST["REST API layer<br/>verifies the token, reads the role"]
@@ -46,20 +46,19 @@ flowchart TB
       K["Knowledge<br/>retrieval and citations"]
       R["Records<br/>read only: own record, loans,<br/>catalogue, attendance, queue"]
       B["Booking<br/>rooms and appointments"]
-      Q["Request<br/>requests, renewals, payment<br/>checks, approvals, bulk jobs"]
+      Q["Request<br/>requests, renewals, payment<br/>records, approvals, bulk jobs"]
     end
     ROLE["Role middleware and row check<br/>filters the tools by role,<br/>rows by scope"]
     VAL["Tool argument validator"]
     TOOL["Tool layer<br/>subject comes from the token,<br/>grade and plan maths in code"]
-    SLP["Slip reader<br/>fixed tool, no model"]
     AUD["Audit writer<br/>every write, personal read<br/>and blocked call"]
     ING["Ingestion worker<br/>reads uploaded documents"]
     EMB["Embedding model<br/>multilingual"]
-    LLM["Model adapter<br/>key pool, retry and queue<br/>on rate limit"]
+    LLM["Model adapter<br/>one key for each member,<br/>retry and queue on rate limit"]
   end
 
   PG[("PostgreSQL<br/>with pgvector")]
-  FS[("File storage<br/>slip and certificate images,<br/>private volume")]
+  FS[("File storage<br/>certificate images and request files,<br/>private volume")]
   KC["Keycloak<br/>OIDC identity"]
   OR["OpenRouter<br/>hosted model API<br/>free tier, one key per member"]
 
@@ -76,7 +75,6 @@ flowchart TB
   CON -- "takeover and reply" --> REST
   CWT -- webhook --> REST
   REST <-- "read, reply, take over and release<br/>by the Chatwoot API" --> CWT
-  REST -. "rich menu, set once" .-> CHN
 
   REST --> SUP
   REST -. verify token .-> KC
@@ -98,8 +96,6 @@ flowchart TB
 
   TOOL --> PG
   TOOL --> FS
-  TOOL --> SLP
-  SLP --> FS
   TOOL --> AUD
   AUD --> PG
   ING --> EMB
@@ -117,11 +113,11 @@ Five points are new since the first version.
 
 1. The role from the token selects the tool set. A role middleware filters the tools on each model call. The row check sits between the sub-agents and the tool layer, and it writes every blocked call to the audit log.
 2. The scheduler and the workers send messages first. They cover reminders, retries of a failed tool, watches on a request and the nightly signals for instructors.
-3. The slip reader is a fixed tool. The model never sees an image, so no image goes to OpenRouter.
+3. The assistant never reads a payment slip and never decides on money. A student sends the slip in the chat, a staff member checks it in a normal chat and replies by hand, and later asks the assistant to record the payment. The Request agent writes the record after a yes. No payment image goes to OpenRouter.
 4. The public site calls the REST API without a login. This serves applications, contact messages and news.
 5. The supervisor is one LangChain agent that calls each sub-agent as a tool. Every role uses the same supervisor.
 
-The model adapter holds one OpenRouter free-tier key for each member and moves to the next key at a rate limit. A paid provider needs new settings in that one module. The LINE and Telegram APIs show as a dotted path. The assistant sends text, buttons and photos through Chatwoot. Chatwoot does not send cards to LINE and Telegram. The dotted path covers the rich menu, which the University sets once.
+The model adapter holds one OpenRouter free-tier key for each member. OpenRouter counts the free limits for each account. When the limit is reached, the adapter queues and retries. A paid provider needs new settings in that one module. The assistant sends plain text through Chatwoot to LINE and Telegram. It sends no buttons, no cards and no rich menu there. A student can send a photo, and the assistant never answers with one. The user types yes to agree.
 
 ---
 
@@ -152,7 +148,7 @@ The diagram is `12_use_case.drawio`. Open it in draw.io to edit it. `12_use_case
 **Actor: Staff.**
 - View the sorted queue, take over a chat and release it.
 - Read the handoff summary and draft.
-- Approve or change a request, and confirm or reject a payment slip.
+- Approve or change a request, check a payment slip in the chat and ask the assistant to record the payment.
 - Send a bulk reminder, and ask the assistant about the queue.
 
 **Actor: Administrator.**
@@ -165,7 +161,7 @@ The diagram is `12_use_case.drawio`. Open it in draw.io to edit it. `12_use_case
 - Set up the Chatwoot bot and agents.
 - Sign in to Chatwoot with its own login, because Chatwoot has no Keycloak sign-in.
 
-Every role also does everything a guest does. Four relationships are in the note box of the diagram. Every use case with the assistant includes the role and row check. A policy answer includes the source citation. Every write includes the confirmation and the audit record. A person decides every payment slip.
+Every role also does everything a guest does. Four relationships are in the note box of the diagram. Every use case with the assistant includes the role and row check. A policy answer includes the source citation. Every write includes the confirmation and the audit record. A person decides every payment slip, and the record is written only after a yes.
 
 ---
 
@@ -187,10 +183,9 @@ erDiagram
   BOOK ||--o{ LOAN : lent_as
   USER ||--o{ LOAN : borrows
   USER ||--o{ CHARGE : owes
-  CHARGE ||--o{ PAYMENT_CHECK : paid_by
-  USER ||--o{ PAYMENT_CHECK : submits
-  USER ||--o{ PAYMENT_CHECK : decides
-  PAYMENT_CHECK ||--|| SLIP_FILE : shows
+  CHARGE ||--o{ PAYMENT : paid_by
+  USER ||--o{ PAYMENT : records
+  PAYMENT }o--o| CONVERSATION : proven_in
   USER ||--o{ MEMORY_FACT : remembered_for
   CONVERSATION ||--o{ MEMORY_FACT : source_of
   RESERVATION ||--o| ADVISOR_BRIEF : prepared_for
@@ -211,7 +206,6 @@ erDiagram
   USER ||--o{ CHANNEL_LINK : links
   REQUEST ||--o{ REQUEST_FILE : has
   REQUEST ||--o{ AGENT_CHECK : checked_by
-  PAYMENT_CHECK ||--o{ AGENT_CHECK : checked_by
   REQUEST }o--o| CONVERSATION : started_in
   USER ||--o{ STUDY_PLAN : follows
   USER ||--o{ STUDY_PLAN : approves
@@ -358,23 +352,15 @@ erDiagram
     date due_on
     string state
   }
-  PAYMENT_CHECK {
+  PAYMENT {
     uuid id PK
     uuid charge_id FK
-    uuid submitted_by FK
-    uuid decided_by FK
+    uuid recorded_by FK
+    uuid conversation_id FK
+    decimal amount
     string state
-    decimal amount_on_slip
     string reason
-    timestamp submitted_at
-    timestamp decided_at
-  }
-  SLIP_FILE {
-    uuid id PK
-    uuid payment_check_id FK
-    string storage_path
-    string mime_type
-    timestamp keep_until
+    timestamp recorded_at
   }
   MEMORY_FACT {
     uuid id PK
@@ -518,7 +504,6 @@ erDiagram
   AGENT_CHECK {
     uuid id PK
     uuid request_id FK
-    uuid payment_check_id FK
     string name
     string result
     text detail
@@ -630,19 +615,16 @@ flowchart TD
   RL --> IM{"Does the message carry an image?"}
   IM -- Yes --> SF["Store the image privately"]
   SF --> IP{"What is the image for?<br/>The state of the chat decides"}
-  IP -- "Payment slip" --> SR["Fixed reader and duplicate check<br/>the model never sees the image"]
-  SR --> PC["Request agent creates a payment check,<br/>state waiting, with the check results"]
-  PC --> NS["Notify staff in the Payments tab and in the chat"]
-  NS --> RS["Reply: sent to Student Services for a check"]
+  IP -- "Payment slip" --> HS2["Pass the conversation to Student Services<br/>the assistant stays silent<br/>and never reads the slip"]
+  HS2 --> RS["Reply: Student Services will check the slip<br/>and reply in this chat"]
   RS --> Z
-  NS -.-> SD["Staff confirm or reject the slip"]
-  SD -.-> NT["Notify the student"]
-  NT -.-> Z
+  HS2 -.-> SD["A staff member checks the slip<br/>and replies by hand in the same chat"]
+  SD -.-> SR2["Later, the staff member asks the assistant<br/>to record the payment: a write, after a yes"]
   IP -- "File for an open request" --> AF["Attach the file to the request<br/>for staff to read"]
   AF --> RS2["Reply: the file is with Student Services"]
   RS2 --> Z
   IM -- No --> F["Supervisor agent classifies the intent,<br/>splits the message into tasks<br/>and calls sub-agents as tools"]
-  F -- "Every model key is rate limited" --> BZ["Say the assistant is busy<br/>and offer a retry or a person"]
+  F -- "The model is rate limited" --> BZ["Say the assistant is busy<br/>and offer a retry or a person"]
   BZ --> Z
   F --> G{"Which sub-agent for each task?"}
 
@@ -703,7 +685,7 @@ This diagram shows what we develop and how. Six branches are worth saying out lo
 2. The role middleware selects the tool set, and the row check stops a call outside the role. The call goes to the audit log as a blocked call.
 3. No passage above the threshold means a refusal and a handoff, never a guess.
 4. Before every write, the agent asks for a yes. Each write leaves an audit record.
-5. An image goes to private storage. A fixed tool reads a slip, and the model never sees the image.
+5. A payment slip goes to Student Services. The assistant stays silent and never reads the slip. A person checks it and replies by hand, then asks the assistant to record the payment.
 6. A tool that fails does not end the chat. The question is saved. When the tool works again, the assistant answers.
 
 ---
@@ -830,25 +812,26 @@ stateDiagram-v2
   end note
 ```
 
-### 7.2 Payment check, file `07_state_payment_check.mmd`
+### 7.2 Charge and payment record, file `07_state_payment_check.mmd`
 
 ```mermaid
 stateDiagram-v2
-  [*] --> Waiting: The student sends a slip image
-  Waiting --> Confirmed: A staff member confirms the payment
-  Waiting --> Rejected: A staff member rejects the slip with a reason
-  Rejected --> Waiting: The student sends a new slip
-  Confirmed --> [*]
+  [*] --> Open: A charge is created for a student
+  Open --> Paid: A staff member checks the slip, tells the assistant, and says yes
+  Paid --> Open: A staff member reverses the record, with a reason and a yes
+  Paid --> [*]
 
-  note right of Waiting
-    The assistant stores the image,
-    runs the fixed checks and creates
-    the payment check.
-    The assistant never decides.
+  note right of Open
+    The student sends the slip in the chat.
+    A person checks it in a normal chat
+    and replies by hand.
+    The assistant never reads the slip
+    and never decides.
   end note
-  note right of Confirmed
+  note right of Paid
     The balance changes only here.
-    The student gets a receipt.
+    The Request agent writes the payment record
+    and an audit record.
   end note
 ```
 
@@ -940,7 +923,7 @@ flowchart LR
       KCD[("keycloak-db<br/>PostgreSQL")]
     end
     PG[("postgres<br/>PostgreSQL 16 with pgvector")]
-    VOL[("private volume<br/>slip and certificate images")]
+    VOL[("private volume<br/>certificate images and request files")]
   end
 
   BR --> WEB
@@ -992,7 +975,7 @@ flowchart LR
   POR["Student portal<br/>dashboard, requests, bookings, timetable,<br/>grades, courses, fees, library account,<br/>notifications, profile"]
   CHAT["Assistant in chat<br/>web, LINE, Telegram<br/>linked accounts only"]
   CI["Instructor console<br/>advising, appointments, courses,<br/>advising brief, advisee signals, study plans"]
-  CS["Staff console<br/>queue, ask the assistant, chat takeover and reply,<br/>requests, bookings, payments, audit log"]
+  CS["Staff console<br/>queue, ask the assistant, chat takeover and reply,<br/>requests, bookings, audit log"]
   CW["Chatwoot admin screen<br/>inboxes, channels, bots and agents,<br/>no student or staff service"]
   CA["Administrator console<br/>documents, accounts, system status,<br/>source conflicts, blocked calls"]
 
