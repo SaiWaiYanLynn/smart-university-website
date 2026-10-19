@@ -1,0 +1,205 @@
+Capability Survey of University Student Service Websites
+What universities let a student do online, and what they do not
+
+Group S | Wai Yan Lynn (67111411) · Pyae Sone (67111336) · Nang Ying Noom Lao (67111378) · Myat Hsu Hnin (68111423)
+Project: Smart University Website | IT Project I and II (BC362916 + BC362914) | Instructor: Dr. Aftab Alam Janisar | 6 October 2026
+
+
+1. Why We Did Not Choose One University
+We are not building this system for a single institution, so we did not pick one university to study. We are building an open
+reference implementation that any university can adopt. The backend, the agent layer, the APIs and the data model are the
+product. A university that adopts it supplies its own regulation documents, its own student data, its own identity provider
+and its own channel accounts, and changes the frontend and the database to match what it already runs. Nothing in the
+design depends on one university's rules.
+That choice creates one obligation. If we are not studying a client, we still have to show that the problem is real. This report
+is how we show it. Instead of asking one university what it lacks, we measured what universities actually offer their students
+today, across 17 institutions in Thailand and abroad, and recorded every answer so that a reader can check any row.
+
+
+2. Method
+What we did. On 5 and 6 October 2026 we reviewed the public websites of 17 universities, 12 in Thailand and 5
+international. For each university we answered the same seven capability questions, using public pages only, including
+registrar sites, library sites and official channel pages. We also reviewed published research on university chatbots, including
+Thai journal papers, to see how far existing assistants go.
+Why these seven questions. The questions are the capabilities our system provides. We are not judging whether a university
+website is good in general. We are measuring whether a student can reach these services, see what happened to them, and do
+any of it by conversation. A university can score well on the first four questions and still fail the last three, and that is the gap
+we are investigating.
+How to read a cross. A cross means the capability is not offered to students, or that we found no public evidence of it after a
+targeted search of that university's own sites. Where a cross is backed by an explicit statement, the note says so, for example
+a library that states its rooms are walk-in only. Since this survey measures what a student can discover and use from outside,
+a capability we cannot find is a capability the student cannot find either.
+Limits we accept. We did not log in to any student portal, so a university may offer more inside its portal than is visible to
+us. We did not survey students, so this report measures what the systems do, not what students feel about them. Every row
+can be rechecked from the sources in Section 6.
+
+
+3. The Seven Capability Questions
+
+ Code     Question                                                                             Why it matters
+
+ C1       Can a student submit a service request online, through a real form rather than an    The baseline. If this fails, everything after it
+          email with attachments?                                                              fails too.
+
+ C2       After submitting, can the student see the state of that request without contacting   Without a visible state, the student has to
+          staff?                                                                               chase the office to find out what happened.
+
+ C3       Can a student book a room or a space online?                                         Shows whether the university can already
+                                                                                               handle a reservation with limited capacity.
+
+ C4       Is there an assistant or an official chat channel for student services?              Shows whether conversation is already an
+                                                                                               accepted channel at that university.
+
+ C5       Does that assistant answer from the university's own regulation documents, and       Separates an assistant that reasons over the
+          show which rule the answer came from?                                                real rules from one that replays written
+                                                                                               replies.
+
+ C6       Can that assistant complete a request or a booking inside the conversation, and      The core capability of our project. This is
+          then report its state?                                                               the difference between answering and
+                                                                                               acting.
+
+ C7       Are these services reachable from one place, rather than from several separate       Shows whether the student has to know
+          systems?                                                                             which system does which job.
+4. Results
+✓ capability present    ~ partly present   ✗ not offered, or no public evidence found
+
+University                                 C1    C2    C3     C4     C5     C6     C7   Evidence and notes
+Chulalongkorn (TH)                         ✓     ✗      ✓      ✓      ✗      ✗      ✗   Public request form, student number plus ID, QR
+                                                                                        payment. Documented process ends at payment and
+                                                                                        collection. Rooms booked in the CUNEX app. Registrar
+                                                                                        LINE account @regchula answers only.
+
+Thammasat (TH)                             ✓     ✗      ✓      ✓      ✗      ✗      ✗   Requests on reg.tu.ac.th. Study rooms booked through
+                                                                                        QueQ, a separate product. Library LINE account
+                                                                                        @tulibrary for news and enquiries.
+
+Mahidol (TH)                               ✓     ✗      ✓      ✓      ✗      ✗      ✗   Online proof-of-education system behind login, 1 to 5
+                                                                                        working days then collect or post. Online syndicate
+                                                                                        room reservation, at the College of Management
+                                                                                        library. LINE account for registration queries.
+
+Kasetsart (TH)                             ✓     ✗      ✓      ✓      ✗      ✗      ✗   Graduate request system for graduate students,
+                                                                                        available 24 hours, confirms by email only. Smart
+                                                                                        Study Room booking on a separate library system, at
+                                                                                        the Kamphaeng Saen campus library. Library enquiries
+                                                                                        by phone and LINE.
+
+KMUTT (TH)                                 ✓     ✗      ✗      ✓      ✗      ✗      ✗   Online document request form. Library states KM
+                                                                                        Rooms are walk-in only, so rooms cannot be booked
+                                                                                        online. Registrar LINE account @regiskmutt.
+
+KMITL (TH)                                 ✓     ✗      ✓      ✓      ✗      ✗      ✗   Digital transcript request behind login. Library room
+                                                                                        and area booking for students and staff. Library chat
+                                                                                        assistant "NongLifelong".
+
+Assumption (TH)                            ✓     ✗      ✗      ✗      ✗      ✗      ✗   Online transcript and certification request. Ready in 5
+                                                                                        working days, or about a month after finals, with no
+                                                                                        status view. Study rooms exist but no online booking
+                                                                                        found. No assistant or chat channel found.
+
+Bangkok Univ. (TH)                         ~     ✗      ✗      ✓      ✗      ✗      ✗   "Online" means an email plus a photo of the bank
+                                                                                        transfer slip, so there is no form. No room booking on
+                                                                                        the library site. Student questions answered on LINE.
+
+Srinakharinwirot (TH)                      ✗     ✗      ✗      ✓      ✗      ✗      ✗   No online request route found on public pages. A room
+                                                                                        booking system exists but is for teaching and
+                                                                                        administrative staff, not students. Library LINE
+                                                                                        account for notifications.
+KMUTNB (TH)                                ✗     ✗      ✓      ✓      ✗     ~       ✗   Transcripts are requested in person at the counter,
+                                                                                        or by downloading a form, then collected with a slip.
+                                                                                        Smartroom booking across three campuses, plus a
+                                                                                        second room system, k-room. NN Bot on LINE sends
+                                                                                        notifications and information.
+
+STOU (TH)                                  ~     ✗      ✗      ✓      ✗      ✗      ✗   STOU SISA app covers records, results and enrolment
+                                                                                        with mobile payment, but we found no confirmed
+                                                                                        online document request route. An open distance
+                                                                                        university, so there are no campus study rooms to book.
+                                                                                        LINE account with a published service manual,
+                                                                                        answered by staff.
+
+Buriram Rajabhat (TH)                      ✓     ✗      ✗      ✓      ✗     ~       ✗   Online request menu inside the student system, 2 to 3
+                                                                                        working days then collect or post. No room booking
+                                                                                        found. LINE chatbot across eight service areas, built on
+                                                                                        fixed intents and published as research.
+NUS (SG)                                   ✓     ✓      ✓      ✓      ✗     ~      ~    Strongest in the survey. NUService Hub tracks request
+                                                                                        status in one platform. Rooms in LibCal and
+                                                                                        Chope@NUS, letters in myEduRec, so still several
+                                                                                        systems. okOSA takes a status letter request in chat,
+                                                                                        then takes up to 4 working days and reports nothing
+                                                                                        back in the chat.
+
+Melbourne (AU)                             ✓     ✓      ✓      ~      ✗      ✗      ✗   Candidature requests tracked in my.unimelb. Rooms in
+                                                                                        DiBS and computers in BookIT, two separate booking
+                                                                                        systems. Its ask.unimelb service is being retired.
+Toronto (CA)                           ✓     ~     ✓     ✓     ✗      ✗     ✗   Students generate some letters themselves in ACORN,
+                                                                                but custom letters go through a separate eService with
+                                                                                no status view. Rooms in LibCal. "Ask a Librarian" is a
+                                                                                staffed chat shared across Ontario universities, not an
+                                                                                assistant.
+
+Manchester (UK)                        ✓     ✗     ✓     ✓     ✗      ✗     ✗   Online enquiry form for documents, fees and
+                                                                                immigration, with no status view. Rooms in
+                                                                                ResourceBooker, a separate system. "Reggie" answers
+                                                                                quick registration questions.
+
+Arizona State (US)                     ✓     ✓     ✓     ✓     ✗      ✗     ✗   Transcripts ordered through My ASU and fulfilled by
+                                                                                Parchment, a third party, where the order status can be
+                                                                                followed. Library rooms booked online. Sunny answers
+                                                                                questions on housing, financial aid and advisors.
+Present out of 17                     13     3     11    15    0      0     0   Counting full ticks only. Partial marks are counted
+                                                                                in Section 5.
+
+
+5. What the Results Show
+Universities are well equipped on the basics, and we say so plainly. 13 of 17 let a student submit a request through a real
+online form, 11 of 17 allow a room to be booked online, and 15 of 17 already run an assistant or an official chat channel.
+Any claim that universities have no online services is easy to disprove, so we do not make it. Four are exceptions: KMUTNB
+still takes transcript requests in person at the counter, Srinakharinwirot has no online route we could find, Bangkok
+University's "online" route is an email with a photo of a bank transfer slip, and at STOU we could confirm enrolment services
+but not document requests.
+Visibility after submitting is rare. Only 3 of 17 show a student the state of a request without contacting staff, and all three
+are international. None of the 12 Thai universities do. A Thai student who submits a request is told how many working days
+to wait and then has to show up.
+Conversation is already normal, but only for asking. 15 of 17 have a chat channel, and in Thailand it is almost always
+LINE. Students already accept chat as a way to deal with their university. The channel is there and is not being used to do
+anything.
+
+   The gap, stated precisely. Across all 17 universities, none scored a tick on C5, C6 or C7. Not one assistant answers
+   from the university's own regulation documents and shows the rule it came from. Not one completes a request or a
+   booking inside the conversation and then reports its state. Not one offers these services from a single place. The three
+   closest cases are partial: NUS takes a status letter request in chat but answers in four working days outside the chat,
+   and the LINE bots at KMUTNB and Buriram Rajabhat run fixed scripts. Services exist, the chat channel exists, and
+   nothing joins them.
+
+
+
+6. Why the Assistants That Exist Do Not Close the Gap
+The assistants we found are intent-based. A developer writes an intent such as "request transcript", gives it a set of example
+phrasings, and the system learns to route a message into one of those buckets and run the flow attached to it. These systems
+can perform real actions, so the limitation is not capability. The limitation is coverage: everything the assistant can handle
+was written down in advance by a person, and anything outside that list reaches a fallback reply. Adding a service means
+hand-building a new intent and a new flow.
+Published work supports this. A 2025 review of university chatbots in higher education is framed around frequently asked
+questions, and the chatbot literature describes the main weakness as limited ability to go beyond the data the system was
+given. Thai universities have published several of these: an intent-based LINE service at KMUTNB, a chatbot covering eight
+service areas at Buriram Rajabhat, and a LINE-based graduate service system reported in IJECE. Each is built for one
+institution and one set of scripted intents.
+What our project does differently. It retrieves from the university's published regulations, so it can answer a question
+nobody scripted and show the rule behind the answer. It selects an action by reading what each tool does, rather than by
+matching a trained intent, so new phrasings and combined requests still work. It completes the request, tracks its state, and
+reports back on the same chat channel the student started on. And it is built to be adopted rather than built for one campus.
+7. Sources
+Thailand. reg.chula.ac.th and chula.ac.th (CUNEX study rooms); reg.tu.ac.th, QueQ study room service and the @tulibrary LINE account;
+graduate.mahidol.ac.th and the CMMU syndicate room reservation system; grad.ku.ac.th and the Kasetsart library booking system;
+regis.kmutt.ac.th and lib.kmutt.ac.th (KM Rooms, walk-in only); reg.kmitl.ac.th and kllc.kmitl.ac.th (room booking and the NongLifelong
+assistant); registrar.au.edu and library.au.edu; bulinks.bu.ac.th and library.bu.ac.th; lib.swu.ac.th and roombook.swu.ac.th (staff only);
+acdserv.kmutnb.ac.th and smartroom.lib.kmutnb.ac.th; stou.ac.th and the STOU SISA application; oapr.bru.ac.th.
+International. nusit.nus.edu.sg (NUService Hub), nus.libcal.com, nus.edu.sg/osa (okOSA and student status letters), nus.edu.sg/inside-nus
+(chatbots); gradresearch.unimelb.edu.au, library.unimelb.edu.au (DiBS and BookIT); sis.utoronto.ca, libcal.library.utoronto.ca,
+onesearch.library.utoronto.ca (Ask a Librarian); studentsupport.manchester.ac.uk, library.manchester.ac.uk, resourcebooker.manchester.ac.uk;
+registrar.asu.edu (Parchment), lib.asu.edu/studyrooms, ssi.asu.edu (Sunny); springshare.com/libcal.
+Published research. A 2025 review of university chatbots for student support (Springer); an IJECE paper on automated information retrieval
+and services for graduate students over LINE; a Thai journal paper on an educational response and notification system using a LINE bot at
+KMUTNB; and a Thai journal paper on a chatbot application for student services at Buriram Rajabhat University.
+

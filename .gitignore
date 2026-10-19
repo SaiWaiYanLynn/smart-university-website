@@ -4,3 +4,9 @@ CLAUDE.md
 notes/
 .env
 *.env
+design/slides/out/
+__pycache__/
+*.pyc
+design/diagrams/er_pages/tmp/
+design/slides/img/crops/
+design/slides/img/v2/crops/
