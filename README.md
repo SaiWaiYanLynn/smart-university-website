@@ -53,7 +53,7 @@ One supervisor agent routes each task to one of four specialist agents: Knowledg
 The midterm needs no code, so the current work is design.
 
 - Done: the problem statement, the 17-university survey and the architecture and data diagrams.
-- Done: a clickable Figma prototype of 305 frames in 14 stories, and the midterm slides.
+- Done: a clickable Figma prototype of 270 frames in 12 stories, and the midterm slides.
 - Next: the Project Proposal, then the build. The build starts with the Docker Compose stack, the schema, the Keycloak setup and the model test.
 
 There is no code to run yet. We add a "how to run" section with the first service.

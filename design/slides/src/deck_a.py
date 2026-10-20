@@ -67,7 +67,7 @@ def make():
     setn(M.m_channels_tests(d), N('Chatwoot is self-hosted and owns the three channels and the human handoff. We tested it live with a LINE official account and a Telegram bot. Text, photos and buttons work on both. Cards do not. So we decided on plain text on LINE and Telegram, and the web chat is plain text too. One behavior on every channel.',
          prove='Chatwoot test notes, 15 and 16 October 2026: 11 checks, 9 passed.', mins=1), 'Architecture')
     setn(M.m_data(d), N('One PostgreSQL database holds both the records and the document vectors. The model has 44 entities in six groups. Say the three groups that matter: requests and money, conversations and memory, and documents with their chunks. The full ER diagram is in the appendix.', prove='Diagram 02, entity relationship.', bridge='Now the demonstration.', mins=0.5), 'Architecture')
-    setn(P.m_models(d), N('We picked the diagrams that carry the design and skipped the rest. The Figma prototype is the wireframe set: 305 frames in 14 stories.', prove='Diagrams in design/diagrams, 12 files, and the Figma prototype.', mins=1), 'Architecture')
+    setn(P.m_models(d), N('We picked the diagrams that carry the design and skipped the rest. The Figma prototype is the wireframe set: 270 frames in 12 stories.', prove='Diagrams in design/diagrams, 12 files, and the Figma prototype.', mins=1), 'Architecture')
     # ---------- demo ----------
     v2.parts_map(d, 'Demo')
     v2.ground_rules(d, 'Demo')

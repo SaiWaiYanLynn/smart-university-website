@@ -326,12 +326,12 @@ def frame_callouts(d, title, overline, img, callouts, caption, notes='', section
 
 def parts_map(d, section, notes=None):
     s = d.add(section=section, notes=notes or N(
-        'The prototype has 14 stories in three parts: student, staff and instructor. There are also 11 console page variants without a bar. Every story is a short chain of frames. A bar at the bottom of each frame names the actor, the channel and the step, and a Next button jumps to the next frame. When the story changes actor, the same Next button follows it. That is how you will see one payment slip pass through three people.',
-        show='Run a finger down the three columns.', prove='Figma prototype: 305 frames, 4,604 links, 26 flow starts. No broken link, no frame a flow cannot reach.', bridge='Two comparisons first, then the live click-through.', mins=1))
-    y = hdr(s, 'Fourteen stories, in three parts', 'The prototype', size=48)
+        'The prototype has 12 stories in three parts: student, staff and instructor. Every story is a short chain of frames. A bar at the bottom of each frame names the actor, the channel and the step, and a Next button jumps to the next frame. When the story changes actor, the same Next button follows it. That is how you will see one payment slip pass through three people.',
+        show='Run a finger down the three columns.', prove='Figma prototype: 270 frames, 4,258 links, 24 flow starts. No broken link, no frame a flow cannot reach.', bridge='Two comparisons first, then the live click-through.', mins=1))
+    y = hdr(s, 'Twelve stories, in three parts', 'The prototype', size=48)
     cols = [
-        ('Student', C['teal'], ['S1 Payment slip, to the database', 'S3 Own record only', 'S4 Book a room on the web', 'S5 Book a room on LINE', 'S6 Two students, one room', 'S7 A request is ready', 'S8 A what-if question', 'S9 A tool fails, then recovers']),
-        ('Staff', C['blue'], ['T1 Ask the assistant in the console', 'T2 Remind late students on LINE and Telegram', 'T3 Registrar sends a Dean list notice', 'T4 The console pages']),
+        ('Student', C['teal'], ['S1 Payment slip, to the database', 'S3 Own record only', 'S4 Book a room on the web', 'S5 Book a room on LINE', 'S6 Two students, one room', 'S8 A what-if question', 'S9 A tool fails, then recovers']),
+        ('Staff', C['blue'], ['T1 Ask the assistant in the console', 'T2 Remind late students on LINE and Telegram', 'T3 Registrar sends a Dean list notice']),
         ('Instructor', C['amber'], ['I1 Classes tomorrow', 'I2 An absence reminder']),
     ]
     widths = [820, 560, 340]
@@ -346,7 +346,7 @@ def parts_map(d, section, notes=None):
             s.text(x + 18, yy, 70, code, size=26, weight=700, color=col, lh=1.2, fit=False)
             yy = s.text(x + 88, yy, w - 106, rest, size=24, color=C['text'], lh=1.22) + 16
         x += w + 12
-    s.text(96, y + 790, 1728, 'Every frame has a bar with the actor, the channel and Next. 305 frames, 11 page variants, 4,604 links, none broken.', size=26, weight=600, color=C['teal_dark'])
+    s.text(96, y + 790, 1728, 'Every frame has a bar with the actor, the channel and Next. 270 frames, 4,258 links, none broken.', size=26, weight=600, color=C['teal_dark'])
     return s
 
 
@@ -405,8 +405,8 @@ PROVE_MAP = {
     'Initial test results': 'Chatwoot spike results, 15 and 16 October 2026: 11 checks, 9 passed.',
     'seven deliverables': 'git log of the repository: commits since 12 October 2026. Diagrams: design/diagrams, 12 files.',
     'Decisions made': 'Team decisions, 11 to 17 October 2026.',
-    'Fourteen stories': 'Figma prototype audit, 18 October 2026: 305 frames, 4,604 links, 26 flow starts.',
-    'The prototype: 305': 'Figma prototype audit, 18 October 2026.',
+    'Twelve stories': 'Figma prototype audit, 18 October 2026: 270 frames, 4,258 links, 24 flow starts.',
+    'The prototype: 270': 'Figma prototype audit, 18 October 2026.',
     'The data model': 'Diagram 02: 44 entities in six groups.',
     'Chatwoot carries': 'Chatwoot spike results, 15 and 16 October 2026.',
     'Project II': 'Feasibility report v3 and the scope decisions.',

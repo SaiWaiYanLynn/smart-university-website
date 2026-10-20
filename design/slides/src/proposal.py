@@ -149,7 +149,7 @@ def m_solution(d, notes=None):
 
 
 def m_models(d, notes=None):
-    s = d.add(notes=notes or 'We picked the diagrams that carry the design and skipped the rest. Each model answers one question. The Figma prototype is the wireframe set: 305 frames in 14 stories.')
+    s = d.add(notes=notes or 'We picked the diagrams that carry the design and skipped the rest. Each model answers one question. The Figma prototype is the wireframe set: 270 frames in 12 stories.')
     y = hdr(s, 'System models: the diagrams we chose, and why', 'Proposal 11  ·  System models')
     colw = [430, 700, 598]
     rows = [
@@ -160,7 +160,7 @@ def m_models(d, notes=None):
         ['Entity relationship (diagram 02)', f'{len(M.ER_ENTITIES)} entities in one PostgreSQL database', 'The data the prototype uses'],
         ['State diagrams (06 to 09)', 'Request, charge, conversation and reservation', 'The two engines, each written once'],
         ['Sequence diagrams (04, 05)', 'One message from LINE to the reply. Two students, one slot', 'Prove the order of steps and the lock'],
-        ['Wireframes: the Figma prototype', '305 frames in 14 stories, light and dark', 'Shows the user journeys before code'],
+        ['Wireframes: the Figma prototype', '270 frames in 12 stories, light and dark', 'Shows the user journeys before code'],
     ]
     yb = s.table(96, y, colw, rows, size=24, hsize=22, minrow=64, pad=12)
     note_bar(s, yb + 24, 'Not drawn: data flow, activity and class diagrams. The supervisor flow already shows the process, and more diagrams would add noise.', size=26)

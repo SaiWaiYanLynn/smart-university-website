@@ -783,9 +783,9 @@ def m_tests(d, notes=None):
 
 
 def m_proto(d, notes=None):
-    s = d.add(notes=notes or 'The prototype is what we ask you to judge. 305 frames, light and dark twins, grouped in 14 stories in three parts. Every story has a bar at the bottom with the actor, the channel and a Next button, so one click follows the story even when the actor changes. It is built on a design system of more than 60 components with tokens for every color, space and radius. We checked every frame for broken links, overlap and overflow.')
-    y = hdr(s, 'The prototype: 305 frames in 14 stories', 'The prototype')
-    stats = [('305', 'frames, light and dark twins'), ('4,604', 'prototype links, none broken'), ('14', 'stories: student, staff, instructor'), ('60+', 'design system components')]
+    s = d.add(notes=notes or 'The prototype is what we ask you to judge. 270 frames, light and dark twins, grouped in 12 stories in three parts. Every story has a bar at the bottom with the actor, the channel and a Next button, so one click follows the story even when the actor changes. It is built on a design system of more than 60 components with tokens for every color, space and radius. We checked every frame for broken links, overlap and overflow.')
+    y = hdr(s, 'The prototype: 270 frames in 12 stories', 'The prototype')
+    stats = [('270', 'frames, light and dark twins'), ('4,258', 'prototype links, none broken'), ('12', 'stories: student, staff, instructor'), ('60+', 'design system components')]
     cw = (1728 - 3 * 28) / 4
     for i, (n, l) in enumerate(stats):
         x = 96 + i * (cw + 28)

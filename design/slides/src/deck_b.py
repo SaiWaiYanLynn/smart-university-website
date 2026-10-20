@@ -81,7 +81,7 @@ def make():
     setn(M.m_safety(d), N('Safety lives in code. The token decides who, the role decides what exists, a yes comes before a write, no source means refusal, and a person decides money. 40 attack attempts are planned and none may succeed.', mins=1), 'How')
     setn(M.m_channels_tests(d), N('Chatwoot tests on 15 and 16 October: 9 of 11 passed. Cards failed, so we use plain text on every channel.', prove='11 checks, 9 passed.', mins=1), 'How')
     setn(M.m_roles(d), N('Six kinds of person, four roles. The role decides the tools and the rows.', mins=1), 'How')
-    setn(P.m_models(d), N('We picked the diagrams that carry the design and skipped the rest. The Figma prototype is the wireframe set: 305 frames in 14 stories.', prove='Diagrams in design/diagrams, 12 files, and the Figma prototype.', mins=1), 'How')
+    setn(P.m_models(d), N('We picked the diagrams that carry the design and skipped the rest. The Figma prototype is the wireframe set: 270 frames in 12 stories.', prove='Diagrams in design/diagrams, 12 files, and the Figma prototype.', mins=1), 'How')
     # ---- 06 plan: demo first
     v2.section_b(d, '06', 'Show and plan', 'A live click-through, then how we build it and where we are.', chips=['Live', 'Plan', 'Project II'], notes=N('Section six.', mins=0), section='Plan')
     v2.parts_map(d, 'Plan')

@@ -82,7 +82,7 @@ def make():
     setn(M.m_safety(d), N('The token decides who, the role decides what exists, a yes comes before a write, no source means refusal, and a person decides money.', mins=1), 'Under the hood')
     setn(M.m_engines(d), N('Two engines cover every feature: one reservation engine and one four-state request machine.', mins=1), 'Under the hood')
     setn(M.m_channels_tests(d), N('We tested Chatwoot live. Nine of eleven checks passed. Cards failed, so every channel uses plain text.', prove='11 checks, 9 passed.', mins=1), 'Under the hood')
-    setn(P.m_models(d), N('We picked the diagrams that carry the design and skipped the rest. The Figma prototype is the wireframe set: 305 frames in 14 stories.', prove='Diagrams in design/diagrams, 12 files, and the Figma prototype.', mins=1), 'Under the hood')
+    setn(P.m_models(d), N('We picked the diagrams that carry the design and skipped the rest. The Figma prototype is the wireframe set: 270 frames in 12 stories.', prove='Diagrams in design/diagrams, 12 files, and the Figma prototype.', mins=1), 'Under the hood')
     # ---------------- plan
     v2.parts_map(d, 'Plan')
     setn(M.m_objectives(d), N('Seven objectives for the build.', mins=1), 'Plan')
