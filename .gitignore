@@ -10,3 +10,5 @@ __pycache__/
 design/diagrams/er_pages/tmp/
 design/slides/img/crops/
 design/slides/img/v2/crops/
+node_modules/
+dist/

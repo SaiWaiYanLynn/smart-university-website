@@ -1,79 +1,112 @@
 # Smart University Website
 
-A university student services portal where a student does things by conversation instead of by moving between separate systems. The university in our documents is fictional. It is called Thales University.
+Thales University is a React frontend built with Vite and Tailwind CSS. The frontend implements the public university website, student portal, staff console, assistant chat, room booking, payment slip, transcript request, library, and record-access demo flows.
 
-This is a coursework project for IT Project I and II (BC362916 and BC362914) at Krirk University. It is also designed so that a real university can adopt it. The university supplies its own documents, student data, identity provider and channel accounts.
-
-## The problem
-
-We reviewed the public websites of 17 universities, 12 in Thailand and 5 abroad, on 5 and 6 October 2026. We asked seven capability questions. The table shows how many universities offer each capability.
-
-| Capability | Universities |
-|---|---|
-| Submit a request online | 13 of 17 |
-| See the request status afterwards | 3 of 17 |
-| Book a room online | 11 of 17 |
-| An assistant or chat channel exists | 15 of 17 |
-| The assistant cites the university's own rules | 0 of 17 |
-| The assistant completes a request in chat | 0 of 17 |
-| Services reachable from one place | 0 of 17 |
-
-Universities have the basic services. The services sit in separate systems, the rules are hard to find, and a student cannot follow a request. Thai universities already run LINE chatbots, but those bots follow fixed intents that a developer wrote in advance. Our work is a different kind of system: it retrieves from the university's own documents, covers several services, acts through tools, cites its source and tracks state.
-
-The full evidence is in [the research report](docs/submitted/Project1_University_Website_Research_GroupS.pdf).
+The project is a coursework project for IT Project I and II (BC362916 and BC362914) at Krirk University. The university in the documentation is fictional and is called Thales University.
 
 ## What the system does
 
-- **Answers from the rules.** The assistant searches the university's own handbooks and cites the section.
-- **Does the task in the chat.** A student books an advisor appointment or a study room. The student also renews a loan and requests a document, then tracks its state.
-- **Hands over to a person.** A staff member takes the chat at the student's request. If the assistant is unsure, it hands over too. While a person owns the chat, the assistant stops replying.
-- **Works for every role.** Students, staff, instructors and administrators use the same assistant. The signed-in account sets the role, and the role sets the tools.
-- **Asks before it writes.** Every change needs a yes from the user and leaves an audit record.
-- **Uses plain text on chat apps.** LINE and Telegram carry text only. There are no buttons and no cards.
+- Answers from university rules and cites the source section.
+- Completes requests through assistant workflows.
+- Supports student and staff portal experiences.
+- Provides public pages, student services, and staff review screens.
+- Uses role-based demo routing in the frontend.
 
-## Architecture
+The full research and design documentation is in [`docs/`](./docs/), and the prototype journey content is in [`design/journey-scripts.md`](./design/journey-scripts.md).
 
-![Architecture](design/diagrams/01_architecture.png)
+## Start the frontend
 
-One supervisor agent routes each task to one of four specialist agents: Knowledge, Records, Booking and Request. The supervisor is a LangChain agent that calls each sub-agent as a tool, and a role middleware filters the tools for each role. Chatwoot owns the web, LINE and Telegram channels and the human handoff. Keycloak signs in every user. The other diagrams are in [design/diagrams](design/diagrams).
+From the repository root:
 
-| Part | Choice |
-|---|---|
-| Backend | Python 3.12, FastAPI, LangChain and LangGraph |
-| Model | OpenRouter free tier, behind one adapter file |
-| Database | PostgreSQL 16 with pgvector for records and document vectors |
-| Identity | Keycloak with OpenID Connect |
-| Channels | Chatwoot, with a web widget, LINE and Telegram |
-| Frontend | React with Vite, one application with role-gated routes |
-| Deployment | Docker Compose, with an ngrok tunnel for channel webhooks |
-| Testing | pytest and Locust |
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-## Project status
+Open the URL shown by Vite, usually <http://localhost:5173>.
 
-The midterm needs no code, so the current work is design.
+If dependencies have already been installed:
 
-- Done: the problem statement, the 17-university survey and the architecture and data diagrams.
-- Done: a clickable Figma prototype of 270 frames in 12 stories, and the midterm slides.
-- Next: the Project Proposal, then the build. The build starts with the Docker Compose stack, the schema, the Keycloak setup and the model test.
+```bash
+cd frontend
+npm run dev
+```
 
-There is no code to run yet. We add a "how to run" section with the first service.
+Stop the development server with `Ctrl + C`.
 
-## Folder map
+## Build and preview
 
-| Folder | Content |
-|---|---|
-| [docs/submitted](docs/submitted) | The documents the instructor received |
-| [docs/working](docs/working) | The current feasibility report, version 3, and older drafts |
-| [design/diagrams](design/diagrams) | Architecture, entity relationship, supervisor flow, state and use case diagrams |
-| [design/theme-drafts](design/theme-drafts) | Colour options that led to the design theme |
+```bash
+cd frontend
+npm run build
+npm run preview
+```
 
-The Figma library and prototype live in the team space of Krirk University.
+## How to use the website
 
-## Team
+The public website opens first. Its header includes:
 
-Group S. Instructor: Dr. Aftab Alam Janisar.
+- **Programmes** — programme information page
+- **Admissions** — application information page
+- **About** — university information page
+- **Sign in** — opens the role-based login page
+- **Student portal** — opens the login page when no account is signed in
 
-- Wai Yan Lynn (67111411)
-- Pyae Sone (67111336)
-- Nang Ying Noom Lao (67111378)
-- Myat Hsu Hnin (68111423)
+### Demo login accounts
+
+This is currently frontend-only demo authentication. No real password is required.
+
+1. Click **Sign in** on any public page.
+2. Enter an email address.
+3. Click **Sign in**.
+
+Student example:
+
+```text
+student@thales.edu
+```
+
+Any valid email address that does not contain a staff keyword opens the **Student portal**.
+
+Staff examples:
+
+```text
+staff@thales.edu
+admin@thales.edu
+registrar@thales.edu
+finance@thales.edu
+```
+
+Emails containing `staff`, `admin`, `registrar`, or `finance` open the **Staff console**.
+
+### Student portal
+
+- Overview dashboard
+- Assistant chat
+- Payment slip submission
+- Transcript request
+- Study room booking
+- Library catalogue and loan renewal
+- Own-record access protection
+
+### Staff console
+
+- Queue
+- Requests
+- Payments
+- Audit log
+
+## Architecture and planned backend
+
+The planned backend stack is Python 3.12, FastAPI, LangChain, LangGraph, PostgreSQL with pgvector, Keycloak, Chatwoot, and Docker Compose. The frontend currently uses local React state for demonstration; backend and Keycloak integration are future work.
+
+## Useful files
+
+- [`frontend/src/App.jsx`](./frontend/src/App.jsx) — React pages, navigation, demo state, and workflows
+- [`frontend/src/styles.css`](./frontend/src/styles.css) — Tailwind theme colors and global styles
+- [`frontend/package.json`](./frontend/package.json) — frontend scripts and dependencies
+- [`design/diagrams/`](./design/diagrams/) — architecture and system diagrams
+- [`docs/`](./docs/) — project reports and documentation
+
+The login routing is only a frontend demonstration. Production authentication should be connected to Keycloak and the backend described in the project documentation.

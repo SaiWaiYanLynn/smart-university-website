@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+}
+
+button,
+a {
+  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+}
