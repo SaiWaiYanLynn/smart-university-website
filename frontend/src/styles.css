@@ -2,6 +2,18 @@
 
 @theme {
   --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+  --color-teal-50: #f0fdfa;
+  --color-teal-100: #ccfbf1;
+  --color-teal-200: #99f6e4;
+  --color-teal-700: #0f766e;
+  --color-teal-800: #115e59;
+  --color-teal-900: #134e4a;
+  --color-teal-950: #0b3532;
+  --color-lime-50: #f7fee7;
+  --color-lime-200: #d9f99d;
+  --color-lime-300: #bef264;
+  --color-lime-500: #84cc16;
+  --color-charcoal: #27272a;
 }
 
 body {

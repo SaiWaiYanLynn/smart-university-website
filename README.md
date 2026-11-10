@@ -13,6 +13,7 @@ The project is a coursework project for IT Project I and II (BC362916 and BC3629
 - Uses role-based demo routing in the frontend.
 
 The full research and design documentation is in [`docs/`](./docs/), and the prototype journey content is in [`design/journey-scripts.md`](./design/journey-scripts.md).
+All frontend code is inside [`frontend/`](./frontend/). The project documentation and design references are in [`design/`](./design/) and [`docs/`](./docs/).
 
 ## Start the frontend
 
@@ -82,6 +83,7 @@ Emails containing `staff`, `admin`, `registrar`, or `finance` open the **Staff c
 
 ### Student portal
 
+The student portal includes:
 - Overview dashboard
 - Assistant chat
 - Payment slip submission
@@ -92,6 +94,7 @@ Emails containing `staff`, `admin`, `registrar`, or `finance` open the **Staff c
 
 ### Staff console
 
+The staff console includes:
 - Queue
 - Requests
 - Payments
@@ -108,5 +111,6 @@ The planned backend stack is Python 3.12, FastAPI, LangChain, LangGraph, Postgre
 - [`frontend/package.json`](./frontend/package.json) — frontend scripts and dependencies
 - [`design/diagrams/`](./design/diagrams/) — architecture and system diagrams
 - [`docs/`](./docs/) — project reports and documentation
+- [`design/journey-scripts.md`](./design/journey-scripts.md) — prototype journey content
 
 The login routing is only a frontend demonstration. Production authentication should be connected to Keycloak and the backend described in the project documentation.
