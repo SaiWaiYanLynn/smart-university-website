@@ -16,7 +16,7 @@ const initialMessages = [
   },
 ];
 
-const portalLinks = ["Overview", "Assistant", "My requests", "Transcript request", "My bookings", "Library", "My records"];
+const portalLinks = ["Overview", "Assistant", "Requests", "My bookings", "Library", "My records"];
 
 function App() {
   const [isPortal, setIsPortal] = useState(false);
@@ -93,7 +93,14 @@ function App() {
             />
           ) : activePage === "My bookings" ? (
             <BookingPage booking={booking} onBookingChange={setBooking} />
-          ) : activePage === "My requests" ? (
+          ) : activePage === "Requests" ? (
+            <RequestsPage
+              payment={payment}
+              transcript={transcript}
+              booking={booking}
+              onPageChange={setActivePage}
+            />
+          ) : activePage === "Payment slip" ? (
             <PaymentPage payment={payment} onPaymentChange={setPayment} />
           ) : activePage === "Transcript request" ? (
             <TranscriptPage transcript={transcript} onTranscriptChange={setTranscript} />
@@ -121,10 +128,17 @@ function App() {
 }
 
 function Header({ isPortal, onPublicPageChange, onPortalToggle, onSignIn }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  function changePublicPage(page) {
+    setMenuOpen(false);
+    onPublicPageChange(page);
+  }
+
   return (
     <header className="border-b border-stone-200 bg-white">
       <div className="mx-auto flex max-w-[1440px] items-center justify-between px-6 py-4 lg:px-10">
-        <button className="flex items-center gap-3 text-left" onClick={() => (isPortal ? onPortalToggle() : onPublicPageChange("home"))}>
+        <button className="flex items-center gap-3 text-left" onClick={() => (isPortal ? onPortalToggle() : changePublicPage("home"))}>
           <div className="grid size-10 place-items-center rounded-xl bg-teal-900 font-bold text-lime-300">
             T
           </div>
@@ -134,9 +148,9 @@ function Header({ isPortal, onPublicPageChange, onPortalToggle, onSignIn }) {
           </div>
         </button>
         <nav className="hidden items-center gap-6 text-sm md:flex">
-          <button className="text-stone-600 hover:text-teal-900" onClick={() => onPublicPageChange("programmes")}>Programmes</button>
-          <button className="text-stone-600 hover:text-teal-900" onClick={() => onPublicPageChange("admissions")}>Admissions</button>
-          <button className="text-stone-600 hover:text-teal-900" onClick={() => onPublicPageChange("about")}>About</button>
+          <button className="text-stone-600 hover:text-teal-900" onClick={() => changePublicPage("programmes")}>Programmes</button>
+          <button className="text-stone-600 hover:text-teal-900" onClick={() => changePublicPage("admissions")}>Admissions</button>
+          <button className="text-stone-600 hover:text-teal-900" onClick={() => changePublicPage("about")}>About</button>
         </nav>
         <div className="flex items-center gap-3 text-sm">
           {!isPortal && (
@@ -153,8 +167,38 @@ function Header({ isPortal, onPublicPageChange, onPortalToggle, onSignIn }) {
           >
             {isPortal ? "Public website" : "Student portal"}
           </button>
+          {!isPortal && (
+            <button
+              aria-expanded={menuOpen}
+              aria-label="Toggle navigation menu"
+              className="rounded-lg border border-stone-200 px-3 py-2 text-lg leading-none text-stone-700 hover:bg-stone-50 md:hidden"
+              onClick={() => setMenuOpen((current) => !current)}
+              type="button"
+            >
+              ☰
+            </button>
+          )}
         </div>
       </div>
+      {menuOpen && !isPortal && (
+        <nav className="border-t border-stone-200 px-6 py-3 md:hidden">
+          <div className="mx-auto grid max-w-[1440px] gap-1">
+            {[
+              ["programmes", "Programmes"],
+              ["admissions", "Admissions"],
+              ["about", "About"],
+            ].map(([page, label]) => (
+              <button
+                className="rounded-lg px-3 py-2.5 text-left text-sm font-medium text-stone-600 hover:bg-teal-50 hover:text-teal-900"
+                key={page}
+                onClick={() => changePublicPage(page)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </nav>
+      )}
     </header>
   );
 }
@@ -293,7 +337,7 @@ function PortalLayout({ activePage, onPageChange, role, children }) {
         <p className="mb-3 text-xs font-bold uppercase tracking-wider text-stone-400">
           {role === "staff" ? "Staff console" : "Student portal"}
         </p>
-        <nav className="space-y-1">
+        <nav className="hidden space-y-1 lg:block">
           {links.map((link) => (
             <button
               className={`block w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium ${
@@ -305,6 +349,19 @@ function PortalLayout({ activePage, onPageChange, role, children }) {
               {link}
             </button>
           ))}
+        </nav>
+        <nav className="grid gap-2 lg:hidden">
+          <label className="text-xs font-bold uppercase tracking-wider text-stone-400" htmlFor="portal-page">
+            Go to
+          </label>
+          <select
+            className="rounded-lg border border-stone-300 bg-white px-3 py-2.5 text-sm font-medium text-stone-700 outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-100"
+            id="portal-page"
+            onChange={(event) => onPageChange(event.target.value)}
+            value={activePage}
+          >
+            {links.map((link) => <option key={link} value={link}>{link}</option>)}
+          </select>
         </nav>
         <div className="mt-10 rounded-xl bg-teal-950 p-4 text-sm text-white">
           <p className="font-semibold">{role === "staff" ? "Staff tools" : "Need help?"}</p>
@@ -432,7 +489,7 @@ function PaymentPage({ payment, onPaymentChange }) {
   return (
     <section className="rounded-2xl border border-stone-200 bg-white shadow-sm">
       <div className="border-b border-stone-200 px-6 py-5">
-        <p className="text-sm font-semibold text-teal-800">Student portal · My requests</p>
+        <p className="text-sm font-semibold text-teal-800">Student portal · Payment slip</p>
         <h1 className="mt-1 text-2xl font-semibold">Payment slip</h1>
         <p className="mt-2 text-sm text-stone-600">Send your tuition payment slip for staff review.</p>
       </div>
@@ -495,6 +552,99 @@ function PaymentPage({ payment, onPaymentChange }) {
       </div>
     </section>
   );
+}
+
+function RequestsPage({ payment, transcript, booking, onPageChange }) {
+  const requests = [
+    {
+      title: "Official transcript",
+      reference: transcript.step === "submitted" ? "REQ-2026-0481" : "Not submitted",
+      status: transcript.step === "submitted" ? "Under review" : "Draft",
+      detail: transcript.step === "submitted"
+        ? "Submitted 14 October 2026, 14:31"
+        : "Choose copies and delivery to start a request.",
+      action: "Request transcript",
+      page: "Transcript request",
+      steps: ["Submitted", "Under review", "Ready", "Collected"],
+      activeStep: transcript.step === "submitted" ? 1 : 0,
+    },
+    {
+      title: "Tuition payment slip",
+      reference: payment.step === "received" ? "PAY-2026-0813" : "Not submitted",
+      status: payment.step === "received" ? "Under review" : "Draft",
+      detail: payment.step === "received"
+        ? "Slip received 14 October 2026, 16:06"
+        : "Upload your slip for Student Services to review.",
+      action: payment.step === "received" ? "View payment status" : "Send payment slip",
+      page: "Payment slip",
+      steps: ["Slip received", "Under review", "Confirmed", "Balance updated"],
+      activeStep: payment.step === "received" ? 1 : 0,
+    },
+    {
+      title: "Study room booking",
+      reference: booking.step === "complete" ? "BOOK-2026-1021" : "Not booked",
+      status: booking.step === "complete" ? "Confirmed" : "Not started",
+      detail: booking.step === "complete"
+        ? `${booking.slot.room} · Thursday 15 October, ${booking.slot.time}`
+        : "Choose a room and time for your group.",
+      action: "Book a study room",
+      page: "My bookings",
+      steps: ["Details selected", "Confirmed"],
+      activeStep: booking.step === "complete" ? 1 : 0,
+    },
+  ];
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <p className="text-sm font-semibold text-teal-800">Student portal</p>
+        <h1 className="mt-1 text-3xl font-semibold">Requests & activity</h1>
+        <p className="mt-2 text-stone-600">Track submissions, payments, and bookings in one place.</p>
+      </div>
+      <div className="space-y-4">
+        {requests.map((request) => (
+          <article className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm" key={request.title}>
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <h2 className="text-lg font-semibold">{request.title}</h2>
+                <p className="mt-1 text-sm text-stone-500">{request.reference}</p>
+              </div>
+              <StatusPill status={request.status} />
+            </div>
+            <p className="mt-4 text-sm text-stone-600">{request.detail}</p>
+            <div className="mt-5 grid gap-3 sm:grid-cols-4">
+              {request.steps.map((step, index) => (
+                <div className="flex items-center gap-2 text-xs" key={step}>
+                  <span className={`grid size-6 place-items-center rounded-full text-xs font-bold ${
+                    index <= request.activeStep ? "bg-lime-300 text-teal-950" : "border border-stone-300 text-stone-400"
+                  }`}>
+                    {index <= request.activeStep ? "✓" : index + 1}
+                  </span>
+                  <span className={index <= request.activeStep ? "font-semibold text-teal-900" : "text-stone-500"}>{step}</span>
+                </div>
+              ))}
+            </div>
+            <button
+              className="mt-5 rounded-lg border border-stone-200 px-4 py-2.5 text-sm font-semibold text-teal-900 hover:border-teal-700 hover:bg-teal-50"
+              onClick={() => onPageChange(request.page)}
+            >
+              {request.action} →
+            </button>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StatusPill({ status }) {
+  const styles = {
+    Confirmed: "bg-lime-100 text-teal-900",
+    "Under review": "bg-teal-100 text-teal-900",
+    Draft: "bg-stone-100 text-stone-600",
+    "Not started": "bg-stone-100 text-stone-600",
+  };
+  return <span className={`rounded-full px-3 py-1 text-xs font-semibold ${styles[status] || "bg-stone-100 text-stone-600"}`}>{status}</span>;
 }
 
 function TranscriptPage({ transcript, onTranscriptChange }) {
@@ -649,6 +799,7 @@ function OverviewPage({ onPageChange }) {
             <QuickAction label="Ask the assistant" onClick={() => onPageChange("Assistant")} />
             <QuickAction label="Book a study room" onClick={() => onPageChange("My bookings")} />
             <QuickAction label="Request transcript" onClick={() => onPageChange("Transcript request")} />
+            <QuickAction label="View requests" onClick={() => onPageChange("Requests")} />
             <QuickAction label="Search library" onClick={() => onPageChange("Library")} />
           </div>
         </div>

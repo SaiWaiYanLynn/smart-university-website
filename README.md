@@ -86,6 +86,7 @@ Emails containing `staff`, `admin`, `registrar`, or `finance` open the **Staff c
 The student portal includes:
 - Overview dashboard
 - Assistant chat
+- Requests and activity page for tracking submissions, payments, and bookings
 - Payment slip submission
 - Transcript request
 - Study room booking
